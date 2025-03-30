@@ -1,0 +1,108 @@
+.ticket-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.ticket-title {
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.ticket-details {
+  margin-bottom: 2rem;
+}
+
+.detail-item {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.detail-item i {
+  margin-right: 0.75rem;
+  color: #6c757d;
+  width: 20px;
+  text-align: center;
+}
+
+.ticket-description h5 {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.ticket-description p {
+  color: #495057;
+  line-height: 1.6;
+}
+
+.price-container {
+  margin: 1.5rem 0;
+}
+
+.current-price-large {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #007bff;
+}
+
+.price-details {
+  display: flex;
+  align-items: center;
+}
+
+.original-price {
+  font-size: 1.1rem;
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+.discount-badge {
+  background-color: #dc3545;
+  color: white;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.seller-container h5 {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.seller-card {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+.seller-avatar {
+  width: 50px;
+  height: 50px;
+}
+
+.seller-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.seller-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.seller-rating {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 991.98px) {
+  .ticket-title {
+    font-size: 1.75rem;
+  }
+  
+  .current-price-large {
+    font-size: 1.75rem;
+  }
+}

@@ -1,0 +1,74 @@
+<div class="card shadow-sm p-4 mb-4">
+  <h5 class="mb-3">Filtrar Ingressos</h5>
+  
+  <div class="mb-3">
+    <label for="categorySelect" class="form-label">Categoria</label>
+    <select 
+      id="categorySelect" 
+      class="form-select" 
+      [(ngModel)]="selectedCategory" 
+      (change)="onCategoryChange()">
+      <option value="">Todas as categorias</option>
+      <option *ngFor="let category of categories" [value]="category">
+        {{ category }}
+      </option>
+    </select>
+  </div>
+  
+  <div class="mb-3">
+    <label for="minPrice" class="form-label">Preço Mínimo (R$)</label>
+    <input 
+      type="number" 
+      class="form-control" 
+      id="minPrice" 
+      [(ngModel)]="minPrice" 
+      min="0" 
+      placeholder="Mínimo">
+  </div>
+  
+  <div class="mb-3">
+    <label for="maxPrice" class="form-label">Preço Máximo (R$)</label>
+    <input 
+      type="number" 
+      class="form-control" 
+      id="maxPrice" 
+      [(ngModel)]="maxPrice" 
+      min="0" 
+      placeholder="Máximo">
+  </div>
+  
+  <div class="d-grid gap-2">
+    <button 
+      class="btn btn-primary" 
+      (click)="onPriceRangeChange()">
+      Aplicar Filtros
+    </button>
+    <button 
+      class="btn btn-outline-secondary" 
+      (click)="resetFilters()">
+      Limpar Filtros
+    </button>
+  </div>
+</div>
+
+<div class="card shadow-sm p-4">
+  <h5 class="mb-3">Tipos de Eventos</h5>
+  <div class="list-group list-group-flush">
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      Shows e Concertos
+      <span class="badge bg-primary rounded-pill">34</span>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      Eventos Esportivos
+      <span class="badge bg-primary rounded-pill">21</span>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      Teatro e Cultura
+      <span class="badge bg-primary rounded-pill">15</span>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      Festivais
+      <span class="badge bg-primary rounded-pill">8</span>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="card h-100 shadow-sm">
+  <!-- Imagem do evento -->
+  <img 
+    [src]="ticket.image || 'assets/placeholder-event.jpg'" 
+    class="card-img-top" 
+    [alt]="ticket.eventName" 
+    onerror="this.src='assets/placeholder-event.jpg'">
+  
+  <!-- Badge de desconto -->
+  <div *ngIf="calculateDiscount(ticket.originalPrice, ticket.price) > 0" class="badge-discount">
+    -{{ calculateDiscount(ticket.originalPrice, ticket.price) }}%
+  </div>
+  
+  <div class="card-body d-flex flex-column">
+    <!-- Categoria -->
+    <div class="mb-2">
+      <span class="badge bg-light text-dark">{{ ticket.category }}</span>
+    </div>
+    
+    <!-- Título e data -->
+    <h5 class="card-title">{{ ticket.eventName }}</h5>
+    <p class="card-text text-muted mb-1">
+      <i class="bi bi-calendar-event"></i>
+      {{ ticket.eventDate | date:'dd/MM/yyyy' }}
+    </p>
+    <p class="card-text text-muted mb-3">
+      <i class="bi bi-geo-alt"></i>
+      {{ ticket.location }} - {{ ticket.venue }}
+    </p>
+    
+    <!-- Preços -->
+    <div class="mt-auto">
+      <div class="price-container mb-2">
+        <span class="current-price">R$ {{ ticket.price }},00</span>
+        <span *ngIf="ticket.originalPrice > ticket.price" class="original-price">R$ {{ ticket.originalPrice }},00</span>
+      </div>
+      
+      <!-- Informações do vendedor -->
+      <div class="seller-info d-flex align-items-center mb-3">
+        <span class="seller-name text-muted me-2">{{ ticket.seller.name }}</span>
+        <div class="seller-rating">
+          <ng-container *ngFor="let star of generateStarRating(ticket.seller.rating)">
+            <i *ngIf="star === 1" class="bi bi-star-fill text-warning"></i>
+            <i *ngIf="star === 0.5" class="bi bi-star-half text-warning"></i>
+            <i *ngIf="star === 0" class="bi bi-star text-warning"></i>
+          </ng-container>
+        </div>
+      </div>
+      
+      <!-- Botão de detalhes -->
+      <a [routerLink]="['/tickets', ticket.id]" class="btn btn-primary w-100">Ver Detalhes</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+<div class="container py-5">
+  <!-- Botão Voltar -->
+  <button class="btn btn-outline-primary mb-4" (click)="goBack()">
+    <i class="bi bi-arrow-left me-2"></i>Voltar para lista
+  </button>
+  
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+    <p class="mt-2">Carregando detalhes do ingresso...</p>
+  </div>
+  
+  <!-- Error message -->
+  <div *ngIf="error && !loading" class="alert alert-danger" role="alert">
+    {{ error }}
+    <button class="btn btn-outline-danger mt-3" (click)="goBack()">Voltar para a lista</button>
+  </div>
+  
+  <!-- Ticket details -->
+  <div *ngIf="ticket && !loading" class="row fade-in">
+    <!-- Imagem e detalhes visuais -->
+    <div class="col-lg-5 mb-4">
+      <div class="card shadow-sm overflow-hidden">
+        <img 
+          [src]="ticket.image || 'assets/placeholder-event.jpg'" 
+          class="img-fluid ticket-image" 
+          [alt]="ticket.eventName" 
+          onerror="this.src='assets/placeholder-event.jpg'">
+      </div>
+    </div>
+    
+    <!-- Informações do ingresso -->
+    <div class="col-lg-7">
+      <div class="card shadow-sm p-4">
+        <div class="mb-4">
+          <div class="d-flex align-items-center mb-2">
+            <span class="badge bg-light text-dark me-2">{{ ticket.category }}</span>
+            <span class="badge bg-light text-dark">{{ ticket.type }}</span>
+          </div>
+          <h1 class="ticket-title mb-3">{{ ticket.eventName }}</h1>
+          <div class="ticket-details mb-4">
+            <div class="detail-item mb-2">
+              <i class="bi bi-calendar-event"></i>
+              <span>{{ ticket.eventDate | date:'dd/MM/yyyy, EEEE' }}</span>
+            </div>
+            <div class="detail-item mb-2">
+              <i class="bi bi-geo-alt"></i>
+              <span>{{ ticket.location }}</span>
+            </div>
+            <div class="detail-item">
+              <i class="bi bi-building"></i>
+              <span>{{ ticket.venue }}</span>
+            </div>
+          </div>
+          
+          <div class="ticket-description mb-4">
+            <h5>Descrição</h5>
+            <p>{{ ticket.description }}</p>
+          </div>
+          
+          <!-- Preços -->
+          <div class="price-container mb-4">
+            <div class="current-price-large mb-1">R$ {{ ticket.price }},00</div>
+            <div class="price-details">
+              <span *ngIf="ticket.originalPrice > ticket.price" class="original-price me-2">
+                R$ {{ ticket.originalPrice }},00
+              </span>
+              <span *ngIf="calculateDiscount(ticket.originalPrice, ticket.price) > 0" class="discount-badge">
+                {{ calculateDiscount(ticket.originalPrice, ticket.price) }}% OFF
+              </span>
+            </div>
+          </div>
+          
+          <!-- Vendedor -->
+          <div class="seller-container mb-4">
+            <h5>Vendedor</h5>
+            <div class="seller-card p-3">
+              <div class="d-flex align-items-center">
+                <div class="seller-avatar me-3">
+                  <img src="assets/user-avatar.jpg" alt="Vendedor" class="rounded-circle">
+                </div>
+                <div>
+                  <div class="seller-name mb-1">{{ ticket.seller.name }}</div>
+                  <div class="seller-rating">
+                    <ng-container *ngFor="let star of generateStarRating(ticket.seller.rating)">
+                      <i *ngIf="star === 1" class="bi bi-star-fill text-warning"></i>
+                      <i *ngIf="star === 0.5" class="bi bi-star-half text-warning"></i>
+                      <i *ngIf="star === 0" class="bi bi-star text-warning"></i>
+                    </ng-container>
+                    <span class="ms-1 text-muted">({{ ticket.seller.rating }})</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Botões de ação -->
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-lg">Comprar Agora</button>
+            <button class="btn btn-outline-primary">
+              <i class="bi bi-chat-dots me-2"></i>Contatar Vendedor
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Recomendações de ingressos similares -->
+  <div *ngIf="ticket && !loading" class="mt-5">
+    <h3 class="mb-4">Você também pode gostar</h3>
+    
+    <!-- Component para lista de recomendações -->
+    <div class="row">
+      <div class="col-12">
+        <p class="text-muted">Exibindo recomendações baseadas na sua pesquisa...</p>
+      </div>
+    </div>
+  </div>
+</div>

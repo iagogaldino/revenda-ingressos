@@ -1,0 +1,44 @@
+# Compilação do Angular
+/dist
+/out-tsc
+/build
+
+# Configurações do ambiente
+/src/environments/*.ts
+
+# Dependências instaladas via npm
+/node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Configurações do IDE
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Diretórios temporários
+/tmp
+/temp
+
+# Logs
+logs
+*.log
+
+# Testes de relatórios
+/coverage
+/.nyc_output
+/.fusebox
+/test-results
+
+# Cache do Angular
+.angular/cache
+
+# Configurações específicas do sistema operacional
+.DS_Store
+Thumbs.db

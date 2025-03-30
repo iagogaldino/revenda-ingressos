@@ -1,0 +1,235 @@
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container py-5">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <h1 class="display-4 fw-bold mb-3">Encontre ingressos para seus eventos favoritos</h1>
+        <p class="lead mb-4">
+          Compre e venda ingressos de forma segura e confiável para shows, eventos esportivos, teatro e muito mais.
+        </p>
+        
+        <!-- Search form -->
+        <div class="search-container mb-4">
+          <form (ngSubmit)="onSearch()" class="d-flex">
+            <input 
+              type="text" 
+              class="form-control me-2" 
+              placeholder="Buscar por evento, local ou artista..."
+              [(ngModel)]="searchTerm"
+              name="searchTerm">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
+        </div>
+        
+        <!-- Categories buttons -->
+        <div class="categories-container">
+          <button 
+            class="btn btn-outline-primary me-2 mb-2" 
+            [class.active]="selectedCategory === ''"
+            (click)="selectedCategory = ''; onCategoryChange()">
+            Todos
+          </button>
+          <button 
+            *ngFor="let category of categories" 
+            class="btn btn-outline-primary me-2 mb-2"
+            [class.active]="selectedCategory === category"
+            (click)="selectedCategory = category; onCategoryChange()">
+            {{ category }}
+          </button>
+        </div>
+      </div>
+      
+      <div class="col-lg-6">
+        <img src="assets/hero-image.jpg" alt="Eventos" class="img-fluid rounded-3 shadow">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Tickets Section -->
+<section class="featured-section bg-light py-5">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h2 class="section-title">Destaques da Semana</h2>
+        <p class="text-muted">Confira os eventos mais buscados pelos usuários</p>
+      </div>
+    </div>
+    
+    <!-- Loading indicator -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-2">Carregando ingressos em destaque...</p>
+    </div>
+    
+    <!-- Error message -->
+    <div *ngIf="error && !loading" class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+    
+    <!-- Tickets grid -->
+    <div *ngIf="!loading && !error && filteredTickets.length > 0" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="col" *ngFor="let ticket of filteredTickets.slice(0, 6)">
+        <app-ticket-card [ticket]="ticket"></app-ticket-card>
+      </div>
+    </div>
+    
+    <div class="text-center mt-4">
+      <a routerLink="/tickets" class="btn btn-primary">Ver Todos os Ingressos</a>
+    </div>
+  </div>
+</section>
+
+<!-- How it Works Section -->
+<section class="how-it-works-section py-5">
+  <div class="container">
+    <div class="row mb-5 text-center">
+      <div class="col-12">
+        <h2 class="section-title">Como Funciona</h2>
+        <p class="text-muted">É fácil e seguro comprar e vender ingressos na nossa plataforma</p>
+      </div>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm p-4">
+          <div class="text-center mb-3">
+            <div class="step-icon bg-primary text-white mx-auto">1</div>
+          </div>
+          <h4 class="card-title text-center mb-3">Encontre seu Ingresso</h4>
+          <p class="card-text text-center">
+            Busque entre milhares de ingressos para os mais variados eventos. Filtre por categoria, data e preço.
+          </p>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm p-4">
+          <div class="text-center mb-3">
+            <div class="step-icon bg-primary text-white mx-auto">2</div>
+          </div>
+          <h4 class="card-title text-center mb-3">Compre com Segurança</h4>
+          <p class="card-text text-center">
+            Realize sua compra de forma segura. Todos os vendedores são verificados e as transações são protegidas.
+          </p>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm p-4">
+          <div class="text-center mb-3">
+            <div class="step-icon bg-primary text-white mx-auto">3</div>
+          </div>
+          <h4 class="card-title text-center mb-3">Receba seu Ingresso</h4>
+          <p class="card-text text-center">
+            Após a compra, você receberá seu ingresso por e-mail. É só apresentá-lo no dia do evento e se divertir!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section bg-light py-5">
+  <div class="container">
+    <div class="row mb-5 text-center">
+      <div class="col-12">
+        <h2 class="section-title">O que Dizem Nossos Clientes</h2>
+        <p class="text-muted">Experiências de quem já utilizou nossa plataforma</p>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm p-4">
+          <div class="d-flex align-items-center mb-3">
+            <img src="assets/user1.jpg" alt="Usuário" class="rounded-circle me-3" width="60">
+            <div>
+              <h5 class="mb-0">Eduardo Silva</h5>
+              <div class="text-warning">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+              </div>
+            </div>
+          </div>
+          <p class="card-text">
+            "Consegui vender meus ingressos para o show que não poderia ir de forma rápida e segura. A plataforma é muito fácil de usar e o processo foi tranquilo."
+          </p>
+        </div>
+      </div>
+      
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm p-4">
+          <div class="d-flex align-items-center mb-3">
+            <img src="assets/user2.jpg" alt="Usuário" class="rounded-circle me-3" width="60">
+            <div>
+              <h5 class="mb-0">Juliana Mendes</h5>
+              <div class="text-warning">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-half"></i>
+              </div>
+            </div>
+          </div>
+          <p class="card-text">
+            "Comprei ingressos para um jogo de futebol com um ótimo desconto. O vendedor foi muito atencioso e a transação ocorreu sem problemas. Recomendo!"
+          </p>
+        </div>
+      </div>
+      
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm p-4">
+          <div class="d-flex align-items-center mb-3">
+            <img src="assets/user3.jpg" alt="Usuário" class="rounded-circle me-3" width="60">
+            <div>
+              <h5 class="mb-0">Rafael Costa</h5>
+              <div class="text-warning">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star"></i>
+              </div>
+            </div>
+          </div>
+          <p class="card-text">
+            "Encontrei ingressos para um show esgotado por um preço justo. O processo de compra foi simples e o atendimento ao cliente excelente quando tive dúvidas."
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="card border-0 bg-primary text-white shadow p-5">
+          <div class="row align-items-center">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+              <h2 class="fw-bold mb-3">Tem ingressos para vender?</h2>
+              <p class="lead mb-0">
+                Cadastre-se gratuitamente e anuncie seus ingressos para milhares de potenciais compradores.
+              </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+              <a href="#" class="btn btn-light btn-lg">Começar a Vender</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
