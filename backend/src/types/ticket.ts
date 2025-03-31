@@ -16,4 +16,6 @@ export interface Ticket {
   type: string;
   seller: Seller;
   image: string;
+  active?: boolean;
+  quantity?: number;
 }

@@ -56,6 +56,16 @@ app.get('/api/categories', (req, res) => {
   res.json(categories);
 });
 
+// Get seller tickets
+app.get('/api/seller/tickets', (req, res) => {
+  const sellerTickets = mockTickets.map(ticket => ({
+    ...ticket,
+    active: Math.random() > 0.5,
+    quantity: Math.floor(Math.random() * 10) + 1
+  }));
+  res.json(sellerTickets);
+});
+
 // // File conversion endpoint
 // app.post('/api/convert', upload.single('file'), async (req: Request & { file?: File }, res) => {
 //   try {
