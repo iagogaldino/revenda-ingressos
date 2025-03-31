@@ -12,9 +12,10 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: ['http://0.0.0.0:4200', 'https://0.0.0.0:4200'],
+  origin: true, // Permite qualquer origem quando é necessário suporte a cookies
   credentials: true
 }));
+
 app.use(express.json());
 
 // Configure multer
