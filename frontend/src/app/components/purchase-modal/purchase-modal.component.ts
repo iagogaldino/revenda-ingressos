@@ -23,7 +23,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   constructor(public activeModal: NgbActiveModal) {}
 
   ngOnInit() {
-    this.startTimer();
+    // Timer será iniciado apenas após gerar o QR Code
   }
 
   ngOnDestroy() {
@@ -62,6 +62,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     try {
       this.qrCodeUrl = await QRCode.toDataURL(JSON.stringify(ticketData));
       this.showQrCode = true;
+      this.startTimer(); // Inicia o timer apenas após gerar o QR Code
     } catch (err) {
       console.error('Error generating QR code:', err);
     }

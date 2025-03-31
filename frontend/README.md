@@ -54,8 +54,9 @@ Este projeto é um sistema de venda de ingressos desenvolvido em Angular. Abaixo
 - **Responsabilidades**:
   - Exibe detalhes da compra
   - Gera QR Code para o ingresso
-  - Implementa contador regressivo
+  - Implementa contador regressivo após geração do QR Code
   - Gerencia estado da transação
+  - Controla fluxo de exibição do timer
 
 ### AboutComponent
 - **Função**: Página sobre a plataforma

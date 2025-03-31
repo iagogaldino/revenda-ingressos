@@ -8,7 +8,6 @@
     <h5>{{ ticket.eventName }}</h5>
     <p class="mb-1"><i class="bi bi-calendar-event me-2"></i>{{ ticket.eventDate | date:'dd/MM/yyyy' }}</p>
     <p class="mb-3"><i class="bi bi-currency-dollar me-2"></i>{{ ticket.price | currency:'BRL' }}</p>
-    <p class="text-muted">Você tem {{ formatTime(remainingTime) }} para concluir a compra</p>
     <button class="btn btn-primary" (click)="generateQrCode()">
       Gerar QR Code
     </button>
