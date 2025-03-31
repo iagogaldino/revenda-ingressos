@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import * as QRCode from 'qrcode';
 
 @Component({
-  imports: [CommonModule],
+  standalone: false,
   selector: 'app-purchase-modal',
   templateUrl: './purchase-modal.component.html',
   styleUrls: ['./purchase-modal.component.css']

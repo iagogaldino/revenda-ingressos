@@ -5,6 +5,7 @@ import { PurchaseModalComponent } from '../purchase-modal/purchase-modal.compone
 import { Ticket } from '../../models/ticket.model';
 
 @Component({
+  standalone: false,
   selector: 'app-ticket-card',
   templateUrl: './ticket-card.component.html',
   styleUrls: ['./ticket-card.component.css']
