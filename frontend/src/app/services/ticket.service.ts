@@ -9,7 +9,7 @@ import { Ticket } from '../types/ticket';
   providedIn: 'root'
 })
 export class TicketService {
-  private apiUrl = 'http://localhost:5000/api';
+  private apiUrl = 'http://0.0.0.0:5000/api';
   private categoriesUrl = `${this.apiUrl}/categories`;
 
   constructor(private http: HttpClient) {}
