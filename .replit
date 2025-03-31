@@ -2,3 +2,14 @@ modules = ["web", "nodejs-20"]
 
 [nix]
 channel = "stable-24_05"
+
+[workflows]
+
+[[workflows.workflow]]
+name = "Dev Backend"
+author = 41005063
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && npm run dev"
