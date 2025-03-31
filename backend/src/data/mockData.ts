@@ -4,34 +4,75 @@ import { Ticket } from '../types/ticket';
 export const mockTickets: Ticket[] = [
   {
     id: 1,
-    name: "Rock in Rio - Dia 1",
-    description: "Show principal: Guns N' Roses",
-    price: 599.99,
-    category: "Shows",
-    date: "2024-09-29",
-    location: "Rio de Janeiro",
-    quantity: 5
+    eventName: 'Rock in Rio 2025',
+    eventDate: '2025-09-21',
+    location: 'Rio de Janeiro, RJ',
+    venue: 'Parque Olímpico',
+    price: 400,
+    originalPrice: 500,
+    description: 'O maior festival de música do mundo com shows de diversas bandas famosas.',
+    category: 'Música',
+    type: 'Show',
+    seller: { name: 'João Silva', rating: 4.5 },
+    image: 'assets/rock-in-rio.jpg'
   },
   {
     id: 2,
-    name: "Final Libertadores 2024",
-    description: "Final do torneio continental",
-    price: 899.99,
-    category: "Esportes",
-    date: "2024-11-30",
-    location: "São Paulo",
-    quantity: 3
+    eventName: 'Comic Con Experience',
+    eventDate: '2025-12-05',
+    location: 'São Paulo, SP',
+    venue: 'São Paulo Expo',
+    price: 250,
+    originalPrice: 300,
+    description: 'O maior evento geek do Brasil, com painéis, exposições e lojas exclusivas.',
+    category: 'Entretenimento',
+    type: 'Feira',
+    seller: { name: 'Maria Oliveira', rating: 4.8 },
+    image: 'assets/comic-con.jpg'
   },
   {
     id: 3,
-    name: "Cirque du Soleil",
-    description: "Espetáculo Alegría",
-    price: 399.99,
-    category: "Teatro",
-    date: "2024-08-15",
-    location: "Curitiba",
-    quantity: 8
+    eventName: 'Final do Campeonato Brasileiro',
+    eventDate: '2025-11-25',
+    location: 'Rio de Janeiro, RJ',
+    venue: 'Maracanã',
+    price: 350,
+    originalPrice: 400,
+    description: 'Grande final do campeonato com os melhores times do Brasil.',
+    category: 'Esportes',
+    type: 'Futebol',
+    seller: { name: 'Carlos Souza', rating: 4.0 },
+    image: 'assets/final-brasileirao.jpg'
+  },
+  {
+    id: 4,
+    eventName: 'Stand-up Comedy Night',
+    eventDate: '2025-04-15',
+    location: 'São Paulo, SP',
+    venue: 'Teatro Municipal',
+    price: 100,
+    originalPrice: 150,
+    description: 'Show de stand-up com os melhores comediantes da atualidade.',
+    category: 'Comédia',
+    type: 'Teatro',
+    seller: { name: 'Ana Martins', rating: 3.9 },
+    image: 'assets/standup-comedy.jpg'
+  },
+  {
+    id: 5,
+    eventName: 'Festival de Gastronomia',
+    eventDate: '2025-08-10',
+    location: 'Belo Horizonte, MG',
+    venue: 'Praça da Liberdade',
+    price: 120,
+    originalPrice: 180,
+    description: 'Festival com pratos típicos de várias regiões do Brasil.',
+    category: 'Gastronomia',
+    type: 'Festival',
+    seller: { name: 'Pedro Lima', rating: 4.7 },
+    image: 'assets/festival-gastronomia.jpg'
   }
 ];
+
 
 export const categories: string[] = ["Shows", "Esportes", "Teatro", "Festivais", "Cinema"];
