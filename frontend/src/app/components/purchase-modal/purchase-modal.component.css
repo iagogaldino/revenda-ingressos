@@ -1,59 +1,97 @@
 
-.event-details {
-  border-bottom: 1px solid #dee2e6;
-  padding-bottom: 1rem;
+.modal-header {
+  border-bottom: none;
+  padding: 1.5rem 1.5rem 0.5rem;
 }
 
-.event-details h5 {
+.modal-title {
   font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.event-details i {
-  color: #6c757d;
-}
-
-.price {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #007bff;
-}
-
-.qr-code-container {
-  padding: 1rem;
-}
-
-.qr-code-image {
-  max-width: 200px;
-  height: auto;
-}
-
-.timer-container {
-  margin-top: 1.5rem;
-}
-
-.timer {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #dc3545;
-}
-.qr-code-container {
-  padding: 20px;
-  text-align: center;
-}
-
-.qr-code-container img {
-  max-width: 250px;
-  margin: 0 auto;
+  color: #2c3e50;
 }
 
 .modal-body {
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 1.5rem;
+  min-height: 400px;
 }
 
-.text-muted {
+.event-details {
+  text-align: left;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.event-name {
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.event-info {
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.event-info i {
+  margin-right: 0.75rem;
+  width: 20px;
+}
+
+.price {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  font-weight: 600;
+  margin: 1rem 0;
+}
+
+.qr-code-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  text-align: center;
+  margin: 1rem auto;
+  max-width: 300px;
+}
+
+.qr-code-container img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1.5rem;
+}
+
+.timer {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e74c3c;
+  margin: 1rem 0;
+}
+
+.timer-label {
+  color: #7f8c8d;
   font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.btn-generate {
+  background: #3498db;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-generate:hover {
+  background: #2980b9;
+  transform: translateY(-1px);
+}
+
+.modal-footer {
+  border-top: none;
+  padding: 1rem 1.5rem 1.5rem;
 }

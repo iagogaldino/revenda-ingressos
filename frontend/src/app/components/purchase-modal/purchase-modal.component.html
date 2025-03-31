@@ -1,23 +1,44 @@
 
 <div class="modal-header">
-  <h4 class="modal-title">Confirmar Compra</h4>
+  <h4 class="modal-title">Finalizar Compra</h4>
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('close')"></button>
 </div>
-<div class="modal-body text-center">
-  <div *ngIf="!showQrCode">
-    <h5>{{ ticket.eventName }}</h5>
-    <p class="mb-1"><i class="bi bi-calendar-event me-2"></i>{{ ticket.eventDate | date:'dd/MM/yyyy' }}</p>
-    <p class="mb-3"><i class="bi bi-currency-dollar me-2"></i>{{ ticket.price | currency:'BRL' }}</p>
-    <button class="btn btn-primary" (click)="generateQrCode()">
-      Gerar QR Code
+
+<div class="modal-body">
+  <div *ngIf="!showQrCode" class="initial-state">
+    <div class="event-details">
+      <h5 class="event-name">{{ ticket.eventName }}</h5>
+      <div class="event-info">
+        <i class="bi bi-calendar-event"></i>
+        <span>{{ ticket.eventDate | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="event-info">
+        <i class="bi bi-geo-alt"></i>
+        <span>{{ ticket.location || 'Local do evento' }}</span>
+      </div>
+      <div class="price">
+        <i class="bi bi-currency-dollar"></i>{{ ticket.price | currency:'BRL' }}
+      </div>
+    </div>
+    
+    <button class="btn btn-generate w-100" (click)="generateQrCode()">
+      <i class="bi bi-qr-code me-2"></i>Gerar QR Code para Pagamento
     </button>
   </div>
   
   <div *ngIf="showQrCode" class="qr-code-container">
-    <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="img-fluid mb-3">
-    <p class="text-muted">Tempo restante: {{ formatTime(remainingTime) }}</p>
+    <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="img-fluid">
+    <div class="timer-section">
+      <div class="timer-label">Tempo restante para conclusão</div>
+      <div class="timer">{{ formatTime(remainingTime) }}</div>
+    </div>
+    <p class="text-muted mt-3">
+      <i class="bi bi-info-circle me-2"></i>
+      Escaneie o QR Code para finalizar o pagamento
+    </p>
   </div>
 </div>
+
 <div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('close')">Fechar</button>
+  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close('close')">Fechar</button>
 </div>
