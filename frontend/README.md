@@ -1,88 +1,99 @@
 
-# Documentação do Frontend - Sistema de Venda de Ingressos
+# Sistema de Venda de Ingressos - Frontend
 
 ## Visão Geral
-Este projeto é um sistema de venda de ingressos desenvolvido em Angular. Abaixo está a documentação detalhada de cada componente e suas funcionalidades.
-
-## Componentes
-
-### AppComponent
-- **Função**: Componente raiz da aplicação
-- **Responsabilidades**: 
-  - Gerencia o layout principal
-  - Provê a estrutura base para navegação
-
-### HomeComponent
-- **Função**: Página inicial da aplicação
-- **Responsabilidades**:
-  - Exibe eventos em destaque
-  - Apresenta seção de boas-vindas
-  - Fornece acesso rápido à lista de eventos
-
-### TicketListComponent
-- **Função**: Exibe lista de ingressos disponíveis
-- **Responsabilidades**:
-  - Lista todos os ingressos disponíveis
-  - Integra com TicketFilterComponent para filtrar resultados
-  - Renderiza TicketCardComponent para cada ingresso
-
-### TicketCardComponent
-- **Função**: Card individual de ingresso
-- **Responsabilidades**:
-  - Exibe informações do ingresso (preço, data, local)
-  - Calcula e mostra descontos
-  - Manipula interações do usuário (compra)
-  - Gera avaliação em estrelas
-  - Trata erros de carregamento de imagem
-
-### TicketDetailComponent
-- **Função**: Página de detalhes do ingresso
-- **Responsabilidades**:
-  - Mostra informações detalhadas do evento
-  - Exibe local e data do evento
-  - Permite compra do ingresso
-
-### TicketFilterComponent
-- **Função**: Filtro de busca de ingressos
-- **Responsabilidades**:
-  - Filtra ingressos por categoria
-  - Permite busca por faixa de preço
-  - Fornece filtros personalizados
-
-### PurchaseModalComponent
-- **Função**: Modal de compra de ingresso
-- **Responsabilidades**:
-  - Exibe detalhes da compra
-  - Gera QR Code para o ingresso
-  - Implementa contador regressivo após geração do QR Code
-  - Gerencia estado da transação
-  - Controla fluxo de exibição do timer
-
-### AboutComponent
-- **Função**: Página sobre a plataforma
-- **Responsabilidades**:
-  - Apresenta informações sobre o sistema
-  - Exibe políticas e termos de uso
-
-## Funcionalidades Principais
-
-### Sistema de QR Code
-- Geração dinâmica de QR Code para cada ingresso
-- Timer regressivo para conclusão da compra
-- Validação de dados do ingresso
-
-### Sistema de Filtros
-- Busca por categoria
-- Filtro por preço
-- Ordenação de resultados
-
-### Gestão de Compras
-- Modal interativo
-- Validação de dados
-- Timer para conclusão da transação
+Este é o frontend de um sistema de venda de ingressos desenvolvido em Angular 19. O sistema permite que usuários comprem e vendam ingressos para diversos tipos de eventos.
 
 ## Tecnologias Utilizadas
 - Angular 19.2.4
 - Bootstrap 5.3.3
 - NgBootstrap 18.0.0
-- QRCode
+- TypeScript 5.8.2
+
+## Estrutura de Componentes
+
+### TicketCreateComponent
+- **Função**: Criação de novos ingressos
+- **Responsabilidades**:
+  - Formulário para cadastro de ingressos
+  - Validação de campos obrigatórios
+  - Upload de imagens
+  - Integração com backend para salvar ingressos
+
+### ProfileComponent
+- **Função**: Gerenciamento do perfil do usuário
+- **Responsabilidades**:
+  - Exibição de informações do usuário
+  - Lista de ingressos do usuário
+  - Funcionalidade de logout
+  - Criação de novos ingressos via modal
+
+### PurchaseModalComponent
+- **Função**: Modal para finalização de compra
+- **Responsabilidades**: 
+  - Exibição dos detalhes do ingresso
+  - Geração de QR Code para pagamento
+  - Timer para conclusão da compra
+  - Informações do evento e preço
+
+## Serviços
+
+### AuthService
+- **Função**: Gerenciamento de autenticação
+- **Responsabilidades**:
+  - Armazenamento do token JWT
+  - Controle de sessão do usuário
+  - Login/Logout
+
+### TicketService
+- **Função**: Gerenciamento de ingressos
+- **Responsabilidades**:
+  - CRUD de ingressos
+  - Listagem de ingressos do usuário
+  - Filtros e categorização
+
+## Características Principais
+
+### Autenticação
+- Sistema de login/registro
+- Proteção de rotas
+- Gerenciamento de token JWT
+
+### Gestão de Ingressos
+- Criação de ingressos
+- Listagem com filtros
+- Detalhes do evento
+- Sistema de compra com QR Code
+
+### Interface Responsiva
+- Design mobile-first
+- Compatibilidade com diferentes dispositivos
+- Componentes Bootstrap para melhor UX
+
+## Como Executar
+
+1. Instale as dependências:
+```bash
+cd frontend
+npm install
+```
+
+2. Execute o servidor de desenvolvimento:
+```bash
+ng serve --host 0.0.0.0 --port 4200 --disable-host-check
+```
+
+O frontend estará disponível em `http://0.0.0.0:4200`
+
+## Estrutura de Arquivos
+```
+frontend/
+├── src/
+│   ├── app/
+│   │   ├── components/
+│   │   ├── services/
+│   │   └── types/
+│   ├── assets/
+│   └── styles/
+└── package.json
+```
