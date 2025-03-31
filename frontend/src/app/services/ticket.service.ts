@@ -84,3 +84,42 @@ export class TicketService {
     };
   }
 }
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Ticket } from '../types/ticket';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TicketService {
+  private apiUrl = 'http://0.0.0.0:5000/api';
+
+  constructor(private http: HttpClient) {}
+
+  getAllTickets(filters?: { category?: string; minPrice?: number; maxPrice?: number }): Observable<Ticket[]> {
+    let url = `${this.apiUrl}/tickets`;
+    const params = new URLSearchParams();
+    
+    if (filters?.category) {
+      params.append('category', filters.category);
+    }
+    if (filters?.minPrice !== undefined) {
+      params.append('minPrice', filters.minPrice.toString());
+    }
+    if (filters?.maxPrice !== undefined) {
+      params.append('maxPrice', filters.maxPrice.toString());
+    }
+
+    const queryString = params.toString();
+    if (queryString) {
+      url += `?${queryString}`;
+    }
+
+    return this.http.get<Ticket[]>(url);
+  }
+
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/categories`);
+  }
+}
