@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Ticket } from '../types/ticket';
 
 @Injectable({
@@ -57,7 +57,14 @@ export class TicketService {
   }
 
   createTicket(ticket: Ticket): Observable<Ticket> {
-    return this.http.post<Ticket>(`${this.apiUrl}/tickets`, ticket)
+    return this.http.post<Ticket>(`${this.apiUrl}/tickets`, ticket).pipe(
+  map(response => {
+    if (!response) {
+      throw new Error('No ticket data received');
+    }
+    return response;
+  })
+)
       .pipe(
         catchError(this.handleError('createTicket', null))
       );
