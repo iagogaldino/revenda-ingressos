@@ -3,7 +3,6 @@ import express, { Request } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import multer from 'multer';
-import { File } from 'multer';
 import { mockTickets, categories } from './data/mockData';
 import { Ticket } from './types/ticket';
 
@@ -57,21 +56,21 @@ app.get('/api/categories', (req, res) => {
   res.json(categories);
 });
 
-// File conversion endpoint
-app.post('/api/convert', upload.single('file'), async (req: Request & { file?: File }, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'No file provided' });
-    }
+// // File conversion endpoint
+// app.post('/api/convert', upload.single('file'), async (req: Request & { file?: File }, res) => {
+//   try {
+//     if (!req.file) {
+//       return res.status(400).json({ error: 'No file provided' });
+//     }
 
-    // For now, return a simple markdown conversion
-    const markdownText = req.file.buffer.toString('utf-8');
-    res.json({ markdown: markdownText });
-  } catch (error) {
-    console.error('Conversion error:', error);
-    res.status(500).json({ error: 'Error converting file' });
-  }
-});
+//     // For now, return a simple markdown conversion
+//     const markdownText = req.file.buffer.toString('utf-8');
+//     res.json({ markdown: markdownText });
+//   } catch (error) {
+//     console.error('Conversion error:', error);
+//     res.status(500).json({ error: 'Error converting file' });
+//   }
+// });
 
 app.listen(Number(port), '0.0.0.0', () => {
   console.log(`Server is running on port ${port}`);
