@@ -5,6 +5,7 @@ run = "npm run watch"
 channel = "stable-24_05"
 
 [workflows]
+runButton = "Watch"
 
 [[workflows.workflow]]
 name = "Dev Backend"
@@ -36,6 +37,15 @@ args = "cd backend && npm run dev"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd frontend && ng serve --host 0.0.0.0 --port 4200"
+
+[[workflows.workflow]]
+name = "Watch"
+author = 41005063
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run watch"
 
 [[ports]]
 localPort = 4200
