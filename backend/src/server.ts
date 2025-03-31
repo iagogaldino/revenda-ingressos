@@ -10,7 +10,10 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:4200', 'https://localhost:4200'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Health check route
