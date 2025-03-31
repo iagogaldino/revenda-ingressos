@@ -4,6 +4,7 @@ modules = ["web", "nodejs-20"]
 channel = "stable-24_05"
 
 [workflows]
+runButton = "Dev Full Stack"
 
 [[workflows.workflow]]
 name = "Dev Backend"
@@ -18,6 +19,19 @@ args = "cd backend && npm run dev"
 name = "Dev Frontend"
 author = 41005063
 mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && ng serve --host 0.0.0.0 --port 4200"
+
+[[workflows.workflow]]
+name = "Dev Full Stack"
+author = 41005063
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd backend && npm run dev"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
