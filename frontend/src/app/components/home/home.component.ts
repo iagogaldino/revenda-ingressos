@@ -27,19 +27,19 @@ export class HomeComponent implements OnInit {
   testimonials = [
     {
       name: 'João Silva',
-      image: 'assets/user1.jpg',
+      image: 'assets/user.png',
       stars: Array(5).fill(1),
       comment: 'Excelente plataforma! Muito fácil de usar e segura.'
     },
     {
       name: 'Maria Santos',
-      image: 'assets/user2.jpg',
+      image: 'assets/user.png',
       stars: Array(5).fill(1),
       comment: 'Comprei ingressos para vários eventos e nunca tive problemas.'
     },
     {
       name: 'Pedro Oliveira',
-      image: 'assets/user3.jpg',
+      image: 'assets/user.png',
       stars: Array(4).fill(1),
       comment: 'Ótimo suporte ao cliente e preços competitivos.'
     }
