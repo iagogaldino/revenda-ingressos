@@ -23,4 +23,9 @@ export class TicketCardComponent {
       return 0; // empty star
     });
   }
+
+  onImageError(event: Event): void {
+    console.log('error');
+    (event.target as HTMLImageElement).src = 'assets/placeholder-event.jpg';
+  }
 }

@@ -4,7 +4,7 @@
     [src]="ticket.image || 'assets/placeholder-event.jpg'" 
     class="card-img-top" 
     [alt]="ticket.eventName" 
-    onerror="this.src='assets/placeholder-event.jpg'">
+    (error)="onImageError($event)">
 
   <!-- Badge de desconto -->
   <div *ngIf="calculateDiscount(ticket.originalPrice, ticket.price) > 0" class="badge-discount">
