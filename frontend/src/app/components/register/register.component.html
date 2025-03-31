@@ -1,0 +1,66 @@
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-body">
+          <h2 class="text-center mb-4">Criar Conta</h2>
+          
+          <div *ngIf="successMessage" class="alert alert-success">
+            {{ successMessage }}
+          </div>
+          
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="form-label">Nome Completo</label>
+              <input type="text" class="form-control" formControlName="fullName">
+              <div *ngIf="registerForm.get('fullName')?.errors?.['required'] && registerForm.get('fullName')?.touched" 
+                   class="text-danger">
+                Nome é obrigatório
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">E-mail</label>
+              <input type="email" class="form-control" formControlName="email">
+              <div *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched" 
+                   class="text-danger">
+                E-mail é obrigatório
+              </div>
+              <div *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched" 
+                   class="text-danger">
+                E-mail inválido
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Senha</label>
+              <input type="password" class="form-control" formControlName="password">
+              <div *ngIf="registerForm.get('password')?.errors && registerForm.get('password')?.touched" 
+                   class="text-danger">
+                Senha deve ter no mínimo 8 caracteres, uma letra maiúscula, um número e um caractere especial
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Confirmar Senha</label>
+              <input type="password" class="form-control" formControlName="confirmPassword">
+              <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched" 
+                   class="text-danger">
+                Senhas não conferem
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">
+              Criar Conta
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
