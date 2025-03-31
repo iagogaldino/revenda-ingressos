@@ -3,6 +3,7 @@ import express, { Request } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import multer from 'multer';
+import { File } from 'multer';
 import { mockTickets, categories } from './data/mockData';
 import { Ticket } from './types/ticket';
 
@@ -57,7 +58,7 @@ app.get('/api/categories', (req, res) => {
 });
 
 // File conversion endpoint
-app.post('/api/convert', upload.single('file'), async (req: Request & { file?: Express.Multer.File }, res) => {
+app.post('/api/convert', upload.single('file'), async (req: Request & { file?: File }, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file provided' });
