@@ -24,7 +24,7 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd frontend && ng serve --host 0.0.0.0 --port 4200"
+args = "cd frontend && ng serve --host 0.0.0.0 --port 4200 --disable-host-check"
 
 [[workflows.workflow]]
 name = "Dev Full Stack"
@@ -37,7 +37,7 @@ args = "cd backend && npm run dev"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd frontend && ng serve --host 0.0.0.0 --port 4200"
+args = "cd frontend && ng serve --host 0.0.0.0 --port 4200 --disable-host-check"
 
 [[workflows.workflow]]
 name = "Watch"
