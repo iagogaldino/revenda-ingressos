@@ -1,0 +1,31 @@
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">Perfil do Usuário</h2>
+          <div *ngIf="user$ | async as user">
+            <div class="mb-3">
+              <label class="form-label">Nome:</label>
+              <p class="form-control-static">{{ user.name }}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email:</label>
+              <p class="form-control-static">{{ user.email }}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Função:</label>
+              <p class="form-control-static">{{ user.role }}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Membro desde:</label>
+              <p class="form-control-static">{{ user.createdAt | date }}</p>
+            </div>
+          </div>
+          <button class="btn btn-danger" (click)="logout()">Sair</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
