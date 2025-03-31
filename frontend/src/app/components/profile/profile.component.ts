@@ -7,6 +7,7 @@ import { User } from '../../types/user';
 import { Ticket } from '../../types/ticket';
 
 @Component({
+  standalone: false,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
