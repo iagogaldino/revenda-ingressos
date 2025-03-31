@@ -1,9 +1,10 @@
+
 import { Component, Input } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PurchaseModalComponent } from '../purchase-modal/purchase-modal.component';
 import { Ticket } from '../../models/ticket.model';
 
 @Component({
-  standalone: false,
-
   selector: 'app-ticket-card',
   templateUrl: './ticket-card.component.html',
   styleUrls: ['./ticket-card.component.css']
