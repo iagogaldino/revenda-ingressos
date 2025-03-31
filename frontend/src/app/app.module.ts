@@ -1,8 +1,10 @@
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -11,13 +13,13 @@ import { TicketDetailComponent } from './components/ticket-detail/ticket-detail.
 import { TicketCardComponent } from './components/ticket-card/ticket-card.component';
 import { TicketListComponent } from './components/ticket-list/ticket-list.component';
 import { TicketFilterComponent } from './components/ticket-filter/ticket-filter.component';
+import { PurchaseModalComponent } from './components/purchase-modal/purchase-modal.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'tickets', component: TicketListComponent },
   { path: 'tickets/:id', component: TicketDetailComponent },
-  { path: 'cadastro', component: RegisterComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -30,10 +32,11 @@ const routes: Routes = [
     TicketCardComponent,
     TicketListComponent,
     TicketFilterComponent,
-    RegisterComponent
+    PurchaseModalComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
