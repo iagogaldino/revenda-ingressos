@@ -1,0 +1,139 @@
+✅ Refinamento da Feature para Desenvolvimento: Área do Usuário Logado (Painel do Vendedor)
+Vou quebrar a feature em tarefas menores e bem detalhadas para que o time de desenvolvimento possa trabalhar de forma eficiente e sem ambiguidade.
+
+🚀 Objetivo Principal:
+Implementar um sistema de Área Logada para o usuário, onde ele possa cadastrar ingressos, gerenciar suas vendas e acompanhar o histórico de transações.
+
+📋 Tarefas Detalhadas para o Desenvolvimento
+1. Autenticação e Proteção de Rotas
+Implementar o sistema de autenticação e proteger rotas que devem ser acessíveis apenas por usuários autenticados.
+
+🔨 Subtarefas:
+ Criar serviço AuthService para lidar com autenticação (login e logout).
+
+ Implementar Login com armazenamento de token (JWT) no LocalStorage ou SessionStorage.
+
+ Proteger rotas da área do usuário (/usuario, /usuario/cadastrar-ingresso, /usuario/gerenciar-ingressos, /usuario/historico-de-vendas) usando AuthGuard.
+
+ Implementar mecanismo de logout que limpa o token do armazenamento e redireciona para a página inicial.
+
+2. UserAreaComponent (Painel Principal do Usuário)
+Criar um componente principal que será o ponto de entrada para o usuário autenticado.
+
+🔨 Subtarefas:
+ Criar componente UserAreaComponent.
+
+ Configurar rota: /usuario.
+
+ Implementar navegação interna utilizando Tabs ou Sidebar (Ex.: Cadastro, Gerenciamento, Histórico).
+
+ Carregar os componentes filhos dinamicamente (Lazy Loading se necessário).
+
+3. TicketCreateComponent (Cadastro de Ingressos)
+Criar a interface para que o usuário possa cadastrar ingressos para venda.
+
+🔨 Subtarefas:
+ Criar componente TicketCreateComponent.
+
+ Configurar rota: /usuario/cadastrar-ingresso.
+
+ Implementar formulário com campos:
+
+Nome do evento
+
+Data do evento
+
+Local
+
+Preço original
+
+Preço de venda
+
+Categoria
+
+Descrição (opcional)
+
+Imagem (opcional, com preview)
+
+ Validar todos os campos obrigatórios.
+
+ Implementar pré-visualização de imagem carregada.
+
+ Implementar integração com API: POST /api/ingressos/cadastrar.
+
+ Exibir mensagens de sucesso e erro adequadas.
+
+4. TicketManagementComponent (Gerenciamento de Ingressos)
+Interface onde o usuário pode visualizar e gerenciar seus ingressos cadastrados.
+
+🔨 Subtarefas:
+ Criar componente TicketManagementComponent.
+
+ Configurar rota: /usuario/gerenciar-ingressos.
+
+ Implementar listagem de ingressos cadastrados (GET /api/ingressos/usuario/{usuarioId}).
+
+ Permitir edição e exclusão de ingressos (PUT e DELETE).
+
+ Mostrar status do ingresso: Disponível, Vendido, Pendente, Expirado.
+
+ Implementar filtro para visualizar ingressos por status.
+
+ Exibir mensagens de confirmação antes de excluir um ingresso.
+
+5. SalesHistoryComponent (Histórico de Vendas)
+Interface para o usuário visualizar as vendas realizadas.
+
+🔨 Subtarefas:
+ Criar componente SalesHistoryComponent.
+
+ Configurar rota: /usuario/historico-de-vendas.
+
+ Integrar com API: GET /api/vendas/historico/{usuarioId}.
+
+ Permitir filtragem por período (ex.: Últimos 7 dias, Últimos 30 dias).
+
+ Exibir detalhes completos de cada venda realizada.
+
+ Implementar sistema de paginação se necessário.
+
+6. Backend (Novos Endpoints e Integrações)
+Implementar os endpoints necessários para as novas funcionalidades.
+
+🔨 Subtarefas:
+ Cadastro de Ingresso: POST /api/ingressos/cadastrar
+
+ Listar Ingressos do Usuário: GET /api/ingressos/usuario/{usuarioId}
+
+ Atualizar Ingresso: PUT /api/ingressos/{ingressoId}
+
+ Excluir Ingresso: DELETE /api/ingressos/{ingressoId}
+
+ Verificar Status da Venda: GET /api/ingressos/status/{ingressoId}
+
+ Obter Histórico de Vendas: GET /api/vendas/historico/{usuarioId}
+
+7. Tratamento de Erros e Feedback
+Implementar feedback visual adequado para cada funcionalidade.
+
+🔨 Subtarefas:
+ Mostrar mensagens de erro e sucesso em todas as operações (Ex.: Toasts, Alerts).
+
+ Implementar um serviço global de tratamento de erros (ErrorHandlingService).
+
+ Garantir que as mensagens de erro retornadas pelo backend sejam exibidas adequadamente para o usuário.
+
+8. Testes e Validação
+Garantir que todas as funcionalidades estejam devidamente testadas e funcionando.
+
+🔨 Subtarefas:
+ Testes Unitários (Karma e Jasmine).
+
+ Testes de Integração para as rotas protegidas.
+
+ Testes E2E (Protractor ou Cypress) para validar o fluxo completo.
+
+📌 Resumo Final:
+A feature está bem detalhada e quebrada em tarefas menores para facilitar o desenvolvimento. O próximo passo é distribuir essas tarefas entre o time e definir prioridades e prazos.
+
+Quer que eu te ajude a montar um cronograma de desenvolvimento para essa feature? 😊
