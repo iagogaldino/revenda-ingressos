@@ -17,9 +17,13 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
-// Configure multer
-const upload = multer({ storage: multer.memoryStorage() });
+import { TicketController } from './controllers/ticket.controller';
+const ticketController = new TicketController();
+
+// Rotas
+app.post('/api/seller/tickets', (req, res) => ticketController.create(req, res));
 
 // Health check route
 app.get('/api/health', (req, res) => {

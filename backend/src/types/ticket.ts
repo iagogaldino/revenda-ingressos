@@ -19,3 +19,22 @@ export interface Ticket {
   active?: boolean;
   quantity?: number;
 }
+export interface CreateTicketDTO {
+  eventName: string;
+  imageUrl?: string;
+  description: string;
+  category: string;
+  location: string;
+  venue: string;
+  eventDate: string;
+  price: number;
+  quantity: number;
+}
+
+export interface Ticket extends CreateTicketDTO {
+  id: number;
+  sellerId: number;
+  status: 'active' | 'pending';
+  createdAt: string;
+  updatedAt: string;
+}
