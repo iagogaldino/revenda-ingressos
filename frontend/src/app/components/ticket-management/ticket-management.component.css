@@ -1,0 +1,43 @@
+.ticket-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.table th {
+  white-space: nowrap;
+}
+
+.btn-group .btn {
+  padding: 0.25rem 0.5rem;
+}
+
+.bi {
+  font-size: 1rem;
+}
+
+.badge {
+  padding: 0.5rem 0.75rem;
+}
+
+.alert {
+  margin-bottom: 1.5rem;
+}
+
+.table-responsive {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  border-top: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: #6c757d;
+}

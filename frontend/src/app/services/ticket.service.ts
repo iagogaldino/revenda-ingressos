@@ -56,6 +56,34 @@ export class TicketService {
       );
   }
 
+  createTicket(ticket: Ticket): Observable<Ticket> {
+    return this.http.post<Ticket>(`${this.apiUrl}/tickets`, ticket)
+      .pipe(
+        catchError(this.handleError('createTicket', null))
+      );
+  }
+
+  getSellerTickets(): Observable<Ticket[]> {
+    return this.http.get<Ticket[]>(`${this.apiUrl}/seller/tickets`)
+      .pipe(
+        catchError(this.handleError('getSellerTickets', []))
+      );
+  }
+
+  updateTicketStatus(ticketId: number, active: boolean): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/tickets/${ticketId}/status`, { active })
+      .pipe(
+        catchError(this.handleError('updateTicketStatus'))
+      );
+  }
+
+  deleteTicket(ticketId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/tickets/${ticketId}`)
+      .pipe(
+        catchError(this.handleError('deleteTicket'))
+      );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);
