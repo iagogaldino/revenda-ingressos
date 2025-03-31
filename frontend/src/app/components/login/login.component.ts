@@ -49,6 +49,8 @@ export class LoginComponent implements OnInit {
         },
         error: error => {
           console.error('Login failed:', error);
+          // Add error message to template
+          this.loginForm.setErrors({ serverError: error.error.message || 'Login failed' });
           this.loading = false;
         }
       });

@@ -1,8 +1,8 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { User } from '../models/user';
 
 @Injectable({
@@ -27,6 +27,10 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           localStorage.setItem('currentUser', JSON.stringify(response.user));
           this.currentUserSubject.next(response.user);
+        }),
+        catchError(error => {
+          console.error('Login failed:', error);
+          throw error;
         })
       );
   }
@@ -38,6 +42,11 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.currentUserSubject.value;
+    const token = localStorage.getItem('token');
+    return !!token;
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 }
