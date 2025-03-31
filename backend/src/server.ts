@@ -49,6 +49,6 @@ app.get('/api/categories', (req, res) => {
   res.json(categories);
 });
 
-app.listen(port, '0.0.0.0', () => {
+app.listen(Number(port), '0.0.0.0', () => {
   console.log(`Server is running on port ${port}`);
 });
