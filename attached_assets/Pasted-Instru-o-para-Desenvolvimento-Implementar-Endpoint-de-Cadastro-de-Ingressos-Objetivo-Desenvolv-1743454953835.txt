@@ -1,0 +1,49 @@
+Instrução para Desenvolvimento: Implementar Endpoint de Cadastro de Ingressos
+🎯 Objetivo: Desenvolver o endpoint no backend para cadastrar novos ingressos, garantindo que os dados enviados pelo frontend sejam tratados adequadamente. O serviço responsável por essa requisição no frontend é o TicketService através do método createTicket().
+
+🔍 Tarefas:
+Analisar o Frontend (TicketService)
+
+Revisar o método createTicket() no TicketService para identificar quais dados estão sendo enviados na requisição.
+
+Garantir que o payload do POST contenha todas as informações necessárias para o cadastro de ingressos.
+
+Criar Endpoint de Cadastro no Backend:
+
+Criar um endpoint POST /api/seller/tickets para receber os dados enviados pelo frontend.
+
+Implementar um controlador (TicketController) que processe os dados e faça as validações necessárias.
+
+Tratar corretamente os seguintes campos esperados:
+
+eventName, imageUrl, description, category, location, venue, eventDate, price, quantity, file (opcional).
+
+Retornar respostas adequadas para requisições bem-sucedidas e para erros (ex.: campos faltando, formato inválido, etc.).
+
+Implementar Validações no Backend:
+
+Validar dados obrigatórios (eventName, category, location, venue, eventDate, price, quantity).
+
+Verificar se o preço e quantidade são valores válidos (números positivos).
+
+Se o arquivo (file) for enviado, garantir que seja tratado corretamente (ex.: upload, armazenamento ou validação).
+
+Estruturar o Serviço no Backend (TicketService):
+
+Criar um método createTicket() no backend que receba e trate os dados enviados.
+
+Garantir que os dados sejam armazenados ou retornados de acordo com o mock esperado.
+
+Retornar Respostas Adequadas:
+
+Retornar um objeto JSON com os dados do ingresso criado ou uma mensagem de erro detalhada se algo estiver faltando.
+
+Incluir um status HTTP apropriado (201 Created para sucesso, 400 Bad Request para erros de validação).
+
+Testar o Fluxo Completo:
+
+Verificar se o frontend (TicketService) consegue enviar os dados corretamente para o backend.
+
+Testar o funcionamento do backend garantindo que o cadastro seja realizado conforme esperado.
+
+💡 Observação: Certifique-se de manter a consistência de dados entre o frontend e o backend, ajustando o método createTicket() no TicketService se necessário.
