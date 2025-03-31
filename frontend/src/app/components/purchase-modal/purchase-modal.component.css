@@ -37,3 +37,23 @@
   font-weight: 600;
   color: #dc3545;
 }
+.qr-code-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.qr-code-container img {
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.modal-body {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.text-muted {
+  font-size: 0.9rem;
+}

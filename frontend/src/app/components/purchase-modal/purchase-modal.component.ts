@@ -5,6 +5,7 @@ import { Ticket } from '../../models/ticket.model';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import * as QRCode from 'qrcode';
 
 @Component({
   imports: [CommonModule],
@@ -16,6 +17,8 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   @Input() ticket!: Ticket;
   remainingTime: number = 300; // 5 minutes in seconds
   private timerSubscription?: Subscription;
+  qrCodeUrl: string = '';
+  showQrCode: boolean = false;
 
   constructor(public activeModal: NgbActiveModal) {}
 
@@ -46,5 +49,21 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  }
+
+  async generateQrCode() {
+    const ticketData = {
+      id: this.ticket.id,
+      eventName: this.ticket.eventName,
+      date: this.ticket.eventDate,
+      price: this.ticket.price
+    };
+    
+    try {
+      this.qrCodeUrl = await QRCode.toDataURL(JSON.stringify(ticketData));
+      this.showQrCode = true;
+    } catch (err) {
+      console.error('Error generating QR code:', err);
+    }
   }
 }

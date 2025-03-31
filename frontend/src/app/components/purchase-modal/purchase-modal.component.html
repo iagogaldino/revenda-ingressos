@@ -1,31 +1,24 @@
 
 <div class="modal-header">
-  <h4 class="modal-title">Comprar Ingresso</h4>
-  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+  <h4 class="modal-title">Confirmar Compra</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('close')"></button>
 </div>
-<div class="modal-body">
-  <div class="event-details mb-4">
+<div class="modal-body text-center">
+  <div *ngIf="!showQrCode">
     <h5>{{ ticket.eventName }}</h5>
     <p class="mb-1"><i class="bi bi-calendar-event me-2"></i>{{ ticket.eventDate | date:'dd/MM/yyyy' }}</p>
-    <p class="mb-1"><i class="bi bi-geo-alt me-2"></i>{{ ticket.location }} - {{ ticket.venue }}</p>
-    <p class="price mt-3">R$ {{ ticket.price }},00</p>
+    <p class="mb-3"><i class="bi bi-currency-dollar me-2"></i>{{ ticket.price | currency:'BRL' }}</p>
+    <p class="text-muted">Você tem {{ formatTime(remainingTime) }} para concluir a compra</p>
+    <button class="btn btn-primary" (click)="generateQrCode()">
+      Gerar QR Code
+    </button>
   </div>
-
-  <div class="qr-code-container text-center mb-4">
-    <img src="assets/pix-qrcode-placeholder.png" alt="QR Code PIX" class="qr-code-image">
-    <p class="mt-2">Escaneie o QR Code para pagar</p>
-  </div>
-
-  <div class="alert alert-info">
-    <i class="bi bi-info-circle me-2"></i>
-    Após a confirmação do pagamento, você receberá seu ingresso via WhatsApp.
-  </div>
-
-  <div class="timer-container text-center">
-    <p class="mb-1">Tempo restante para concluir o pagamento:</p>
-    <div class="timer">{{ formatTime(remainingTime) }}</div>
+  
+  <div *ngIf="showQrCode" class="qr-code-container">
+    <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="img-fluid mb-3">
+    <p class="text-muted">Tempo restante: {{ formatTime(remainingTime) }}</p>
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('close')">Fechar</button>
 </div>
