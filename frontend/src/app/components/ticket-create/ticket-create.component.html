@@ -151,3 +151,102 @@
     </div>
   </div>
 </div>
+<div class="modal-header">
+  <h4 class="modal-title">Cadastrar Novo Ingresso</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('close')"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          <label for="eventName" class="form-label">Nome do Evento</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="eventName" 
+            formControlName="eventName"
+            [class.is-invalid]="ticketForm.get('eventName')?.invalid && ticketForm.get('eventName')?.touched"
+          >
+          <div class="invalid-feedback">
+            Nome do evento é obrigatório
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Descrição</label>
+          <textarea 
+            class="form-control" 
+            id="description" 
+            rows="3" 
+            formControlName="description"
+            [class.is-invalid]="ticketForm.get('description')?.invalid && ticketForm.get('description')?.touched"
+          ></textarea>
+          <div class="invalid-feedback">
+            Descrição é obrigatória
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="category" class="form-label">Categoria</label>
+          <select 
+            class="form-select" 
+            id="category" 
+            formControlName="category"
+            [class.is-invalid]="ticketForm.get('category')?.invalid && ticketForm.get('category')?.touched"
+          >
+            <option value="">Selecione uma categoria</option>
+            <option value="show">Show</option>
+            <option value="teatro">Teatro</option>
+            <option value="esporte">Esporte</option>
+            <option value="festa">Festa</option>
+          </select>
+          <div class="invalid-feedback">
+            Categoria é obrigatória
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="price" class="form-label">Preço (R$)</label>
+              <input 
+                type="number" 
+                class="form-control" 
+                id="price" 
+                formControlName="price"
+                [class.is-invalid]="ticketForm.get('price')?.invalid && ticketForm.get('price')?.touched"
+              >
+              <div class="invalid-feedback">
+                Preço deve ser maior que zero
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="quantity" class="form-label">Quantidade</label>
+              <input 
+                type="number" 
+                class="form-control" 
+                id="quantity" 
+                formControlName="quantity"
+                [class.is-invalid]="ticketForm.get('quantity')?.invalid && ticketForm.get('quantity')?.touched"
+              >
+              <div class="invalid-feedback">
+                Quantidade deve ser maior que zero
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('cancel')">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!ticketForm.valid">
+    Cadastrar Ingresso
+  </button>
+</div>

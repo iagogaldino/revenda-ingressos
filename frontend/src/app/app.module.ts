@@ -34,6 +34,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    TicketCreateComponent,
     HomeComponent,
     AboutComponent,
     TicketDetailComponent,

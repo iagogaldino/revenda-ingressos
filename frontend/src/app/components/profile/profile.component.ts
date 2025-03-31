@@ -23,8 +23,28 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private ticketService: TicketService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {}
+
+  openTicketCreateModal() {
+    const modalRef = this.modalService.open(TicketCreateComponent, {
+      size: 'lg',
+      centered: true
+    });
+
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          console.log('New ticket data:', result);
+          // Will be implemented later with backend integration
+        }
+      },
+      (reason) => {
+        console.log('Modal dismissed');
+      }
+    );
+  }
 
   ngOnInit() {
     this.authService.currentUser$.subscribe(user => {
