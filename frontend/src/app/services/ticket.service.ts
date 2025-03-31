@@ -56,18 +56,16 @@ export class TicketService {
       );
   }
 
-  createTicket(ticket: Ticket): Observable<Ticket | null> {
-    return this.http.post<Ticket>(`${this.apiUrl}/tickets`, ticket).pipe(
-  map(response => {
-    if (!response) {
-      throw new Error('No ticket data received');
-    }
-    return response;
-  })
-)
-      .pipe(
-        catchError(this.handleError('createTicket', null))
-      );
+  createTicket(formData: FormData): Observable<Ticket | null> {
+    return this.http.post<Ticket>(`${this.apiUrl}/tickets`, formData).pipe(
+      map(response => {
+        if (!response) {
+          throw new Error('No ticket data received');
+        }
+        return response;
+      }),
+      catchError(this.handleError('createTicket', null))
+    );
   }
 
   getSellerTickets(): Observable<Ticket[]> {

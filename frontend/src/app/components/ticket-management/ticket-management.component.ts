@@ -89,7 +89,7 @@ export class TicketManagementComponent implements OnInit {
           // Add other ticket data
           Object.keys(result).forEach(key => {
             if (key !== 'file') {
-              formData.append(key, result[key]);
+              formData.append(key, result[key].toString());
             }
           });
 
