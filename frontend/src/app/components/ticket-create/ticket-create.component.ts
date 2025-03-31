@@ -11,6 +11,9 @@ import { TicketService } from '../../services/ticket.service';
 })
 export class TicketCreateComponent implements OnInit {
   ticketForm: FormGroup;
+  loading = false;
+  error = false;
+  success = false;
 
   constructor(
     private fb: FormBuilder,
@@ -19,6 +22,7 @@ export class TicketCreateComponent implements OnInit {
   ) {
     this.ticketForm = this.fb.group({
       eventName: ['', Validators.required],
+      imageUrl: ['', Validators.required],
       description: ['', Validators.required],
       category: ['', Validators.required],
       location: ['', Validators.required],

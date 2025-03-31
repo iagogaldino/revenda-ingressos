@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TicketService } from '../../services/ticket.service';
 import { Ticket } from '../../types/ticket';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TicketCreateComponent } from '../ticket-create/ticket-create.component';
 
 @Component({
   standalone: false,
@@ -28,6 +30,7 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   openTicketCreateModal() {
+    console.log('openTicketCreateModal');
     const modalRef = this.modalService.open(TicketCreateComponent, {
       size: 'lg',
       centered: true
