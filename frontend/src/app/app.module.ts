@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +14,8 @@ import { TicketListComponent } from './components/ticket-list/ticket-list.compon
 import { TicketFilterComponent } from './components/ticket-filter/ticket-filter.component';
 import { PurchaseModalComponent } from './components/purchase-modal/purchase-modal.component';
 import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component'; // Added import for LoginComponent
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'tickets', component: TicketListComponent },
   { path: 'tickets/:id', component: TicketDetailComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent }, // Added login route
   { path: '**', redirectTo: '' }
 ];
 
@@ -35,7 +37,8 @@ const routes: Routes = [
     TicketListComponent,
     TicketFilterComponent,
     PurchaseModalComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent // Added LoginComponent to declarations
   ],
   imports: [
     BrowserModule,
