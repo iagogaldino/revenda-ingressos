@@ -1,8 +1,9 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Ticket } from '../models/ticket.model';
+import { Ticket } from '../types/ticket';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,13 @@ export class TicketService {
     return this.http.get<Ticket[]>(`${this.apiUrl}/tickets`)
       .pipe(
         catchError(this.handleError('getAllTickets', []))
+      );
+  }
+
+  getTicketById(id: number): Observable<Ticket> {
+    return this.http.get<Ticket>(`${this.apiUrl}/tickets/${id}`)
+      .pipe(
+        catchError(this.handleError('getTicketById', null))
       );
   }
 
@@ -40,7 +48,6 @@ export class TicketService {
       queryParams += queryParams ? `&maxPrice=${maxPrice}` : `maxPrice=${maxPrice}`;
     }
 
-    queryParams = queryParams ? queryParams.slice(0, -1) : queryParams;
     const url = queryParams ? `${this.apiUrl}/tickets?${queryParams}` : `${this.apiUrl}/tickets`;
 
     return this.http.get<Ticket[]>(url)
