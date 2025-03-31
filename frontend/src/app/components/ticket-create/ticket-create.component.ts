@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +15,8 @@ export class TicketCreateComponent implements OnInit {
   loading = false;
   error = false;
   success = false;
+  selectedFile: File | null = null;
+  previewUrl: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -29,17 +32,44 @@ export class TicketCreateComponent implements OnInit {
       venue: ['', Validators.required],
       eventDate: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]],
-      quantity: ['', [Validators.required, Validators.min(1)]]
+      quantity: ['', [Validators.required, Validators.min(1)]],
+      file: [null]
     });
   }
 
   ngOnInit() {}
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      // Create preview URL for image files
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.previewUrl = reader.result as string;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
   onSubmit() {
     if (this.ticketForm.valid) {
-      console.log('Form submitted:', this.ticketForm.value);
-      // Will be implemented later with backend integration
-      this.activeModal.close(this.ticketForm.value);
+      const ticketData = this.ticketForm.value;
+      ticketData.status = this.selectedFile ? 'active' : 'pending';
+      
+      if (this.selectedFile) {
+        const formData = new FormData();
+        formData.append('file', this.selectedFile);
+        // Add ticket data to formData
+        Object.keys(ticketData).forEach(key => {
+          formData.append(key, ticketData[key]);
+        });
+      }
+
+      console.log('Form submitted:', ticketData);
+      this.activeModal.close({...ticketData, file: this.selectedFile});
     }
   }
 }

@@ -74,23 +74,42 @@ export class TicketManagementComponent implements OnInit {
   }
 
   openTicketCreateModal() {
-      console.log('openTicketCreateModal');
-      const modalRef = this.modalService.open(TicketCreateComponent, {
-        size: 'lg',
-        centered: true
-      });
-  
-      modalRef.result.then(
-        (result) => {
-          if (result) {
-            console.log('New ticket data:', result);
-            // Will be implemented later with backend integration
+    const modalRef = this.modalService.open(TicketCreateComponent, {
+      size: 'lg',
+      centered: true
+    });
+
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          const formData = new FormData();
+          if (result.file) {
+            formData.append('file', result.file);
           }
-        },
-        (reason) => {
-          console.log('Modal dismissed');
+          // Add other ticket data
+          Object.keys(result).forEach(key => {
+            if (key !== 'file') {
+              formData.append(key, result[key]);
+            }
+          });
+
+          this.ticketService.createTicket(formData).subscribe({
+            next: () => {
+              this.successMessage = "Ingresso criado com sucesso!";
+              this.loadTickets();
+              setTimeout(() => this.successMessage = "", 3000);
+            },
+            error: (error) => {
+              this.error = "Erro ao criar ingresso";
+              console.error("Error:", error);
+            }
+          });
         }
-      );
-    }
+      },
+      (reason) => {
+        console.log('Modal dismissed');
+      }
+    );
+  }
   
 }
