@@ -14,12 +14,14 @@ import { TicketCardComponent } from './components/ticket-card/ticket-card.compon
 import { TicketListComponent } from './components/ticket-list/ticket-list.component';
 import { TicketFilterComponent } from './components/ticket-filter/ticket-filter.component';
 import { PurchaseModalComponent } from './components/purchase-modal/purchase-modal.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'tickets', component: TicketListComponent },
   { path: 'tickets/:id', component: TicketDetailComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -32,7 +34,8 @@ const routes: Routes = [
     TicketCardComponent,
     TicketListComponent,
     TicketFilterComponent,
-    PurchaseModalComponent
+    PurchaseModalComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

@@ -14,7 +14,7 @@ export const mockTickets: Ticket[] = [
     category: 'Música',
     type: 'Show',
     seller: { name: 'João Silva', rating: 4.5 },
-    image: 'assets/rock-in-rio.jpg'
+    image: 'https://d6jd9079fzsvx.cloudfront.net/banners/banner_site_geraldo_67d0ab14cb295.jpg'
   },
   {
     id: 2,
@@ -28,7 +28,7 @@ export const mockTickets: Ticket[] = [
     category: 'Entretenimento',
     type: 'Feira',
     seller: { name: 'Maria Oliveira', rating: 4.8 },
-    image: 'assets/comic-con.jpg'
+    image: 'https://d6jd9079fzsvx.cloudfront.net/banners/banner_site_geraldo_67d0ab14cb295.jpg'
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ export const mockTickets: Ticket[] = [
     category: 'Esportes',
     type: 'Futebol',
     seller: { name: 'Carlos Souza', rating: 4.0 },
-    image: 'assets/final-brasileirao.jpg'
+    image: 'https://d6jd9079fzsvx.cloudfront.net/banners/banner_site_geraldo_67d0ab14cb295.jpg'
   },
   {
     id: 4,
@@ -56,7 +56,7 @@ export const mockTickets: Ticket[] = [
     category: 'Comédia',
     type: 'Teatro',
     seller: { name: 'Ana Martins', rating: 3.9 },
-    image: 'assets/standup-comedy.jpg'
+    image: 'https://d6jd9079fzsvx.cloudfront.net/banners/banner_site_geraldo_67d0ab14cb295.jpg'
   },
   {
     id: 5,
@@ -70,9 +70,10 @@ export const mockTickets: Ticket[] = [
     category: 'Gastronomia',
     type: 'Festival',
     seller: { name: 'Pedro Lima', rating: 4.7 },
-    image: 'assets/festival-gastronomia.jpg'
+    image: 'https://d6jd9079fzsvx.cloudfront.net/banners/banner_site_geraldo_67d0ab14cb295.jpg'
   }
 ];
+
 
 
 export const categories: string[] = ["Shows", "Esportes", "Teatro", "Festivais", "Cinema"];
