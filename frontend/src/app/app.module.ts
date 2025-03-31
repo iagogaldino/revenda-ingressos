@@ -14,8 +14,9 @@ import { TicketListComponent } from './components/ticket-list/ticket-list.compon
 import { TicketFilterComponent } from './components/ticket-filter/ticket-filter.component';
 import { PurchaseModalComponent } from './components/purchase-modal/purchase-modal.component';
 import { RegisterComponent } from './components/register/register.component';
-import { LoginComponent } from './components/login/login.component'; // Added import for LoginComponent
+import { LoginComponent } from './components/login/login.component';
 import { TicketManagementComponent } from './components/ticket-management/ticket-management.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 const routes: Routes = [
@@ -24,7 +25,8 @@ const routes: Routes = [
   { path: 'tickets', component: TicketListComponent },
   { path: 'tickets/:id', component: TicketDetailComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent }, // Added login route
+  { path: 'login', component: LoginComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -40,7 +42,8 @@ const routes: Routes = [
     PurchaseModalComponent,
     RegisterComponent,
     LoginComponent,
-    TicketManagementComponent
+    TicketManagementComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
