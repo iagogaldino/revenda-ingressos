@@ -8,8 +8,8 @@ import { Ticket } from '../models/ticket.model';
   providedIn: 'root'
 })
 export class TicketService {
-  private apiUrl = 'http://localhost:5000/api/tickets';
-  private categoriesUrl = 'http://localhost:5000/api/categories';
+  private apiUrl = '/api/tickets';
+  private categoriesUrl = '/api/categories';
 
   constructor(private http: HttpClient) { }
 
@@ -39,28 +39,28 @@ export class TicketService {
 
   filterTickets(category?: string, minPrice?: number, maxPrice?: number): Observable<Ticket[]> {
     let queryParams = '';
-
+    
     if (category) {
       queryParams += `category=${category}&`;
     }
-
+    
     if (minPrice !== undefined) {
       queryParams += `minPrice=${minPrice}&`;
     }
-
+    
     if (maxPrice !== undefined) {
       queryParams += `maxPrice=${maxPrice}&`;
     }
-
+    
     // Remove trailing '&' if it exists
     queryParams = queryParams.endsWith('&') 
       ? queryParams.slice(0, -1) 
       : queryParams;
-
+    
     const url = queryParams 
       ? `${this.apiUrl}?${queryParams}` 
       : this.apiUrl;
-
+    
     return this.http.get<Ticket[]>(url)
       .pipe(
         catchError(this.handleError<Ticket[]>('filterTickets', []))
@@ -78,7 +78,7 @@ export class TicketService {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);
       console.error('Error details:', error);
-
+      
       // Let the app keep running by returning an empty result
       return of(result as T);
     };
