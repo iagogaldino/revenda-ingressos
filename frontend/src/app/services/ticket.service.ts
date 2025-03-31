@@ -56,7 +56,7 @@ export class TicketService {
       );
   }
 
-  createTicket(ticket: Ticket): Observable<Ticket> {
+  createTicket(ticket: Ticket): Observable<Ticket | null> {
     return this.http.post<Ticket>(`${this.apiUrl}/tickets`, ticket).pipe(
   map(response => {
     if (!response) {
