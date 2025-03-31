@@ -36,3 +36,7 @@ args = "cd backend && npm run dev"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd frontend && ng serve --host 0.0.0.0 --port 4200"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
