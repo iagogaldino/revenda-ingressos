@@ -11,6 +11,16 @@ import { Ticket } from '../../models/ticket.model';
 export class TicketCardComponent {
   @Input() ticket!: Ticket;
 
+  constructor(private modalService: NgbModal) {}
+
+  openPurchaseModal() {
+    const modalRef = this.modalService.open(PurchaseModalComponent, { 
+      size: 'lg',
+      centered: true
+    });
+    modalRef.componentInstance.ticket = this.ticket;
+  }
+
   calculateDiscount(originalPrice: number, currentPrice: number): number {
     if (originalPrice <= currentPrice) return 0;
     return Math.round(((originalPrice - currentPrice) / originalPrice) * 100);

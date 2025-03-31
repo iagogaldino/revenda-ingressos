@@ -1,0 +1,31 @@
+
+<div class="modal-header">
+  <h4 class="modal-title">Comprar Ingresso</h4>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <div class="event-details mb-4">
+    <h5>{{ ticket.eventName }}</h5>
+    <p class="mb-1"><i class="bi bi-calendar-event me-2"></i>{{ ticket.eventDate | date:'dd/MM/yyyy' }}</p>
+    <p class="mb-1"><i class="bi bi-geo-alt me-2"></i>{{ ticket.location }} - {{ ticket.venue }}</p>
+    <p class="price mt-3">R$ {{ ticket.price }},00</p>
+  </div>
+
+  <div class="qr-code-container text-center mb-4">
+    <img src="assets/pix-qrcode-placeholder.png" alt="QR Code PIX" class="qr-code-image">
+    <p class="mt-2">Escaneie o QR Code para pagar</p>
+  </div>
+
+  <div class="alert alert-info">
+    <i class="bi bi-info-circle me-2"></i>
+    Após a confirmação do pagamento, você receberá seu ingresso via WhatsApp.
+  </div>
+
+  <div class="timer-container text-center">
+    <p class="mb-1">Tempo restante para concluir o pagamento:</p>
+    <div class="timer">{{ formatTime(remainingTime) }}</div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss()">Cancelar</button>
+</div>
