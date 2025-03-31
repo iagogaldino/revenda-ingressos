@@ -1,0 +1,390 @@
+Error: src/app/app.component.html:28:9 - error NG8002: Can't bind to 'ngClass' since it isn't a known property of 'div'.
+
+28         [ngClass]="{'show': isMenuOpen}">
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/app.component.ts:6:16
+    6   templateUrl: './app.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component AppComponent.
+
+
+Error: src/app/app.component.html:32:74 - error NG8002: Can't bind to 'routerLinkActiveOptions' since it isn't a known property of 'a'.
+
+32             <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/app.component.ts:6:16
+    6   templateUrl: './app.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component AppComponent.
+
+
+Error: src/app/app.component.html:53:3 - error NG8001: 'router-outlet' is not a known element:
+1. If 'router-outlet' is an Angular component, then verify that it is part of this module.
+2. If 'router-outlet' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+
+53   <router-outlet></router-outlet>
+     ~~~~~~~~~~~~~~~
+
+  src/app/app.component.ts:6:16
+    6   templateUrl: './app.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component AppComponent.
+
+
+Error: src/app/app.module.ts:20:34 - error TS2304: Cannot find name 'RegisterComponent'.
+
+20   { path: 'cadastro', component: RegisterComponent },
+                                    ~~~~~~~~~~~~~~~~~
+
+
+Error: src/app/app.module.ts:25:17 - error NG1010: Value
+
+Error: src/app/app.module.ts:33:5 - error TS2304: Cannot find name 'RegisterComponent'.
+
+33     RegisterComponent
+       ~~~~~~~~~~~~~~~~~
+
+
+Error: src/app/components/home/home.component.html:18:15 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'input'.
+
+18               [(ngModel)]="searchTerm"
+                 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/components/home/home.component.ts:16:16
+    16   templateUrl: './home.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component HomeComponent.
+
+
+Error: src/app/components/home/home.component.html:77:9 - error NG8001: 'app-ticket-card' is not a known element:
+1. If 'app-ticket-card' is an Angular component, then verify that it is part of this module.
+2. If 'app-ticket-card' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+
+77         <app-ticket-card [ticket]="ticket"></app-ticket-card>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/components/home/home.component.ts:16:16
+    16   templateUrl: './home.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component HomeComponent.
+
+
+Error: src/app/components/home/home.component.html:77:26 - error NG8002: Can't bind to 'ticket' since it isn't a known property of 'app-ticket-card'.
+1. If 'app-ticket-card' is an Angular component and it has 'ticket' input, then verify that it is part of this module.
+2. If 'app-ticket-card' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.
+
+77         <app-ticket-card [ticket]="ticket"></app-ticket-card>
+                            ~~~~~~~~~~~~~~~~~
+
+  src/app/components/home/home.component.ts:16:16
+    16   templateUrl: './home.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component HomeComponent.
+
+
+Error: src/app/components/ticket-card/ticket-card.component.html:24:29 - error NG8004: No pipe found with name 'date'.
+
+24       {{ ticket.eventDate | date:'dd/MM/yyyy' }}
+                               ~~~~
+
+  src/app/components/ticket-card/ticket-card.component.ts:10:16
+    10   templateUrl: './ticket-card.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketCardComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:27:25 - error TS2531: Object is possibly 'null'.
+
+27           [src]="ticket.image || 'assets/placeholder-event.jpg'"
+                           ~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:29:25 - error TS2531: Object is possibly 'null'.
+
+29           [alt]="ticket.eventName"
+                           ~~~~~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:39:67 - error TS2531: Object is possibly 'null'.
+
+39             <span class="badge bg-light text-dark me-2">{{ ticket.category }}</span>
+                                                                     ~~~~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:40:62 - error TS2531: Object is possibly 'null'.
+
+40             <span class="badge bg-light text-dark">{{ ticket.type }}</span>
+                                                                ~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:42:51 - error TS2531: Object is possibly 'null'.
+
+42           <h1 class="ticket-title mb-3">{{ ticket.eventName }}</h1>
+                                                     ~~~~~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:46:31 - error TS2531: Object is possibly 'null'.
+
+46               <span>{{ ticket.eventDate | date:'dd/MM/yyyy, EEEE' }}</span>
+                                 ~~~~~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:46:43 - error NG8004: No pipe found with name 'date'.
+
+46               <span>{{ ticket.eventDate | date:'dd/MM/yyyy, EEEE' }}</span>
+                                             ~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:50:31 - error TS2531: Object is possibly 'null'.
+
+50               <span>{{ ticket.location }}</span>
+                                 ~~~~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:54:31 - error TS2531: Object is possibly 'null'.
+
+54               <span>{{ ticket.venue }}</span>
+                                 ~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:60:26 - error TS2531: Object is possibly 'null'.
+
+60             <p>{{ ticket.description }}</p>
+                            ~~~~~~~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:65:64 - error TS2531: Object is possibly 'null'.
+
+65             <div class="current-price-large mb-1">R$ {{ ticket.price }},00</div>
+                                                                  ~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:68:30 - error TS2531: Object is possibly 'null'.
+
+68                 R$ {{ ticket.originalPrice }},00
+                                ~~~~~~~~~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:71:45 - error TS2531: Object is possibly 'null'.
+
+71                 {{ calculateDiscount(ticket.originalPrice, ticket.price) }}% OFF
+                                               ~~~~~~~~~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:71:67 - error TS2531: Object is possibly 'null'.
+
+71                 {{ calculateDiscount(ticket.originalPrice, ticket.price) }}% OFF
+                                                                     ~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:85:59 - error TS2531: Object is possibly 'null'.
+
+85                   <div class="seller-name mb-1">{{ ticket.seller.name }}</div>
+                                                             ~~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-detail/ticket-detail.component.html:92:62 - error TS2531: Object is possibly 'null'.
+
+92                     <span class="ms-1 text-muted">({{ ticket.seller.rating }})</span>
+                                                                ~~~~~~
+
+  src/app/components/ticket-detail/ticket-detail.component.ts:10:16
+    10   templateUrl: './ticket-detail.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketDetailComponent.
+
+
+Error: src/app/components/ticket-filter/ticket-filter.component.html:9:7 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'select'.
+
+9       [(ngModel)]="selectedCategory"
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/components/ticket-filter/ticket-filter.component.ts:8:16
+    8   templateUrl: './ticket-filter.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketFilterComponent.
+
+
+Error: src/app/components/ticket-filter/ticket-filter.component.html:24:7 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'input'.
+
+24       [(ngModel)]="minPrice"
+         ~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/components/ticket-filter/ticket-filter.component.ts:8:16
+    8   templateUrl: './ticket-filter.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketFilterComponent.
+
+
+Error: src/app/components/ticket-filter/ticket-filter.component.html:35:7 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'input'.
+
+35       [(ngModel)]="maxPrice"
+         ~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/components/ticket-filter/ticket-filter.component.ts:8:16
+    8   templateUrl: './ticket-filter.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketFilterComponent.
+
+
+Error: src/app/components/ticket-list/ticket-list.component.html:6:7 - error NG8001: 'app-ticket-filter' is not a known element:
+1. If 'app-ticket-filter' is an Angular component, then verify that it is part of this module.
+2. If 'app-ticket-filter' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+
+6       <app-ticket-filter
+        ~~~~~~~~~~~~~~~~~~
+7         (categoryChange)="filterByCategory($event)"
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+8         (priceRangeChange)="filterByPriceRange($event)"
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+9         (resetFiltersEvent)="resetFilters()">
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/components/ticket-list/ticket-list.component.ts:9:16
+    9   templateUrl: './ticket-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketListComponent.
+
+
+Error: src/app/components/ticket-list/ticket-list.component.html:7:44 - error TS2345: Argument of type 'Event' is not assignable to parameter of type 'string'.
+
+7         (categoryChange)="filterByCategory($event)"
+                                             ~~~~~~
+
+  src/app/components/ticket-list/ticket-list.component.ts:9:16
+    9   templateUrl: './ticket-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketListComponent.
+
+
+Error: src/app/components/ticket-list/ticket-list.component.html:8:48 - error TS2345: Argument of type 'Event' is not assignable to parameter of type '{ min: number | null; max: number | null; }'.
+  Type 'Event' is missing the following properties from type '{ min: number | null; max: number | null; }': min, max
+
+8         (priceRangeChange)="filterByPriceRange($event)"
+                                                 ~~~~~~
+
+  src/app/components/ticket-list/ticket-list.component.ts:9:16
+    9   templateUrl: './ticket-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketListComponent.
+
+
+Error: src/app/components/ticket-list/ticket-list.component.html:22:13 - error NG8002: Can't bind to 'ngModel' since it isn't a known property of 'select'.
+
+22             [(ngModel)]="sortOption"
+               ~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/components/ticket-list/ticket-list.component.ts:9:16
+    9   templateUrl: './ticket-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketListComponent.
+
+
+Error: src/app/components/ticket-list/ticket-list.component.html:61:13 - error NG8001: 'app-ticket-card' is not a known element:
+1. If 'app-ticket-card' is an Angular component, then verify that it is part of this module.
+2. If 'app-ticket-card' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+
+61             <app-ticket-card [ticket]="ticket"></app-ticket-card>
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/components/ticket-list/ticket-list.component.ts:9:16
+    9   templateUrl: './ticket-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketListComponent.
+
+
+Error: src/app/components/ticket-list/ticket-list.component.html:61:30 - error NG8002: Can't bind to 'ticket' since it isn't a known property of 'app-ticket-card'.
+1. If 'app-ticket-card' is an Angular component and it has 'ticket' input, then verify that it is part of this module.
+2. If 'app-ticket-card' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.
+
+61             <app-ticket-card [ticket]="ticket"></app-ticket-card>
+                                ~~~~~~~~~~~~~~~~~
+
+  src/app/components/ticket-list/ticket-list.component.ts:9:16
+    9   templateUrl: './ticket-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component TicketListComponent.
+
+
+
+
+✖ Failed to compile.
