@@ -95,41 +95,23 @@
     </div>
 
     <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm p-4">
-          <div class="text-center mb-3">
-            <div class="step-icon bg-primary text-white mx-auto">1</div>
+      @for (step of steps; track step.number) {
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm p-4 step-card">
+            <div class="text-center mb-3">
+              <div class="step-icon bg-primary text-white mx-auto">
+                <i class="bi {{ step.icon }}"></i>
+              </div>
+            </div>
+            <h4 class="card-title text-center mb-3">{{ step.title }}</h4>
+            <p class="card-text text-center">{{ step.description }}</p>
           </div>
-          <h4 class="card-title text-center mb-3">Encontre seu Ingresso</h4>
-          <p class="card-text text-center">
-            Busque entre milhares de ingressos para os mais variados eventos. Filtre por categoria, data e preço.
-          </p>
         </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm p-4">
-          <div class="text-center mb-3">
-            <div class="step-icon bg-primary text-white mx-auto">2</div>
-          </div>
-          <h4 class="card-title text-center mb-3">Compre com Segurança</h4>
-          <p class="card-text text-center">
-            Realize sua compra de forma segura. Todos os vendedores são verificados e as transações são protegidas.
-          </p>
+      } @empty {
+        <div class="col-12 text-center">
+          <p>Nenhuma etapa encontrada.</p>
         </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card h-100 border-0 shadow-sm p-4">
-          <div class="text-center mb-3">
-            <div class="step-icon bg-primary text-white mx-auto">3</div>
-          </div>
-          <h4 class="card-title text-center mb-3">Receba seu Ingresso</h4>
-          <p class="card-text text-center">
-            Após a compra, você receberá seu ingresso por e-mail. É só apresentá-lo no dia do evento e se divertir!
-          </p>
-        </div>
-      </div>
+      }
     </div>
   </div>
 </section>
