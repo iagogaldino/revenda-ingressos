@@ -15,6 +15,7 @@ import { TicketFilterComponent } from './components/ticket-filter/ticket-filter.
 import { PurchaseModalComponent } from './components/purchase-modal/purchase-modal.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component'; // Added import for LoginComponent
+import { TicketManagementComponent } from './components/ticket-management/ticket-management.component';
 
 
 const routes: Routes = [
@@ -38,7 +39,8 @@ const routes: Routes = [
     TicketFilterComponent,
     PurchaseModalComponent,
     RegisterComponent,
-    LoginComponent // Added LoginComponent to declarations
+    LoginComponent,
+    TicketManagementComponent
   ],
   imports: [
     BrowserModule,

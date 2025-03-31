@@ -3,6 +3,7 @@ import { TicketService } from '../../services/ticket.service';
 import { Ticket } from '../../models/ticket.model';
 
 @Component({
+  standalone: false,
   selector: 'app-ticket-management',
   templateUrl: './ticket-management.component.html',
   styleUrls: ['./ticket-management.component.css']
