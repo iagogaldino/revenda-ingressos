@@ -1,0 +1,45 @@
+
+<div class="converter-container">
+  <div
+    class="drop-zone"
+    [class.active]="dragActive"
+    [class.has-content]="markdown"
+    (dragover)="handleDragOver($event)"
+    (dragleave)="handleDragLeave($event)"
+    (drop)="handleDrop($event)"
+  >
+    <div *ngIf="!converting && !markdown" class="upload-prompt">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <p>Drag and drop your file here or</p>
+      <input
+        type="file"
+        (change)="handleFileInput($event)"
+        accept=".doc,.docx,.pdf,.ppt,.pptx,.xls,.xlsx"
+        #fileInput
+        hidden
+      >
+      <button (click)="fileInput.click()" class="btn btn-primary">
+        Choose File
+      </button>
+    </div>
+
+    <div *ngIf="converting" class="converting">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p>Converting your file...</p>
+    </div>
+
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+
+    <div *ngIf="markdown" class="markdown-preview">
+      <h3>Converted Markdown</h3>
+      <pre>{{ markdown }}</pre>
+      <button (click)="markdown = ''" class="btn btn-secondary mt-3">
+        Convert Another File
+      </button>
+    </div>
+  </div>
+</div>

@@ -98,4 +98,15 @@ export class TicketService {
       return of(result as T);
     };
   }
+
+  convertFile(file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    return this.http.post<{markdown: string}>(`${this.apiUrl}/convert`, formData)
+      .pipe(
+        map(response => response.markdown),
+        catchError(this.handleError('convertFile', ''))
+      );
+  }
 }

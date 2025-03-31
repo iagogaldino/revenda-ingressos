@@ -55,3 +55,22 @@ app.get('/api/categories', (req, res) => {
 app.listen(Number(port), '0.0.0.0', () => {
   console.log(`Server is running on port ${port}`);
 });
+import multer from 'multer';
+import { markitdown } from '@microsoft/markitdown';
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+// Add this endpoint after your existing routes
+app.post('/api/convert', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file provided' });
+    }
+
+    const result = await markitdown(req.file.buffer);
+    res.json({ markdown: result });
+  } catch (error) {
+    console.error('Conversion error:', error);
+    res.status(500).json({ error: 'Error converting file' });
+  }
+});
