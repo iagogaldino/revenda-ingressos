@@ -1,0 +1,39 @@
+
+.event-details {
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 1rem;
+}
+
+.event-details h5 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.event-details i {
+  color: #6c757d;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #007bff;
+}
+
+.qr-code-container {
+  padding: 1rem;
+}
+
+.qr-code-image {
+  max-width: 200px;
+  height: auto;
+}
+
+.timer-container {
+  margin-top: 1.5rem;
+}
+
+.timer {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #dc3545;
+}
