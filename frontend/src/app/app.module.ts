@@ -17,6 +17,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { TicketManagementComponent } from './components/ticket-management/ticket-management.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { TicketCreateComponent } from './components/ticket-create/ticket-create.component';
 
 
 const routes: Routes = [
@@ -43,7 +44,8 @@ const routes: Routes = [
     RegisterComponent,
     LoginComponent,
     TicketManagementComponent,
-    ProfileComponent
+    ProfileComponent,
+    TicketCreateComponent
   ],
   imports: [
     BrowserModule,

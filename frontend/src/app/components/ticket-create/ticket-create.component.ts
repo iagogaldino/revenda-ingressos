@@ -4,6 +4,7 @@ import { TicketService } from '../../services/ticket.service';
 import { Router } from '@angular/router';
 
 @Component({
+  standalone: false,
   selector: 'app-ticket-create',
   templateUrl: './ticket-create.component.html',
   styleUrls: ['./ticket-create.component.css']
