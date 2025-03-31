@@ -2,6 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import multer from 'multer';
 import { mockTickets, categories } from './data/mockData';
 import { Ticket } from './types/ticket';
 
@@ -11,10 +12,13 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: ['http://localhost:4200', 'https://localhost:4200'],
+  origin: ['http://0.0.0.0:4200', 'https://0.0.0.0:4200'],
   credentials: true
 }));
 app.use(express.json());
+
+// Configure multer
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -52,25 +56,22 @@ app.get('/api/categories', (req, res) => {
   res.json(categories);
 });
 
-app.listen(Number(port), '0.0.0.0', () => {
-  console.log(`Server is running on port ${port}`);
-});
-import multer from 'multer';
-import { markitdown } from '@microsoft/markitdown';
-
-const upload = multer({ storage: multer.memoryStorage() });
-
-// Add this endpoint after your existing routes
+// File conversion endpoint
 app.post('/api/convert', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file provided' });
     }
 
-    const result = await markitdown(req.file.buffer);
-    res.json({ markdown: result });
+    // For now, return a simple markdown conversion
+    const markdownText = req.file.buffer.toString('utf-8');
+    res.json({ markdown: markdownText });
   } catch (error) {
     console.error('Conversion error:', error);
     res.status(500).json({ error: 'Error converting file' });
   }
+});
+
+app.listen(Number(port), '0.0.0.0', () => {
+  console.log(`Server is running on port ${port}`);
 });
