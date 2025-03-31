@@ -1,5 +1,5 @@
 
-import express from 'express';
+import express, { Request } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import multer from 'multer';
@@ -57,7 +57,7 @@ app.get('/api/categories', (req, res) => {
 });
 
 // File conversion endpoint
-app.post('/api/convert', upload.single('file'), async (req, res) => {
+app.post('/api/convert', upload.single('file'), async (req: Request & { file?: Express.Multer.File }, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file provided' });
