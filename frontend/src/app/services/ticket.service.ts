@@ -1,76 +1,51 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { Ticket } from '../models/ticket.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TicketService {
-  private apiUrl = '/api/tickets';
-  private categoriesUrl = '/api/categories';
+  private apiUrl = 'http://0.0.0.0:5000/api';
+  private categoriesUrl = `${this.apiUrl}/categories`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllTickets(): Observable<Ticket[]> {
-    return this.http.get<Ticket[]>(this.apiUrl)
+    return this.http.get<Ticket[]>(`${this.apiUrl}/tickets`)
       .pipe(
-        catchError(this.handleError<Ticket[]>('getAllTickets', []))
-      );
-  }
-
-  getTicketById(id: number): Observable<Ticket | undefined> {
-    return this.http.get<Ticket>(`${this.apiUrl}/${id}`)
-      .pipe(
-        catchError(this.handleError<Ticket>(`getTicketById id=${id}`))
-      );
-  }
-
-  searchTickets(term: string): Observable<Ticket[]> {
-    if (!term.trim()) {
-      return of([]);
-    }
-    return this.http.get<Ticket[]>(`${this.apiUrl}?search=${term}`)
-      .pipe(
-        catchError(this.handleError<Ticket[]>('searchTickets', []))
-      );
-  }
-
-  filterTickets(category?: string, minPrice?: number, maxPrice?: number): Observable<Ticket[]> {
-    let queryParams = '';
-    
-    if (category) {
-      queryParams += `category=${category}&`;
-    }
-    
-    if (minPrice !== undefined) {
-      queryParams += `minPrice=${minPrice}&`;
-    }
-    
-    if (maxPrice !== undefined) {
-      queryParams += `maxPrice=${maxPrice}&`;
-    }
-    
-    // Remove trailing '&' if it exists
-    queryParams = queryParams.endsWith('&') 
-      ? queryParams.slice(0, -1) 
-      : queryParams;
-    
-    const url = queryParams 
-      ? `${this.apiUrl}?${queryParams}` 
-      : this.apiUrl;
-    
-    return this.http.get<Ticket[]>(url)
-      .pipe(
-        catchError(this.handleError<Ticket[]>('filterTickets', []))
+        catchError(this.handleError('getAllTickets', []))
       );
   }
 
   getCategories(): Observable<string[]> {
     return this.http.get<string[]>(this.categoriesUrl)
       .pipe(
-        catchError(this.handleError<string[]>('getCategories', []))
+        catchError(this.handleError('getCategories', []))
+      );
+  }
+
+  filterTickets(category?: string, minPrice?: number, maxPrice?: number): Observable<Ticket[]> {
+    let queryParams = '';
+
+    if (category) {
+      queryParams += `category=${category}`;
+    }
+    if (minPrice !== undefined) {
+      queryParams += queryParams ? `&minPrice=${minPrice}` : `minPrice=${minPrice}`;
+    }
+    if (maxPrice !== undefined) {
+      queryParams += queryParams ? `&maxPrice=${maxPrice}` : `maxPrice=${maxPrice}`;
+    }
+
+    queryParams = queryParams ? queryParams.slice(0, -1) : queryParams;
+    const url = queryParams ? `${this.apiUrl}/tickets?${queryParams}` : `${this.apiUrl}/tickets`;
+
+    return this.http.get<Ticket[]>(url)
+      .pipe(
+        catchError(this.handleError('filterTickets', []))
       );
   }
 
@@ -78,48 +53,7 @@ export class TicketService {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);
       console.error('Error details:', error);
-      
-      // Let the app keep running by returning an empty result
       return of(result as T);
     };
-  }
-}
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Ticket } from '../types/ticket';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class TicketService {
-  private apiUrl = 'http://0.0.0.0:5000/api';
-
-  constructor(private http: HttpClient) {}
-
-  getAllTickets(filters?: { category?: string; minPrice?: number; maxPrice?: number }): Observable<Ticket[]> {
-    let url = `${this.apiUrl}/tickets`;
-    const params = new URLSearchParams();
-    
-    if (filters?.category) {
-      params.append('category', filters.category);
-    }
-    if (filters?.minPrice !== undefined) {
-      params.append('minPrice', filters.minPrice.toString());
-    }
-    if (filters?.maxPrice !== undefined) {
-      params.append('maxPrice', filters.maxPrice.toString());
-    }
-
-    const queryString = params.toString();
-    if (queryString) {
-      url += `?${queryString}`;
-    }
-
-    return this.http.get<Ticket[]>(url);
-  }
-
-  getCategories(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/categories`);
   }
 }
