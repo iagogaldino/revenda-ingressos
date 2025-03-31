@@ -42,7 +42,7 @@
         <tr *ngFor="let ticket of tickets">
           <td>
             <div class="d-flex align-items-center">
-              <img [src]="ticket.imageUrl || 'assets/placeholder-event.jpg'" 
+              <img [src]="ticket.image || 'assets/placeholder-event.jpg'" 
                    class="ticket-image me-2" 
                    [alt]="ticket.eventName">
               <div>
