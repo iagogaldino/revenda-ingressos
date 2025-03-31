@@ -21,8 +21,8 @@ export class TicketService {
       );
   }
 
-  getTicketById(id: number): Observable<Ticket> {
-    return this.http.get<Ticket>(`${this.apiUrl}/tickets/${id}`)
+  getTicketById(id: number): Observable<Ticket | null> {
+    return this.http.get<Ticket | null>(`${this.apiUrl}/tickets/${id}`)
       .pipe(
         catchError(this.handleError('getTicketById', null))
       );

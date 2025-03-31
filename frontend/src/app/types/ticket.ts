@@ -1,12 +1,13 @@
 
 export interface Ticket {
-  id: string;
-  eventName: string;
-  category: string;
-  date: string;
+  id: number;
+  title: string;
   price: number;
+  category: string;
+  eventDate: string;
+  venue: string;
+  description: string;
+  type: string;
   originalPrice: number;
-  location: string;
-  sellerName: string;
-  sellerRating: number;
+  quantity: number;
 }

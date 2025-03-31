@@ -11,7 +11,7 @@ import { TicketService } from '../../services/ticket.service';
   styleUrls: ['./ticket-detail.component.css']
 })
 export class TicketDetailComponent implements OnInit {
-  ticket: Ticket | undefined;
+  ticket: Ticket | null = null;
   loading: boolean = true;
   error: string | null = null;
 
@@ -37,11 +37,7 @@ export class TicketDetailComponent implements OnInit {
     this.loading = true;
     this.ticketService.getTicketById(id).subscribe({
       next: (ticket) => {
-        if (ticket) {
-          this.ticket = ticket;
-        } else {
-          this.error = 'Ingresso não encontrado.';
-        }
+        this.ticket = ticket;
         this.loading = false;
       },
       error: (error) => {
