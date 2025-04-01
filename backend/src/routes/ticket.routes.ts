@@ -25,7 +25,10 @@ const uploadMiddleware = multer({
     }
   },
   limits: { fileSize: 5 * 1024 * 1024 }
-}).single('file');
+}).fields([
+  { name: 'file', maxCount: 1 },
+  { name: 'image', maxCount: 1 }
+]);
 
 // Ticket routes
 router.post('/seller/tickets', uploadMiddleware, (req, res) => ticketController.create(req, res));

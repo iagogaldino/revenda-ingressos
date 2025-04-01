@@ -10,6 +10,7 @@ export interface ITicket {
   price: number;
   quantity: number;
   ticket?: string;
+  imageUrl?: string;
   sellerId: number;
   status: 'active' | 'pending';
   createdAt?: string;

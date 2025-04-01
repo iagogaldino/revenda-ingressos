@@ -55,8 +55,10 @@ export class TicketController {
   async create(req: Request, res: Response) {
     try {
       const ticketData = req.body;
-      const file = req.file;
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
+      const ticketFile = files?.['file']?.[0];
+      const imageFile = files?.['image']?.[0];
 
       if (!this.validateTicketData(ticketData)) {
         return res.status(400).json({
@@ -65,7 +67,12 @@ export class TicketController {
         });
       }
 
-      const ticket = await this.ticketService.createTicket(ticketData, file);
+      // Adiciona a URL da imagem aos dados do ticket
+      if (imageFile) {
+        ticketData.imageUrl = `/uploads/${imageFile.filename}`;
+      }
+
+      const ticket = await this.ticketService.createTicket(ticketData, ticketFile);
 
       res.status(201).json({ success: true, data: ticket });
     } catch (error) {
