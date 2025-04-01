@@ -19,6 +19,12 @@ export class TicketService {
     return this.http.get<Ticket[]>(`${this.apiUrl}/tickets`)
       .pipe(
         map((response: any) => response.data),
+        map((tickets: Ticket[])=> {
+          return tickets.map(ticket => ({
+            ...ticket,
+            image: `${environment.imageBaseUrl}/${ticket.image}`
+          }));
+        }),
         catchError(this.handleError('getAllTickets', []))
       );
   }

@@ -35,7 +35,6 @@ export class TicketManagementComponent implements OnInit {
           image: `${environment.imageBaseUrl}/${ticket.image}`
         }));
         this.loading = false;
-        console.log(this.tickets);
       },
       error: (error) => {
         this.error = "Erro ao carregar ingressos";

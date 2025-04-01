@@ -4,9 +4,6 @@
 /build
 node_modules
 
-# Configurações do ambiente
-/src/environments/*.ts
-
 # Dependências instaladas via npm
 /node_modules
 npm-debug.log
