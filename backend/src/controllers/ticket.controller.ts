@@ -2,7 +2,9 @@
 import { Request, Response } from 'express';
 import multer from 'multer';
 import path from 'path';
-import { CreateTicketDTO } from '../types/ticket';
+import { ITicketService } from '../interfaces/ticket.interface';
+import { TicketService } from '../services/ticket.service';
+import { TicketRepository } from '../repositories/ticket.repository';
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -26,6 +28,13 @@ const upload = multer({
 }).single('file');
 
 export class TicketController {
+  private ticketService: ITicketService;
+
+  constructor() {
+    const ticketRepository = new TicketRepository();
+    this.ticketService = new TicketService(ticketRepository);
+  }
+
   async create(req: Request, res: Response) {
     try {
       upload(req, res, async (err) => {
@@ -39,11 +48,9 @@ export class TicketController {
           });
         }
 
-        const ticketData: CreateTicketDTO = req.body;
+        const ticketData = req.body;
 
-        // Validações básicas
-        if (!ticketData.eventName || !ticketData.category || !ticketData.location || 
-            !ticketData.venue || !ticketData.eventDate || !ticketData.price || !ticketData.quantity) {
+        if (!this.validateTicketData(ticketData)) {
           return res.status(400).json({
             success: false,
             error: {
@@ -53,26 +60,7 @@ export class TicketController {
           });
         }
 
-        if (ticketData.price <= 0 || ticketData.quantity <= 0) {
-          return res.status(400).json({
-            success: false,
-            error: {
-              code: 'VALIDATION_ERROR',
-              message: 'Price and quantity must be positive numbers'
-            }
-          });
-        }
-
-        // Mock da criação do ticket
-        const ticket = {
-          ...ticketData,
-          id: Math.floor(Math.random() * 1000),
-          sellerId: 1, // Mock do ID do vendedor
-          status: req.file ? 'active' : 'pending',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          fileUrl: req.file ? `/uploads/${req.file.filename}` : undefined
-        };
+        const ticket = await this.ticketService.createTicket(ticketData, req.file);
 
         res.status(201).json({
           success: true,
@@ -88,5 +76,11 @@ export class TicketController {
         }
       });
     }
+  }
+
+  private validateTicketData(data: any): boolean {
+    return !!(data.eventName && data.category && data.location && 
+              data.venue && data.eventDate && data.price && data.quantity &&
+              data.price > 0 && data.quantity > 0);
   }
 }
