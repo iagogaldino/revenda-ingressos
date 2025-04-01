@@ -1,91 +1,29 @@
-
-import express, { Request } from 'express';
+import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import multer from 'multer';
-import { mockTickets, categories } from './data/mockData';
-import { Ticket } from './types/ticket';
+import { ticketRoutes } from './routes/ticket.routes';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Middleware
 app.use(cors({
-  origin: true, // Permite qualquer origem quando é necessário suporte a cookies
+  origin: true,
   credentials: true
 }));
 
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
-import { TicketController } from './controllers/ticket.controller';
-const ticketController = new TicketController();
-
-// Rotas
-app.post('/api/seller/tickets', ticketController.create);
+// Routes
+app.use('/api', ticketRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Backend is running' });
 });
-
-// Get tickets with filters
-app.get('/api/tickets', (req, res) => {
-  const { category, minPrice, maxPrice } = req.query;
-  let filteredTickets: Ticket[] = [...mockTickets];
-
-  if (category) {
-    filteredTickets = filteredTickets.filter(ticket => 
-      ticket.category.toLowerCase() === (category as string).toLowerCase()
-    );
-  }
-
-  if (minPrice) {
-    filteredTickets = filteredTickets.filter(ticket => 
-      ticket.price >= Number(minPrice)
-    );
-  }
-
-  if (maxPrice) {
-    filteredTickets = filteredTickets.filter(ticket => 
-      ticket.price <= Number(maxPrice)
-    );
-  }
-
-  res.json(filteredTickets);
-});
-
-// Get categories
-app.get('/api/categories', (req, res) => {
-  res.json(categories);
-});
-
-// Get seller tickets
-app.get('/api/seller/tickets', (req, res) => {
-  const sellerTickets = mockTickets.map(ticket => ({
-    ...ticket,
-    active: Math.random() > 0.5,
-    quantity: Math.floor(Math.random() * 10) + 1
-  }));
-  res.json(sellerTickets);
-});
-
-// // File conversion endpoint
-// app.post('/api/convert', upload.single('file'), async (req: Request & { file?: File }, res) => {
-//   try {
-//     if (!req.file) {
-//       return res.status(400).json({ error: 'No file provided' });
-//     }
-
-//     // For now, return a simple markdown conversion
-//     const markdownText = req.file.buffer.toString('utf-8');
-//     res.json({ markdown: markdownText });
-//   } catch (error) {
-//     console.error('Conversion error:', error);
-//     res.status(500).json({ error: 'Error converting file' });
-//   }
-// });
 
 app.listen(Number(port), '0.0.0.0', () => {
   console.log(`Server is running on port ${port}`);
