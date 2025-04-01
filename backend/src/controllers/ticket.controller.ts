@@ -113,6 +113,22 @@ export class TicketController {
       res.status(500).json({ success: false, error: 'Failed to fetch ticket' });
     }
   }
+
+  async deleteTicket(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const ticket = await this.ticketService.getTicketById(Number(id));
+
+      if (!ticket) {
+        return res.status(404).json({ success: false, error: 'Ticket not found' });
+      }
+
+      await this.ticketService.deleteTicket(Number(id));
+      res.status(200).json({ success: true, message: 'Ticket deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ success: false, error: 'Failed to delete ticket' });
+    }
+  }
   
   private validateTicketData(data: any): boolean {
     return !!(

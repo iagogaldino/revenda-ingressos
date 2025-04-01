@@ -32,5 +32,6 @@ router.put('/seller/tickets/:id', uploadMiddleware, (req, res) => ticketControll
 router.get('/tickets', (req, res) => ticketController.getAllTickets(req, res));
 router.get('/tickets/:id', (req, res) => ticketController.getTicketById(req, res));
 router.get('/seller/tickets', (req, res) => ticketController.getAllTickets(req, res));
+router.delete('/tickets/:id', (req, res) => ticketController.deleteTicket(req, res));
 
 export const ticketRoutes = router;
