@@ -7,7 +7,7 @@ export class TicketService implements ITicketService {
   async createTicket(ticket: ITicket, file?: Express.Multer.File): Promise<ITicket> {
     const ticketData = {
       ...ticket,
-      status: file ? 'active' : 'pending',
+      status: (file ? 'active' : 'pending') as 'active' | 'pending',
       imageUrl: file ? `/uploads/${file.filename}` : undefined
     };
     

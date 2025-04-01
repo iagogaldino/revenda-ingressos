@@ -6,7 +6,7 @@ import { ITicketService } from '../interfaces/ticket.interface';
 import { TicketService } from '../services/ticket.service';
 import { TicketRepository } from '../repositories/ticket.repository';
 
-const upload = multer({
+const upload: multer.Multer = multer({
   storage: multer.diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
