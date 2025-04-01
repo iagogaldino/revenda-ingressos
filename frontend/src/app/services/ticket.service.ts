@@ -89,6 +89,13 @@ export class TicketService {
       );
   }
 
+  updateTicket(ticketId: number, formData: FormData): Observable<Ticket> {
+    return this.http.put<Ticket>(`${this.apiUrl}/seller/tickets/${ticketId}`, formData)
+      .pipe(
+        catchError(this.handleError('updateTicket', null))
+      );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);

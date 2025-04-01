@@ -73,11 +73,16 @@ export class TicketManagementComponent implements OnInit {
     });
   }
 
-  openTicketCreateModal() {
+  openTicketModal(ticket?: Ticket) {
     const modalRef = this.modalService.open(TicketCreateComponent, {
       size: 'lg',
       centered: true
     });
+
+    if (ticket) {
+      modalRef.componentInstance.editMode = true;
+      modalRef.componentInstance.ticketData = ticket;
+    }
 
     modalRef.result.then(
       (result) => {

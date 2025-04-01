@@ -17,6 +17,8 @@ export class TicketCreateComponent implements OnInit {
   success = false;
   selectedFile: File | null = null;
   previewUrl: string | null = null;
+  editMode = false;
+  ticketData: Ticket | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -53,7 +55,21 @@ export class TicketCreateComponent implements OnInit {
  
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.editMode && this.ticketData) {
+      this.ticketForm.patchValue({
+        eventName: this.ticketData.eventName,
+        description: this.ticketData.description,
+        category: this.ticketData.category,
+        location: this.ticketData.location,
+        venue: this.ticketData.venue,
+        eventDate: this.ticketData.eventDate,
+        price: this.ticketData.price,
+        quantity: this.ticketData.quantity
+      });
+      this.previewUrl = this.ticketData.imageUrl;
+    }
+  }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -71,22 +87,27 @@ export class TicketCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('onSubmit');
     if (this.ticketForm.valid) {
       const ticketData = this.ticketForm.value;
       ticketData.status = this.selectedFile ? 'active' : 'pending';
       
+      const formData = new FormData();
       if (this.selectedFile) {
-        const formData = new FormData();
         formData.append('file', this.selectedFile);
-        // Add ticket data to formData
-        Object.keys(ticketData).forEach(key => {
-          formData.append(key, ticketData[key]);
-        });
       }
+      
+      Object.keys(ticketData).forEach(key => {
+        if (ticketData[key] !== null && ticketData[key] !== undefined) {
+          formData.append(key, ticketData[key].toString());
+        }
+      });
 
-      console.log('Form submitted:', ticketData);
-      this.activeModal.close({...ticketData, file: this.selectedFile});
+      this.activeModal.close({
+        id: this.editMode ? this.ticketData?.id : null,
+        formData,
+        ...ticketData,
+        file: this.selectedFile
+      });
     }
   }
 }
