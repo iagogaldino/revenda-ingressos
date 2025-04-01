@@ -1,0 +1,58 @@
+ Implementar Cadastro de Usuário no Backend (CRUD seguindo SOLID)
+
+O frontend já realiza requisições de cadastro através do serviço UserService. No entanto, o backend ainda não possui a tratativa para processar e armazenar os dados do usuário.
+
+🎯 Objetivo:
+Implementar a funcionalidade de cadastro de usuário no backend aplicando os princípios SOLID. A arquitetura deve ser modular e escalável, facilitando a manutenção e a adição de novas funcionalidades.
+
+📌 Requisitos:
+
+Single Responsibility Principle (SRP):
+
+Cada classe ou módulo deve ter uma única responsabilidade.
+
+Separar as camadas de Controle, Serviço e Repositório.
+
+Open/Closed Principle (OCP):
+
+A estrutura deve permitir extensões sem modificar classes existentes.
+
+Permitir a adição de novas regras de validação sem modificar o código atual.
+
+Liskov Substitution Principle (LSP):
+
+Garantir que as implementações possam ser substituídas por suas abstrações sem causar erros.
+
+Utilizar interfaces ou classes abstratas onde aplicável.
+
+Interface Segregation Principle (ISP):
+
+Interfaces devem ser específicas para cada necessidade.
+
+Evitar interfaces genéricas e monolíticas.
+
+Dependency Inversion Principle (DIP):
+
+Camadas superiores não devem depender de implementações de camadas inferiores, mas sim de abstrações.
+
+Inversão de dependências para o serviço de banco de dados por meio de interfaces ou injeção de dependências.
+
+🔨 Implementação Esperada:
+
+Criar um controller UserController responsável por receber requisições HTTP e repassar os dados para o serviço correspondente.
+
+Criar um serviço UserService que contém a lógica de negócio para cadastrar um usuário.
+
+Criar um repositório UserRepository que interage com o banco de dados, encapsulando a lógica de persistência.
+
+Implementar interfaces que definem contratos claros para o serviço e o repositório (IUserService e IUserRepository).
+
+Validar as informações do usuário antes de persistir os dados.
+
+💡 Considerações:
+
+Utilizar TypeScript para tipagem segura e melhor organização do código.
+
+Retornar respostas apropriadas para o frontend (201 Created, 400 Bad Request, 500 Internal Server Error, etc.).
+
+Aplicar tratamento de erros adequado.
