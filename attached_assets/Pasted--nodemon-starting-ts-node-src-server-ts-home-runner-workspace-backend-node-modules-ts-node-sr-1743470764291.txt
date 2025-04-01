@@ -1,0 +1,29 @@
+[nodemon] starting `ts-node ./src/server.ts`
+/home/runner/workspace/backend/node_modules/ts-node/src/index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+src/controllers/ticket.controller.ts:42:14 - error TS2345: Argument of type 'import("/home/runner/workspace/backend/node_modules/@types/express/index").Request<import("/home/runner/workspace/backend/node_modules/@types/express-serve-static-core/index").ParamsDictionary, any, any, qs.ParsedQs, Record<string, any>>' is not assignable to parameter of type 'import("/home/runner/workspace/node_modules/@types/express-serve-static-core/index").Request<import("/home/runner/workspace/node_modules/@types/express-serve-static-core/index").ParamsDictionary, any, any, qs.ParsedQs, Record<string, any>>'.
+  The types of 'app.get' are incompatible between these types.
+    Type '((name: string) => any) & import("/home/runner/workspace/backend/node_modules/@types/express-serve-static-core/index").IRouterMatcher<import("/home/runner/workspace/backend/node_modules/@types/express-serve-static-core/index").Application<Record<string, any>>, any>' is not assignable to type '((name: string) => any) & import("/home/runner/workspace/node_modules/@types/express-serve-static-core/index").IRouterMatcher<import("/home/runner/workspace/node_modules/@types/express-serve-static-core/index").Application<Record<string, any>>, any>'.
+      Type '((name: string) => any) & IRouterMatcher<Application<Record<string, any>>, any>' is not assignable to type 'IRouterMatcher<Application<Record<string, any>>, any>'.
+        Types of parameters 'name' and 'path' are incompatible.
+          Type 'PathParams' is not assignable to type 'string'.
+            Type 'RegExp' is not assignable to type 'string'.
+
+42       upload(req, res, async (err) => {
+                ~~~
+
+    at createTSError (/home/runner/workspace/backend/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/runner/workspace/backend/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/runner/workspace/backend/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/runner/workspace/backend/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/runner/workspace/backend/node_modules/ts-node/src/index.ts:1617:30)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+    at Object.require.extensions.<computed> [as .ts] (/home/runner/workspace/backend/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1104:12)
+    at Module.require (node:internal/modules/cjs/loader:1311:19) {
+  diagnosticCodes: [ 2345 ]
+}
+[nodemon] app crashed - waiting for file changes before starting...
