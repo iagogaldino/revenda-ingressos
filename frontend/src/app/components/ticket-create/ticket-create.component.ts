@@ -117,9 +117,16 @@ export class TicketCreateComponent implements OnInit {
       ticketData.status = 'active';
       
       const formData = new FormData();
-      formData.append('file', this.selectedFile);
-      formData.append('image', this.selectedImage);
       
+      // Adiciona os arquivos
+      if (this.selectedFile) {
+        formData.append('file', this.selectedFile, this.selectedFile.name);
+      }
+      if (this.selectedImage) {
+        formData.append('image', this.selectedImage, this.selectedImage.name);
+      }
+      
+      // Adiciona os dados do formulário
       Object.keys(ticketData).forEach(key => {
         if (ticketData[key] !== null && ticketData[key] !== undefined) {
           formData.append(key, ticketData[key].toString());
@@ -129,12 +136,10 @@ export class TicketCreateComponent implements OnInit {
       this.loading = true;
       this.error = false;
 
+      // Retorna apenas o FormData
       this.activeModal.close({
         id: this.editMode ? this.ticketData?.id : null,
-        formData,
-        ...ticketData,
-        file: this.selectedFile,
-        image: this.selectedImage
+        formData
       });
     }
   }
