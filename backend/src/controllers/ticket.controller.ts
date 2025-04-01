@@ -42,7 +42,7 @@ export class TicketController {
     try {
       const { category, minPrice, maxPrice } = req.query;
       let tickets = await this.ticketService.getAllTickets();
-
+      
       if (category) {
         tickets = tickets.filter(ticket => 
           ticket.category.toLowerCase() === (category as string).toLowerCase()
@@ -66,6 +66,7 @@ export class TicketController {
         data: tickets
       });
     } catch (error) {
+      console.log('error', error);
       res.status(500).json({
         success: false,
         error: {

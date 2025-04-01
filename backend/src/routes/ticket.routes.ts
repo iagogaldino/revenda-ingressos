@@ -16,13 +16,6 @@ router.get('/categories', (req, res) => {
   res.json(categories);
 });
 
-router.get('/seller/tickets', (req, res) => {
-  const sellerTickets = mockTickets.map(ticket => ({
-    ...ticket,
-    active: Math.random() > 0.5,
-    quantity: Math.floor(Math.random() * 10) + 1
-  }));
-  res.json(sellerTickets);
-});
+router.get('/seller/tickets', (req, res) => ticketController.getAllTickets(req, res));
 
 export const ticketRoutes = router;
