@@ -12,10 +12,12 @@
   "description": "",
   "dependencies": {
     "@ng-bootstrap/ng-bootstrap": "^18.0.0",
+    "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/multer": "^1.4.12",
     "@types/pg": "^8.11.11",
     "@types/qrcode": "^1.5.5",
+    "bcrypt": "^5.1.1",
     "concurrently": "^8.2.2",
     "dotenv": "^16.4.7",
     "jsonwebtoken": "^9.0.2",
