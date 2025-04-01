@@ -45,6 +45,16 @@
     </div>
 
     <div class="mb-3">
+      <label for="ticketImage" class="form-label">Imagem do Ingresso</label>
+      <input type="file" class="form-control" id="ticketImage" accept="image/*" (change)="onImageSelected($event)">
+      <small class="text-muted">Selecione uma imagem para o seu ingresso</small>
+    </div>
+
+    <div *ngIf="imagePreviewUrl" class="mb-3">
+      <img [src]="imagePreviewUrl" class="img-thumbnail" style="max-width: 200px">
+    </div>
+
+    <div class="mb-3">
       <label for="file" class="form-label">Arquivo do Ingresso *</label>
       <input type="file" class="form-control" id="file" (change)="onFileSelected($event)">
       <small class="text-muted">O ingresso ficará com status pendente até o upload do arquivo</small>

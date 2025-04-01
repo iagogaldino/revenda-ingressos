@@ -18,6 +18,8 @@ export class TicketCreateComponent implements OnInit {
   success = false;
   selectedFile: File | null = null;
   previewUrl: string | null = null;
+  selectedImage: File | null = null;
+  imagePreviewUrl: string | null = null;
   editMode = false;
   ticketData: Ticket | null = null;
 
@@ -72,6 +74,19 @@ export class TicketCreateComponent implements OnInit {
     }
   }
 
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      this.selectedImage = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreviewUrl = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -95,6 +110,9 @@ export class TicketCreateComponent implements OnInit {
       const formData = new FormData();
       if (this.selectedFile) {
         formData.append('file', this.selectedFile);
+      }
+      if (this.selectedImage) {
+        formData.append('image', this.selectedImage);
       }
       
       Object.keys(ticketData).forEach(key => {
