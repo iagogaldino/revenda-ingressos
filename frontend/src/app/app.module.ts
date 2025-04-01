@@ -46,7 +46,6 @@ const routes: Routes = [
     LoginComponent,
     TicketManagementComponent,
     ProfileComponent,
-    TicketCreateComponent
   ],
   imports: [
     BrowserModule,

@@ -8,11 +8,11 @@ export class TicketRepository implements ITicketRepository {
     const query = `
       INSERT INTO tickets (
         seller_id, status, event_name, event_date, location, venue,
-        price, description, category, image_url, quantity, created_at, updated_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW())
+        price, description, category, image, file, quantity, created_at, updated_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW(), NOW())
       RETURNING *
     `;
-
+  
     const values = [
       ticket.sellerId,
       ticket.status,
@@ -23,14 +23,15 @@ export class TicketRepository implements ITicketRepository {
       ticket.price,
       ticket.description,
       ticket.category,
-      ticket.ticket,
+      ticket.image,   // Caminho ou URL da imagem
+      ticket.file,    // Caminho ou URL do arquivo PDF
       ticket.quantity
     ];
-
+  
     const result = await pool.query(query, values);
     return result.rows[0];
   }
-
+  
   async findAll(): Promise<ITicket[]> {
     const result = await pool.query('SELECT * FROM tickets WHERE active = true ORDER BY created_at DESC');
     return result.rows;

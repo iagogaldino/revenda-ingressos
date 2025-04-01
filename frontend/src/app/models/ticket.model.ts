@@ -18,5 +18,4 @@ export interface Ticket {
   image: string;
   active: boolean
   quantity: number
-  imageUrl: string
 }

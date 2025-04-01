@@ -11,6 +11,68 @@ export class TicketController {
     this.ticketService = new TicketService(ticketRepository);
   }
 
+  async create(req: Request, res: Response) {
+    try {
+      const ticketData = req.body;
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+      // Validar se os arquivos foram enviados corretamente
+      const imageFile = files?.image?.[0] || null;
+      const pdfFile = files?.file?.[0] || null;
+
+      if (!this.validateTicketData(ticketData)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Missing or invalid required fields'
+        });
+      }
+
+      const ticket = await this.ticketService.createTicket({
+        ...ticketData,
+        image: imageFile ? imageFile.filename : null,
+        file: pdfFile ? pdfFile.filename : null,
+      });
+
+      res.status(201).json({ success: true, data: ticket });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error'
+      });
+    }
+  }
+
+  async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const ticketData = req.body;
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+      const imageFile = files?.image?.[0] || null;
+      const pdfFile = files?.file?.[0] || null;
+
+      if (!this.validateTicketData(ticketData)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Missing or invalid required fields'
+        });
+      }
+
+      const updatedTicket = await this.ticketService.updateTicket(Number(id), {
+        ...ticketData,
+        image: imageFile ? imageFile.filename : null,
+        file: pdfFile ? pdfFile.filename : null,
+      });
+
+      res.status(200).json({ success: true, data: updatedTicket });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error'
+      });
+    }
+  }
+
   async getAllTickets(req: Request, res: Response) {
     try {
       const { category, minPrice, maxPrice } = req.query;
@@ -51,39 +113,7 @@ export class TicketController {
       res.status(500).json({ success: false, error: 'Failed to fetch ticket' });
     }
   }
-
-  async create(req: Request, res: Response) {
-    try {
-      const ticketData = req.body;
-      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-
-      const ticketFile = files?.['file']?.[0];
-      const imageFile = files?.['image']?.[0];
-
-      if (!this.validateTicketData(ticketData)) {
-        return res.status(400).json({
-          success: false,
-          error: 'Missing or invalid required fields'
-        });
-      }
-
-      // Adiciona a URL da imagem aos dados do ticket
-      if (imageFile) {
-        ticketData.imageUrl = `/uploads/${imageFile.filename}`;
-      }
-
-      const ticket = await this.ticketService.createTicket(ticketData, ticketFile);
-
-      res.status(201).json({ success: true, data: ticket });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        success: false,
-        error: 'Internal server error'
-      });
-    }
-  }
-
+  
   private validateTicketData(data: any): boolean {
     return !!(
       data.eventName &&

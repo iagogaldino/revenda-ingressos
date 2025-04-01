@@ -1,9 +1,7 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TicketService } from '../../services/ticket.service';
-import { Ticket } from '../../models/ticket.model';
+import { TicketService } from 'src/app/services/ticket.service';
 
 @Component({
   standalone: false,
@@ -12,135 +10,93 @@ import { Ticket } from '../../models/ticket.model';
   styleUrls: ['./ticket-create.component.css']
 })
 export class TicketCreateComponent implements OnInit {
-  ticketForm: FormGroup;
-  loading = false;
-  error = false;
-  success = false;
+  ticketForm!: FormGroup;
   selectedFile: File | null = null;
-  previewUrl: string | null = null;
   selectedImage: File | null = null;
   imagePreviewUrl: string | null = null;
-  editMode = false;
-  ticketData: Ticket | null = null;
+  previewUrl: string | null = null;
 
   constructor(
     private fb: FormBuilder,
-    public activeModal: NgbActiveModal,
-    private ticketService: TicketService
-  ) {
+    private ticketService: TicketService,
+    public activeModal: NgbActiveModal
+  ) {}
+
+  ngOnInit(): void {
     // this.ticketForm = this.fb.group({
     //   eventName: ['', Validators.required],
-    //   imageUrl: ['', Validators.required],
     //   description: ['', Validators.required],
     //   category: ['', Validators.required],
     //   location: ['', Validators.required],
     //   venue: ['', Validators.required],
     //   eventDate: ['', Validators.required],
     //   price: ['', [Validators.required, Validators.min(0)]],
-    //   quantity: ['', [Validators.required, Validators.min(1)]],
-    //   file: [null]
+    //   quantity: ['', [Validators.required, Validators.min(1)]]
     // });
 
-    const mockData = {
+    // MOCK PARA TESTES
+    this.ticketForm = this.fb.group({
       eventName: ['Show do Gustavo Lima', Validators.required],
-      imageUrl: ['https://example.com/imagens/gustavo-lima.jpg', Validators.required],
-      description: ['Apresentação ao vivo de Gustavo Lima no São João de Petrolina.', Validators.required],
+      description: ['Grande show de Gustavo Lima no São João de Petrolina.', Validators.required],
       category: ['Música', Validators.required],
       location: ['Petrolina, PE', Validators.required],
       venue: ['Pátio Ana das Carrancas', Validators.required],
-      eventDate: ['2025-06-21', Validators.required],
-      price: [200, [Validators.required, Validators.min(0)]],
-      quantity: [500, [Validators.required, Validators.min(1)]],
-      file: [null]
-    };
-    this.ticketForm = this.fb.group(mockData);
+      eventDate: ['2025-06-21T20:00:00', Validators.required],
+      price: [250, [Validators.required, Validators.min(0)]],
+      quantity: [500, [Validators.required, Validators.min(1)]]
+    });
 
- 
   }
 
-  ngOnInit() {
-    if (this.editMode && this.ticketData) {
-      this.ticketForm.patchValue({
-        eventName: this.ticketData.eventName,
-        description: this.ticketData.description,
-        category: this.ticketData.category,
-        location: this.ticketData.location,
-        venue: this.ticketData.venue,
-        eventDate: this.ticketData.eventDate,
-        price: this.ticketData.price,
-        quantity: this.ticketData.quantity
-      });
-      this.previewUrl = this.ticketData.imageUrl;
-    }
-  }
-
-  onImageSelected(event: any) {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
+  onImageSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
       this.selectedImage = file;
       const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreviewUrl = reader.result as string;
-      };
+      reader.onload = () => this.imagePreviewUrl = reader.result as string;
       reader.readAsDataURL(file);
-    } else {
-      this.selectedImage = null;
-      this.imagePreviewUrl = null;
-      alert('Por favor, selecione uma imagem válida (JPG, PNG)');
     }
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file && file.type === 'application/pdf') {
+  onFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
       this.selectedFile = file;
-      this.previewUrl = null; // Não exibimos preview para PDF
-    } else {
-      this.selectedFile = null;
-      this.previewUrl = null;
-      alert('Por favor, selecione um arquivo PDF válido');
+      const reader = new FileReader();
+      reader.onload = () => this.previewUrl = reader.result as string;
+      reader.readAsDataURL(file);
     }
   }
 
-  onSubmit() {
-    if (this.ticketForm.valid) {
-      if (!this.selectedImage) {
-        alert('Por favor, selecione uma imagem para o ingresso');
-        return;
-      }
-      if (!this.selectedFile) {
-        alert('Por favor, selecione o arquivo PDF do ingresso');
-        return;
-      }
-
-      const ticketData = this.ticketForm.value;
-      ticketData.status = 'active';
-      
-      const formData = new FormData();
-      
-      // Adiciona os arquivos
-      if (this.selectedFile) {
-        formData.append('file', this.selectedFile, this.selectedFile.name);
-      }
-      if (this.selectedImage) {
-        formData.append('image', this.selectedImage, this.selectedImage.name);
-      }
-      
-      // Adiciona os dados do formulário
-      Object.keys(ticketData).forEach(key => {
-        if (ticketData[key] !== null && ticketData[key] !== undefined) {
-          formData.append(key, ticketData[key].toString());
-        }
-      });
-
-      this.loading = true;
-      this.error = false;
-
-      // Retorna apenas o FormData
-      this.activeModal.close({
-        id: this.editMode ? this.ticketData?.id : null,
-        formData
-      });
+  onSubmit(): void {
+    if (this.ticketForm.invalid) {
+      return;
     }
+
+    const formData = new FormData();
+    const ticketData = this.ticketForm.value;
+
+    // Adicionar dados do formulário ao FormData
+    Object.keys(ticketData).forEach(key => {
+      formData.append(key, ticketData[key]);
+    });
+
+    // Adicionar arquivos ao FormData
+    if (this.selectedFile) {
+      formData.append('file', this.selectedFile);
+    }
+    if (this.selectedImage) {
+      formData.append('image', this.selectedImage);
+    }
+
+    this.ticketService.createTicket(formData).subscribe(
+      response => {
+        console.log('Ticket criado com sucesso:', response);
+        this.activeModal.close();
+      },
+      error => {
+        console.error('Erro ao criar ticket:', error);
+      }
+    );
   }
 }

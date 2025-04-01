@@ -2,12 +2,11 @@ import { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
 import { TicketController } from '../controllers/ticket.controller';
-import { categories } from '../data/mockData';
 
 const router = Router();
 const ticketController = new TicketController();
 
-// Configuração do Multer
+// Configuração do Multer para upload de arquivos
 const uploadMiddleware = multer({
   storage: multer.diskStorage({
     destination: './uploads',
@@ -21,25 +20,17 @@ const uploadMiddleware = multer({
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid file type. Only JPG, PNG and PDF files are allowed'));
+      cb(new Error('Tipo de arquivo inválido. Apenas JPG, PNG e PDF são permitidos.'));
     }
   },
-  limits: { fileSize: 5 * 1024 * 1024 }
-}).fields([
-  { name: 'file', maxCount: 1 },
-  { name: 'image', maxCount: 1 }
-]);
+  limits: { fileSize: 5 * 1024 * 1024 } // 5MB
+}).fields([{ name: 'image' }, { name: 'file' }]); // Aceitar imagem e arquivo PDF
 
-// Ticket routes
+// Rotas de Tickets
 router.post('/seller/tickets', uploadMiddleware, (req, res) => ticketController.create(req, res));
-
+router.put('/seller/tickets/:id', uploadMiddleware, (req, res) => ticketController.update(req, res));
 router.get('/tickets', (req, res) => ticketController.getAllTickets(req, res));
 router.get('/tickets/:id', (req, res) => ticketController.getTicketById(req, res));
-
-router.get('/categories', (req, res) => {
-  res.json(categories);
-});
-
 router.get('/seller/tickets', (req, res) => ticketController.getAllTickets(req, res));
 
 export const ticketRoutes = router;
