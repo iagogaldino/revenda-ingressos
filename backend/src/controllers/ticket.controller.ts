@@ -1,7 +1,7 @@
 
 import { Request, Response } from 'express';
 import multer from 'multer';
-import { Express } from 'express';
+import { RequestHandler } from 'express';
 import path from 'path';
 import { ITicketService } from '../interfaces/ticket.interface';
 import { TicketService } from '../services/ticket.service';
@@ -40,7 +40,8 @@ export class TicketController {
 
   async create(req: Request, res: Response) {
     try {
-      upload(req as any as Express.Request, res, async (err) => {
+      const uploadHandler: RequestHandler = upload;
+      uploadHandler(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
           return res.status(400).json({
             success: false,
