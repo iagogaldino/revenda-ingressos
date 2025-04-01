@@ -38,7 +38,7 @@ export class TicketController {
     this.ticketService = new TicketService(ticketRepository);
   }
 
-  async create(req: Request, res: Response) {
+  async create(req: any, res: any) {
     try {
       upload(req, res, async (err: any) => {
         if (err instanceof multer.MulterError) {
