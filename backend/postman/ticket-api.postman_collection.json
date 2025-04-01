@@ -1,0 +1,185 @@
+
+{
+  "info": {
+    "name": "Ticket API",
+    "description": "Collection for Ticket Sales System API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://0.0.0.0:5000/api/health",
+          "protocol": "http",
+          "host": ["0", "0", "0", "0"],
+          "port": "5000",
+          "path": ["api", "health"]
+        }
+      }
+    },
+    {
+      "name": "Create Ticket",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://0.0.0.0:5000/api/seller/tickets",
+          "protocol": "http",
+          "host": ["0", "0", "0", "0"],
+          "port": "5000",
+          "path": ["api", "seller", "tickets"]
+        },
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "eventName",
+              "value": "Show Example",
+              "type": "text"
+            },
+            {
+              "key": "category",
+              "value": "Music",
+              "type": "text"
+            },
+            {
+              "key": "location",
+              "value": "São Paulo",
+              "type": "text"
+            },
+            {
+              "key": "venue",
+              "value": "Arena Example",
+              "type": "text"
+            },
+            {
+              "key": "eventDate",
+              "value": "2024-12-31",
+              "type": "text"
+            },
+            {
+              "key": "price",
+              "value": "100",
+              "type": "text"
+            },
+            {
+              "key": "quantity",
+              "value": "10",
+              "type": "text"
+            },
+            {
+              "key": "file",
+              "type": "file",
+              "src": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get All Tickets",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://0.0.0.0:5000/api/tickets",
+          "protocol": "http",
+          "host": ["0", "0", "0", "0"],
+          "port": "5000",
+          "path": ["api", "tickets"],
+          "query": [
+            {
+              "key": "category",
+              "value": "",
+              "disabled": true
+            },
+            {
+              "key": "minPrice",
+              "value": "",
+              "disabled": true
+            },
+            {
+              "key": "maxPrice",
+              "value": "",
+              "disabled": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Categories",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://0.0.0.0:5000/api/categories",
+          "protocol": "http",
+          "host": ["0", "0", "0", "0"],
+          "port": "5000",
+          "path": ["api", "categories"]
+        }
+      }
+    },
+    {
+      "name": "Get Seller Tickets",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://0.0.0.0:5000/api/seller/tickets",
+          "protocol": "http",
+          "host": ["0", "0", "0", "0"],
+          "port": "5000",
+          "path": ["api", "seller", "tickets"]
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://0.0.0.0:5000/api/login",
+          "protocol": "http",
+          "host": ["0", "0", "0", "0"],
+          "port": "5000",
+          "path": ["api", "login"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Get User Info",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://0.0.0.0:5000/api/user",
+          "protocol": "http",
+          "host": ["0", "0", "0", "0"],
+          "port": "5000",
+          "path": ["api", "user"]
+        }
+      }
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://0.0.0.0:5000/api/logout",
+          "protocol": "http",
+          "host": ["0", "0", "0", "0"],
+          "port": "5000",
+          "path": ["api", "logout"]
+        }
+      }
+    }
+  ]
+}
