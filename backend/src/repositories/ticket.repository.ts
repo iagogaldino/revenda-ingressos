@@ -1,45 +1,62 @@
 
 import { ITicket, ITicketRepository } from '../interfaces/ticket.interface';
-import { mockTickets } from '../data/mockData';
+import { pool } from '../config/database';
 
 export class TicketRepository implements ITicketRepository {
-  private tickets: ITicket[] = mockTickets;
-
   async create(ticket: ITicket): Promise<ITicket> {
-    const newTicket = {
-      ...ticket,
-      id: Math.floor(Math.random() * 1000),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-    this.tickets.push(newTicket);
-    return newTicket;
+    const query = `
+      INSERT INTO tickets (
+        seller_id, status, event_name, event_date, location, venue,
+        price, description, category, image_url, quantity, created_at, updated_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW())
+      RETURNING *
+    `;
+
+    const values = [
+      ticket.sellerId,
+      ticket.status,
+      ticket.eventName,
+      ticket.eventDate,
+      ticket.location,
+      ticket.venue,
+      ticket.price,
+      ticket.description,
+      ticket.category,
+      ticket.imageUrl,
+      ticket.quantity
+    ];
+
+    const result = await pool.query(query, values);
+    return result.rows[0];
   }
 
   async findAll(): Promise<ITicket[]> {
-    return this.tickets;
+    const result = await pool.query('SELECT * FROM tickets WHERE active = true ORDER BY created_at DESC');
+    return result.rows;
   }
 
   async findById(id: number): Promise<ITicket | null> {
-    return this.tickets.find(ticket => ticket.id === id) || null;
+    const result = await pool.query('SELECT * FROM tickets WHERE id = $1', [id]);
+    return result.rows[0] || null;
   }
 
   async update(id: number, ticket: Partial<ITicket>): Promise<ITicket> {
-    const index = this.tickets.findIndex(t => t.id === id);
-    if (index === -1) throw new Error('Ticket not found');
+    const keys = Object.keys(ticket);
+    const values = Object.values(ticket);
     
-    this.tickets[index] = {
-      ...this.tickets[index],
-      ...ticket,
-      updatedAt: new Date().toISOString()
-    };
-    
-    return this.tickets[index];
+    const setClause = keys.map((key, index) => `${key} = $${index + 1}`).join(', ');
+    const query = `
+      UPDATE tickets 
+      SET ${setClause}, updated_at = NOW()
+      WHERE id = $${keys.length + 1}
+      RETURNING *
+    `;
+
+    const result = await pool.query(query, [...values, id]);
+    return result.rows[0];
   }
 
   async delete(id: number): Promise<void> {
-    const index = this.tickets.findIndex(t => t.id === id);
-    if (index === -1) throw new Error('Ticket not found');
-    this.tickets.splice(index, 1);
+    await pool.query('UPDATE tickets SET active = false WHERE id = $1', [id]);
   }
 }

@@ -1,0 +1,20 @@
+
+CREATE TABLE IF NOT EXISTS tickets (
+  id SERIAL PRIMARY KEY,
+  seller_id INTEGER NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  event_name VARCHAR(255) NOT NULL,
+  event_date TIMESTAMP NOT NULL,
+  location VARCHAR(255) NOT NULL,
+  venue VARCHAR(255) NOT NULL,
+  price NUMERIC(10,2) NOT NULL,
+  original_price NUMERIC(10,2),
+  description TEXT,
+  category VARCHAR(100) NOT NULL,
+  type VARCHAR(50),
+  image_url VARCHAR(255),
+  active BOOLEAN DEFAULT true,
+  quantity INTEGER NOT NULL
+);
