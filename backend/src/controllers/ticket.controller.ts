@@ -129,6 +129,28 @@ export class TicketController {
       res.status(500).json({ success: false, error: 'Failed to delete ticket' });
     }
   }
+
+  async getTicketsBySellerId(req: Request, res: Response) {
+    try {
+      const { sellerId } = req.params;
+      
+      if (!sellerId || isNaN(Number(sellerId))) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid seller ID provided'
+        });
+      }
+
+      const tickets = await this.ticketService.getTicketsBySellerId(Number(sellerId));
+      res.status(200).json({ success: true, data: tickets });
+    } catch (error) {
+      console.error('Error fetching seller tickets:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to fetch seller tickets'
+      });
+    }
+  }
   
   private validateTicketData(data: any): boolean {
     return !!(

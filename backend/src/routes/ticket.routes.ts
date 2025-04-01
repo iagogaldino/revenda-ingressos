@@ -33,5 +33,6 @@ router.get('/tickets', (req, res) => ticketController.getAllTickets(req, res));
 router.get('/tickets/:id', (req, res) => ticketController.getTicketById(req, res));
 router.get('/seller/tickets', (req, res) => ticketController.getAllTickets(req, res));
 router.delete('/tickets/:id', (req, res) => ticketController.deleteTicket(req, res));
+router.get('/tickets/seller/:sellerId', (req, res) => ticketController.getTicketsBySellerId(req, res));
 
 export const ticketRoutes = router;

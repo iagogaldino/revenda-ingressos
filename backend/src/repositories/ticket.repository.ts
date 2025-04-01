@@ -61,4 +61,12 @@ export class TicketRepository implements ITicketRepository {
   async delete(id: number): Promise<void> {
     await pool.query('UPDATE tickets SET active = false WHERE id = $1', [id]);
   }
+
+  async findBySellerId(sellerId: number): Promise<ITicket[]> {
+    const result = await pool.query(
+      'SELECT * FROM tickets WHERE seller_id = $1 AND active = true ORDER BY created_at DESC',
+      [sellerId]
+    );
+    return result.rows;
+  }
 }

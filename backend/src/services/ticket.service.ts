@@ -30,4 +30,11 @@ export class TicketService implements ITicketService {
   async deleteTicket(id: number): Promise<void> {
     return this.ticketRepository.delete(id);
   }
+
+  async getTicketsBySellerId(sellerId: number): Promise<ITicket[]> {
+    if (!sellerId || isNaN(sellerId)) {
+      throw new Error('Invalid seller ID');
+    }
+    return this.ticketRepository.findBySellerId(sellerId);
+  }
 }

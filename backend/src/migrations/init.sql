@@ -18,6 +18,9 @@ CREATE TABLE IF NOT EXISTS tickets (
   event_date TIMESTAMP NOT NULL,
   location VARCHAR(255) NOT NULL,
   venue VARCHAR(255) NOT NULL,
+
+CREATE INDEX idx_tickets_seller_id ON tickets(seller_id);
+
   price NUMERIC(10,2) NOT NULL,
   original_price NUMERIC(10,2),
   description TEXT,
