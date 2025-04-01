@@ -57,7 +57,7 @@ export class TicketService {
   }
 
   createTicket(formData: FormData): Observable<Ticket | null> {
-    return this.http.post<Ticket>(`${this.apiUrl}/tickets`, formData).pipe(
+    return this.http.post<Ticket>(`${this.apiUrl}/seller/tickets`, formData).pipe(
       map(response => {
         if (!response) {
           throw new Error('No ticket data received');

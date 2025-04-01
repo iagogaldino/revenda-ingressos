@@ -23,18 +23,34 @@ export class TicketCreateComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private ticketService: TicketService
   ) {
-    this.ticketForm = this.fb.group({
-      eventName: ['', Validators.required],
-      imageUrl: ['', Validators.required],
-      description: ['', Validators.required],
-      category: ['', Validators.required],
-      location: ['', Validators.required],
-      venue: ['', Validators.required],
-      eventDate: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(0)]],
-      quantity: ['', [Validators.required, Validators.min(1)]],
+    // this.ticketForm = this.fb.group({
+    //   eventName: ['', Validators.required],
+    //   imageUrl: ['', Validators.required],
+    //   description: ['', Validators.required],
+    //   category: ['', Validators.required],
+    //   location: ['', Validators.required],
+    //   venue: ['', Validators.required],
+    //   eventDate: ['', Validators.required],
+    //   price: ['', [Validators.required, Validators.min(0)]],
+    //   quantity: ['', [Validators.required, Validators.min(1)]],
+    //   file: [null]
+    // });
+
+    const mockData = {
+      eventName: ['Show do Gustavo Lima', Validators.required],
+      imageUrl: ['https://example.com/imagens/gustavo-lima.jpg', Validators.required],
+      description: ['Apresentação ao vivo de Gustavo Lima no São João de Petrolina.', Validators.required],
+      category: ['Música', Validators.required],
+      location: ['Petrolina, PE', Validators.required],
+      venue: ['Pátio Ana das Carrancas', Validators.required],
+      eventDate: ['2025-06-21', Validators.required],
+      price: [200, [Validators.required, Validators.min(0)]],
+      quantity: [500, [Validators.required, Validators.min(1)]],
       file: [null]
-    });
+    };
+    this.ticketForm = this.fb.group(mockData);
+
+ 
   }
 
   ngOnInit() {}
@@ -55,6 +71,7 @@ export class TicketCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('onSubmit');
     if (this.ticketForm.valid) {
       const ticketData = this.ticketForm.value;
       ticketData.status = this.selectedFile ? 'active' : 'pending';

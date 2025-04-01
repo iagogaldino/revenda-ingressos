@@ -23,7 +23,7 @@ import { TicketController } from './controllers/ticket.controller';
 const ticketController = new TicketController();
 
 // Rotas
-app.post('/api/seller/tickets', (req, res) => ticketController.create(req, res));
+app.post('/api/seller/tickets', ticketController.create);
 
 // Health check route
 app.get('/api/health', (req, res) => {

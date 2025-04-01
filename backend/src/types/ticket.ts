@@ -3,22 +3,6 @@ export interface Seller {
   rating: number;
 }
 
-export interface Ticket {
-  id: number;
-  eventName: string;
-  eventDate: string;
-  location: string;
-  venue: string;
-  price: number;
-  originalPrice: number;
-  description: string;
-  category: string;
-  type: string;
-  seller: Seller;
-  image: string;
-  active?: boolean;
-  quantity?: number;
-}
 export interface CreateTicketDTO {
   eventName: string;
   imageUrl?: string;
@@ -37,4 +21,17 @@ export interface Ticket extends CreateTicketDTO {
   status: 'active' | 'pending';
   createdAt: string;
   updatedAt: string;
+  eventName: string;
+  eventDate: string;
+  location: string;
+  venue: string;
+  price: number;
+  originalPrice: number;
+  description: string;
+  category: string;
+  type: string;
+  seller: Seller;
+  image: string;
+  active?: boolean;
+  quantity: number;
 }
