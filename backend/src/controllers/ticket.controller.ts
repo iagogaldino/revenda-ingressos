@@ -38,6 +38,74 @@ export class TicketController {
     this.ticketService = new TicketService(ticketRepository);
   }
 
+  async getAllTickets(req: Request, res: Response) {
+    try {
+      const { category, minPrice, maxPrice } = req.query;
+      let tickets = await this.ticketService.getAllTickets();
+
+      if (category) {
+        tickets = tickets.filter(ticket => 
+          ticket.category.toLowerCase() === (category as string).toLowerCase()
+        );
+      }
+
+      if (minPrice) {
+        tickets = tickets.filter(ticket => 
+          ticket.price >= Number(minPrice)
+        );
+      }
+
+      if (maxPrice) {
+        tickets = tickets.filter(ticket => 
+          ticket.price <= Number(maxPrice)
+        );
+      }
+
+      res.status(200).json({
+        success: true,
+        data: tickets
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'SERVER_ERROR',
+          message: 'Failed to fetch tickets'
+        }
+      });
+    }
+  }
+
+  async getTicketById(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const ticket = await this.ticketService.getTicketById(Number(id));
+
+      if (!ticket) {
+        return res.status(404).json({
+          success: false,
+          error: {
+            code: 'NOT_FOUND',
+            message: 'Ticket not found'
+          }
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        data: ticket
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'SERVER_ERROR',
+          message: 'Failed to fetch ticket'
+        }
+      });
+    }
+  }
+
   async create(req: any, res: any) {
     try {
       upload(req, res, async (err: any) => {
