@@ -12,7 +12,7 @@ export class UserService implements IUserService {
     }
 
     const hashedPassword = await bcrypt.hash(user.password, 10);
-    const newUser = await this.userRepository.create({
+    const newUser: any = await this.userRepository.create({
       ...user,
       password: hashedPassword
     });

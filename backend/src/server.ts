@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { ticketRoutes } from './routes/ticket.routes';
+import usersRouters from './routes/user.routes';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use('/uploads', express.static('uploads'));
 
 // Routes
 app.use('/api', ticketRoutes);
+app.use('/api', usersRouters);
 
 // Health check route
 app.get('/api/health', (req, res) => {

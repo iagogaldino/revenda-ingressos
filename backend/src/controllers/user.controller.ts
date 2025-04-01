@@ -9,7 +9,8 @@ export class UserController {
     try {
       const user = await this.userService.create(req.body);
       return res.status(201).json(user);
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error);
       if (error.message === 'Email already registered') {
         return res.status(400).json({ error: error.message });
       }
