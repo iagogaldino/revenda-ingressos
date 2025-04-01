@@ -40,8 +40,7 @@ export class TicketController {
 
   async create(req: Request, res: Response) {
     try {
-      const uploadHandler: RequestHandler = upload;
-      uploadHandler(req, res, async (err) => {
+      upload(req, res, async (err: any) => {
         if (err instanceof multer.MulterError) {
           return res.status(400).json({
             success: false,
