@@ -83,37 +83,42 @@ export class TicketCreateComponent implements OnInit {
         this.imagePreviewUrl = reader.result as string;
       };
       reader.readAsDataURL(file);
+    } else {
+      this.selectedImage = null;
+      this.imagePreviewUrl = null;
+      alert('Por favor, selecione uma imagem válida (JPG, PNG)');
     }
   }
 
-
   onFileSelected(event: any) {
     const file = event.target.files[0];
-    if (file) {
+    if (file && file.type === 'application/pdf') {
       this.selectedFile = file;
-      // Create preview URL for image files
-      if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.previewUrl = reader.result as string;
-        };
-        reader.readAsDataURL(file);
-      }
+      this.previewUrl = null; // Não exibimos preview para PDF
+    } else {
+      this.selectedFile = null;
+      this.previewUrl = null;
+      alert('Por favor, selecione um arquivo PDF válido');
     }
   }
 
   onSubmit() {
     if (this.ticketForm.valid) {
+      if (!this.selectedImage) {
+        alert('Por favor, selecione uma imagem para o ingresso');
+        return;
+      }
+      if (!this.selectedFile) {
+        alert('Por favor, selecione o arquivo PDF do ingresso');
+        return;
+      }
+
       const ticketData = this.ticketForm.value;
-      ticketData.status = this.selectedFile ? 'active' : 'pending';
+      ticketData.status = 'active';
       
       const formData = new FormData();
-      if (this.selectedFile) {
-        formData.append('file', this.selectedFile);
-      }
-      if (this.selectedImage) {
-        formData.append('image', this.selectedImage);
-      }
+      formData.append('file', this.selectedFile);
+      formData.append('image', this.selectedImage);
       
       Object.keys(ticketData).forEach(key => {
         if (ticketData[key] !== null && ticketData[key] !== undefined) {
@@ -121,11 +126,15 @@ export class TicketCreateComponent implements OnInit {
         }
       });
 
+      this.loading = true;
+      this.error = false;
+
       this.activeModal.close({
         id: this.editMode ? this.ticketData?.id : null,
         formData,
         ...ticketData,
-        file: this.selectedFile
+        file: this.selectedFile,
+        image: this.selectedImage
       });
     }
   }
