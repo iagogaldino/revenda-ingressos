@@ -1,38 +1,35 @@
 
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-
-const MOCK_USER = {
-  id: 1,
-  email: 'test@example.com',
-  name: 'Test User'
-};
-
-const JWT_SECRET = 'your-secret-key';
+import { IAuthService } from '../interfaces/auth.interface';
 
 export class AuthController {
-  static async login(req: Request, res: Response) {
-    const { email, password } = req.body;
+  constructor(private authService: IAuthService) {}
 
-    // Mock validation
-    if (email === MOCK_USER.email && password === 'password') {
-      const token = jwt.sign({ userId: MOCK_USER.id }, JWT_SECRET, { expiresIn: '1h' });
-      
-      res.json({
-        user: MOCK_USER,
-        token
-      });
-    } else {
-      res.status(401).json({ message: 'Invalid credentials' });
+  async login(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
+      const result = await this.authService.login({ email, password });
+      res.json(result);
+    } catch (error: any) {
+      res.status(401).json({ message: error.message });
     }
   }
 
-  static async getUser(req: Request, res: Response) {
-    // Mock user retrieval
-    res.json(MOCK_USER);
-  }
+  async validateToken(req: Request, res: Response) {
+    try {
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) {
+        return res.status(401).json({ message: 'No token provided' });
+      }
 
-  static async logout(req: Request, res: Response) {
-    res.json({ message: 'Logged out successfully' });
+      const isValid = await this.authService.validateToken(token);
+      if (!isValid) {
+        return res.status(401).json({ message: 'Invalid token' });
+      }
+
+      res.json({ valid: true });
+    } catch (error: any) {
+      res.status(401).json({ message: error.message });
+    }
   }
 }
