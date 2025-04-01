@@ -6,7 +6,7 @@ import { ITicketService } from '../interfaces/ticket.interface';
 import { TicketService } from '../services/ticket.service';
 import { TicketRepository } from '../repositories/ticket.repository';
 
-const upload: multer.Multer = multer({
+const uploadMiddleware = multer({
   storage: multer.diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
@@ -25,7 +25,9 @@ const upload: multer.Multer = multer({
   limits: {
     fileSize: 5 * 1024 * 1024 // 5MB
   }
-}).single('file');
+});
+
+const upload = uploadMiddleware.single('file');
 
 export class TicketController {
   private ticketService: ITicketService;
@@ -37,7 +39,7 @@ export class TicketController {
 
   async create(req: Request, res: Response) {
     try {
-      upload(req as any, res as any, async (err: any) => {
+      upload(req, res, async (err) => {
         if (err instanceof multer.MulterError) {
           return res.status(400).json({
             success: false,
