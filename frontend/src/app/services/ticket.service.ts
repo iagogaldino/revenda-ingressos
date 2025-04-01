@@ -89,7 +89,7 @@ export class TicketService {
       );
   }
 
-  updateTicket(ticketId: number, formData: FormData): Observable<Ticket> {
+  updateTicket(ticketId: number, formData: FormData): Observable<Ticket | null> {
     return this.http.put<Ticket>(`${this.apiUrl}/seller/tickets/${ticketId}`, formData)
       .pipe(
         catchError(this.handleError('updateTicket', null))

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TicketService } from '../../services/ticket.service';
+import { Ticket } from '../../models/ticket.model';
 
 @Component({
   standalone: false,
