@@ -17,6 +17,7 @@ export class TicketService {
   getAllTickets(): Observable<Ticket[]> {
     return this.http.get<Ticket[]>(`${this.apiUrl}/tickets`)
       .pipe(
+        map((response: any) => response.data),
         catchError(this.handleError('getAllTickets', []))
       );
   }
@@ -71,6 +72,7 @@ export class TicketService {
   getSellerTickets(): Observable<Ticket[]> {
     return this.http.get<Ticket[]>(`${this.apiUrl}/seller/tickets`)
       .pipe(
+        map((response: any) => response.data),
         catchError(this.handleError('getSellerTickets', []))
       );
   }

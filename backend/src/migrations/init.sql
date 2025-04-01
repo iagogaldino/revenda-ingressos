@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS tickets (
   description TEXT,
   category VARCHAR(100) NOT NULL,
   type VARCHAR(50),
-  image_url VARCHAR(255),
+  ticket VARCHAR(255),
   active BOOLEAN DEFAULT true,
   quantity INTEGER NOT NULL
 );

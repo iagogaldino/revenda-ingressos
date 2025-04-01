@@ -4,6 +4,7 @@ import { pool } from '../config/database';
 
 export class TicketRepository implements ITicketRepository {
   async create(ticket: ITicket): Promise<ITicket> {
+    console.log('reposi', ticket);
     const query = `
       INSERT INTO tickets (
         seller_id, status, event_name, event_date, location, venue,
@@ -22,7 +23,7 @@ export class TicketRepository implements ITicketRepository {
       ticket.price,
       ticket.description,
       ticket.category,
-      ticket.imageUrl,
+      ticket.ticket,
       ticket.quantity
     ];
 

@@ -29,6 +29,7 @@ export class TicketManagementComponent implements OnInit {
     this.loading = true;
     this.ticketService.getSellerTickets().subscribe({
       next: (tickets) => {
+        console.log(tickets);
         this.tickets = tickets;
         this.loading = false;
       },
@@ -94,7 +95,7 @@ export class TicketManagementComponent implements OnInit {
           // Add other ticket data
           Object.keys(result).forEach(key => {
             if (key !== 'file') {
-              formData.append(key, result[key].toString());
+              formData.append(key, result[key]?.toString());
             }
           });
 
