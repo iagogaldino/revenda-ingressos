@@ -1,0 +1,60 @@
+Instrução para Desenvolvimento: Refatoração do Backend seguindo os Princípios SOLID
+🎯 Objetivo: Refatorar o backend para aderir aos princípios SOLID, melhorando a estrutura do código, sua manutenibilidade, extensibilidade e organização.
+
+🔍 Tarefas:
+Aplicar o Princípio da Responsabilidade Única (SRP):
+
+Certifique-se de que cada classe tenha apenas uma responsabilidade clara.
+
+Separe a lógica do controlador, serviço, repositório e modelo para evitar funções múltiplas em uma única classe.
+
+Exemplo:
+
+TicketController: Apenas gerencia requisições e respostas HTTP.
+
+TicketService: Contém a lógica de negócios relacionada aos ingressos.
+
+TicketRepository: Gerencia operações de banco de dados (CRUD).
+
+Aplicar o Princípio do Aberto/Fechado (OCP):
+
+Permitir que o código seja estendido sem ser modificado.
+
+Facilitar a adição de novas funcionalidades criando novas classes ou serviços em vez de modificar os existentes.
+
+Exemplo: Implementar novos métodos de validação sem modificar o serviço principal.
+
+Aplicar o Princípio da Substituição de Liskov (LSP):
+
+Garantir que subclasses possam substituir suas classes base sem quebrar a aplicação.
+
+Exemplo: Se criar diferentes tipos de ingressos (StandardTicket, VIPTicket), eles devem ser intercambiáveis onde um Ticket é esperado.
+
+Aplicar o Princípio da Segregação de Interface (ISP):
+
+Evitar interfaces monolíticas que forçam classes a implementar métodos que não utilizam.
+
+Criar interfaces específicas para cada funcionalidade.
+
+Exemplo:
+
+ITicketRepository: Interface para operações de banco de dados relacionadas a ingressos.
+
+IAuthenticationService: Interface específica para operações de login e autenticação.
+
+Aplicar o Princípio da Inversão de Dependência (DIP):
+
+Depender de abstrações (interfaces) em vez de implementações concretas.
+
+Usar injeção de dependência para fornecer serviços e repositórios aos controladores.
+
+Exemplo: Injetar TicketService no TicketController por meio de um contêiner de injeção de dependência.
+
+📌 Resumo da Refatoração:
+Separar camadas: Controladores, Serviços, Repositórios e Modelos.
+
+Garantir que cada classe siga um único propósito claro.
+
+Introduzir interfaces para garantir desacoplamento e permitir substituições flexíveis.
+
+Implementar injeção de dependências para reduzir o acoplamento entre módulos.
