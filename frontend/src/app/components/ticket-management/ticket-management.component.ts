@@ -3,6 +3,7 @@ import { TicketService } from "../../services/ticket.service";
 import { Ticket } from "../../models/ticket.model";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { TicketCreateComponent } from "../ticket-create/ticket-create.component";
+import { environment } from "src/environments/environment";
 
 @Component({
   standalone: false,
@@ -29,9 +30,12 @@ export class TicketManagementComponent implements OnInit {
     this.loading = true;
     this.ticketService.getSellerTickets().subscribe({
       next: (tickets) => {
-        console.log(tickets);
-        this.tickets = tickets;
+        this.tickets = tickets.map(ticket => ({
+          ...ticket,
+          image: `${environment.imageBaseUrl}/${ticket.image}`
+        }));
         this.loading = false;
+        console.log(this.tickets);
       },
       error: (error) => {
         this.error = "Erro ao carregar ingressos";
