@@ -37,7 +37,7 @@ export class TicketController {
 
   async create(req: Request, res: Response) {
     try {
-      upload(req, res, async (err) => {
+      upload(req as any, res as any, async (err: any) => {
         if (err instanceof multer.MulterError) {
           return res.status(400).json({
             success: false,
