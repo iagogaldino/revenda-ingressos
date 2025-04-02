@@ -11,6 +11,11 @@ export class PaymentService {
       process.env.MERCADOPAGO_API_KEY || '',
       process.env.MERCADOPAGO_API_SECRET || ''
     ));
+    
+    this.registerProvider('openpix', new OpenPixProvider(
+      process.env.OPENPIX_APP_ID || '',
+      '' // OpenPix doesn't use secret
+    ));
   }
 
   registerProvider(name: string, provider: IPaymentProvider) {
