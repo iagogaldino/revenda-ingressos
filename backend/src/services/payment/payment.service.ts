@@ -1,5 +1,6 @@
 
 import { IPaymentProvider } from '../../interfaces/payment-provider.interface';
+import { Providers } from '../../models/providers.enum';
 import { MercadoPagoProvider } from './mercadopago.provider';
 import { OpenPixProvider } from './openpix.provider';
 
@@ -8,12 +9,12 @@ export class PaymentService {
 
   constructor() {
     // Register payment providers
-    this.registerProvider('mercadopago', new MercadoPagoProvider(
+    this.registerProvider(Providers.MercadoPago, new MercadoPagoProvider(
       process.env.MERCADOPAGO_API_KEY || '',
       process.env.MERCADOPAGO_API_SECRET || ''
     ));
     
-    this.registerProvider('openpix', new OpenPixProvider(
+    this.registerProvider(Providers.OpenPIX, new OpenPixProvider(
       process.env.OPENPIX_APP_ID || '',
       '' // OpenPix doesn't use secret
     ));

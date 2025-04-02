@@ -25,6 +25,7 @@ export class SaleService implements ISaleService {
     );
 
     if (!payment.success) {
+      console.log(payment);
       throw new Error('Failed to generate payment');
     }
 

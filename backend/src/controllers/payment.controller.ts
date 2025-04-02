@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { PaymentService } from '../services/payment/payment.service';
 import { SaleService } from '../services/sale.service';
 import { SaleRepository } from '../repositories/sale.repository';
+import { Providers } from '../models/providers.enum';
 
 export class PaymentController {
   private saleService: SaleService;
@@ -24,7 +25,7 @@ export class PaymentController {
     try {
       const provider = req.params.provider;
 
-      if (provider === 'openpix') {
+      if (provider === Providers.OpenPIX) {
         const { correlationID, status } = req.body;
         const saleId = Number(correlationID.replace('sale_', ''));
 
