@@ -27,6 +27,15 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
   constructor(public activeModal: NgbActiveModal) {}
 
+  formatPhone(event: any) {
+    let value = event.target.value.replace(/\D/g, '');
+    if (value.length <= 11) {
+      value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+      value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+      this.contactInfo.phone = value;
+    }
+  }
+
   ngOnInit() {
     // Timer será iniciado apenas após gerar o QR Code
   }

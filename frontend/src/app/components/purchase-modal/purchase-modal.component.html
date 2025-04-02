@@ -41,7 +41,9 @@
           type="tel" 
           class="form-control" 
           id="phone" 
-          [(ngModel)]="contactInfo.phone"
+          [ngModel]="contactInfo.phone"
+          (input)="formatPhone($event)"
+          maxlength="15"
           placeholder="(11) 99999-9999">
         <small class="text-muted">
           <i class="bi bi-whatsapp me-1"></i>
