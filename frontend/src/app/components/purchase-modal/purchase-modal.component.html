@@ -5,29 +5,36 @@
 </div>
 
 <div class="modal-body">
-  <div *ngIf="!showQrCode" class="initial-state">
-    <img 
-      [src]="ticket.image || 'assets/placeholder-event.jpg'" 
-      class="ticket-image mb-3" 
-      [alt]="ticket.eventName">
-    <div class="event-details">
-      <h5 class="event-name">{{ ticket.eventName }}</h5>
-      <div class="event-info">
-        <i class="bi bi-calendar-event"></i>
-        <span>{{ ticket.eventDate | date:'dd/MM/yyyy' }}</span>
-      </div>
-      <div class="event-info">
-        <i class="bi bi-geo-alt"></i>
-        <span>{{ ticket.location || 'Local do evento' }}</span>
-      </div>
-      <div class="price">
-        <i class="bi bi-currency-dollar"></i>{{ ticket.price | currency:'BRL' }}
+  <div *ngIf="!showQrCode" class="purchase-container">
+    <div class="ticket-preview">
+      <img 
+        [src]="ticket.image || 'assets/placeholder-event.jpg'" 
+        class="ticket-image" 
+        [alt]="ticket.eventName">
+      
+      <div class="ticket-info">
+        <h5 class="event-name">{{ ticket.eventName }}</h5>
+        <div class="event-details">
+          <div class="detail-item">
+            <i class="bi bi-calendar-event"></i>
+            <span>{{ ticket.eventDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="bi bi-geo-alt"></i>
+            <span>{{ ticket.location || 'Local do evento' }}</span>
+          </div>
+          <div class="price-tag">
+            <i class="bi bi-tag"></i>
+            <span>{{ ticket.price | currency:'BRL' }}</span>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div class="contact-info mb-3">
-      <div class="form-group mb-3">
-        <label for="email" class="form-label">Email</label>
+
+    <div class="contact-form">
+      <h6 class="form-section-title">Informações de Contato</h6>
+      <div class="form-group">
+        <label for="email">Email</label>
         <input 
           type="email" 
           class="form-control" 
@@ -35,41 +42,45 @@
           [(ngModel)]="contactInfo.email"
           placeholder="seu@email.com">
       </div>
-      <div class="form-group mb-3">
-        <label for="phone" class="form-label">WhatsApp</label>
-        <input 
-          type="tel" 
-          class="form-control" 
-          id="phone" 
-          [ngModel]="contactInfo.phone"
-          (input)="formatPhone($event)"
-          maxlength="15"
-          placeholder="(11) 99999-9999">
-        <small class="text-muted">
-          <i class="bi bi-whatsapp me-1"></i>
-          O ticket será enviado para este número no WhatsApp após a confirmação do pagamento
+      
+      <div class="form-group">
+        <label for="phone">WhatsApp</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-whatsapp"></i>
+          </span>
+          <input 
+            type="tel" 
+            class="form-control" 
+            id="phone" 
+            [ngModel]="contactInfo.phone"
+            (input)="formatPhone($event)"
+            maxlength="15"
+            placeholder="(11) 99999-9999">
+        </div>
+        <small class="whatsapp-info">
+          <i class="bi bi-info-circle me-1"></i>
+          O ticket será enviado para este número no WhatsApp
         </small>
       </div>
+
+      <button 
+        class="btn-purchase w-100" 
+        (click)="generateQrCode()"
+        [disabled]="!isFormValid()">
+        <i class="bi bi-qr-code me-2"></i>
+        Gerar QR Code para Pagamento
+      </button>
     </div>
-    <button 
-      class="btn btn-generate w-100" 
-      (click)="generateQrCode()"
-      [disabled]="!isFormValid()">
-      <i class="bi bi-qr-code me-2"></i>Gerar QR Code para Pagamento
-    </button>
   </div>
   
   <div *ngIf="showQrCode" class="qr-code-container">
-    <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="img-fluid">
+    <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="qr-code-image">
     <div class="timer-section">
-      <div class="timer-label">Tempo restante para conclusão</div>
       <div class="timer">{{ formatTime(remainingTime) }}</div>
+      <div class="timer-label">Tempo restante para conclusão</div>
     </div>
-    <p class="text-muted mt-3">
-      <i class="bi bi-info-circle me-2"></i>
-      Escaneie o QR Code para finalizar o pagamento
-    </p>
-    <div class="alert alert-info mt-3">
+    <div class="alert alert-info mt-4">
       <i class="bi bi-whatsapp me-2"></i>
       Após a confirmação do pagamento, seu ticket será enviado para o WhatsApp <strong>{{ contactInfo.phone }}</strong>
     </div>
