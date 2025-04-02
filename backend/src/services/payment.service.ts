@@ -25,7 +25,7 @@ export class PaymentService implements IPaymentService {
       throw new Error('Ticket not found');
     }
 
-    const status = webhookData.status === 'approved' ? 'active' : 'pending';
-    await this.ticketService.updateTicket(webhookData.ticketId, { status });
+    const paymentStatus = webhookData.status;
+    await this.ticketService.updateTicket(webhookData.ticketId, { paymentStatus });
   }
 }

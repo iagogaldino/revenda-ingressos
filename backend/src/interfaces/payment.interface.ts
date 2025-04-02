@@ -1,11 +1,15 @@
-
 export interface IPaymentWebhook {
   ticketId: number;
-  status: 'pending' | 'approved' | 'rejected';
+  status: PaymentStatus;
   transactionId: string;
   paymentMethod: string;
   amount: number;
   timestamp: string;
+}
+
+export enum PaymentStatus {
+  Accredited = 'Accredited', 
+  Cancelled = 'Cancelled', 
 }
 
 export interface IPaymentService {

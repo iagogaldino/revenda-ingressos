@@ -1,3 +1,4 @@
+import { PaymentStatus } from "./payment.interface";
 
 export interface ITicket {
   id?: number;
@@ -16,6 +17,7 @@ export interface ITicket {
   status: 'active' | 'pending';
   createdAt?: string;
   updatedAt?: string;
+  paymentStatus: PaymentStatus;
 }
 
 export interface ITicketRepository {
