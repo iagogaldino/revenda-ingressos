@@ -1,64 +1,44 @@
-
 import { Request, Response } from 'express';
 import { PaymentService } from '../services/payment/payment.service';
+import { SaleService } from '../services/sale.service';
+import { SaleRepository } from '../repositories/sale.repository';
 
 export class PaymentController {
-  constructor(private paymentService: PaymentService) {}
+  private saleService: SaleService;
+
+  constructor(private paymentService: PaymentService) {
+    this.saleService = new SaleService(new SaleRepository());
+  }
 
   async initializePayment(req: Request, res: Response) {
     try {
       const { provider, amount, orderId } = req.body;
-
-      if (!provider || !amount || !orderId) {
-        return res.status(400).json({
-          success: false,
-          error: 'Missing required parameters'
-        });
-      }
-
-      const result = await this.paymentService.processPayment(
-        provider,
-        amount,
-        orderId
-      );
-
+      const result = await this.paymentService.processPayment(provider, amount, orderId);
       res.json(result);
-    } catch (error: any) {
-      res.status(500).json({
-        success: false,
-        error: error.message
-      });
+    } catch (error) {
+      res.status(500).json({ error: 'Payment initialization failed' });
     }
   }
 
   async handleWebhook(req: Request, res: Response) {
     try {
-      const { provider } = req.params;
-      const signature = req.headers['x-payment-signature'] as string;
-      
-      if (!signature) {
-        return res.status(401).json({
-          success: false,
-          error: 'Missing payment signature'
-        });
+      const provider = req.params.provider;
+
+      if (provider === 'openpix') {
+        const { correlationID, status } = req.body;
+        const saleId = Number(correlationID.replace('sale_', ''));
+
+        if (status === 'COMPLETED') {
+          await this.saleService.updateSaleStatus(saleId, 'completed');
+        } else if (status === 'CANCELLED') {
+          await this.saleService.updateSaleStatus(saleId, 'cancelled');
+        }
       }
 
-      const paymentProvider = this.paymentService.getProvider(provider);
-      const webhookData = req.body;
-
-      // Process webhook data according to provider
-      // Implementation will vary based on provider requirements
-
-      res.status(200).json({
-        success: true,
-        message: 'Webhook processed successfully'
-      });
+      res.json({ success: true });
     } catch (error) {
-      console.error('Payment webhook error:', error);
-      res.status(500).json({
-        success: false,
-        error: 'Failed to process payment webhook'
-      });
+      console.error('Webhook handling error:', error);
+      res.status(500).json({ error: 'Webhook processing failed' });
     }
   }
 }
