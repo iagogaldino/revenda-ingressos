@@ -19,6 +19,11 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   private timerSubscription?: Subscription;
   qrCodeUrl: string = '';
   showQrCode: boolean = false;
+  
+  contactInfo = {
+    email: '',
+    phone: ''
+  };
 
   constructor(public activeModal: NgbActiveModal) {}
 
@@ -51,12 +56,21 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   }
 
+  isFormValid(): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\(\d{2}\)\s?\d{4,5}-\d{4}$/;
+    
+    return emailRegex.test(this.contactInfo.email) && 
+           phoneRegex.test(this.contactInfo.phone);
+  }
+
   async generateQrCode() {
     const ticketData = {
       id: this.ticket.id,
       eventName: this.ticket.eventName,
       date: this.ticket.eventDate,
-      price: this.ticket.price
+      price: this.ticket.price,
+      contactInfo: this.contactInfo
     };
     
     try {

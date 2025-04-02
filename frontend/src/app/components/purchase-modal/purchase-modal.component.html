@@ -21,7 +21,30 @@
       </div>
     </div>
     
-    <button class="btn btn-generate w-100" (click)="generateQrCode()">
+    <div class="contact-info mb-3">
+      <div class="form-group mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input 
+          type="email" 
+          class="form-control" 
+          id="email" 
+          [(ngModel)]="contactInfo.email"
+          placeholder="seu@email.com">
+      </div>
+      <div class="form-group mb-3">
+        <label for="phone" class="form-label">WhatsApp</label>
+        <input 
+          type="tel" 
+          class="form-control" 
+          id="phone" 
+          [(ngModel)]="contactInfo.phone"
+          placeholder="(11) 99999-9999">
+      </div>
+    </div>
+    <button 
+      class="btn btn-generate w-100" 
+      (click)="generateQrCode()"
+      [disabled]="!isFormValid()">
       <i class="bi bi-qr-code me-2"></i>Gerar QR Code para Pagamento
     </button>
   </div>
