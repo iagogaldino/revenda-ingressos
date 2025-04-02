@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { PaymentService } from '../services/payment/payment.service';
-import { SaleService } from '../services/sale.service';
-import { SaleRepository } from '../repositories/sale.repository';
-import { Providers } from '../models/providers.enum';
+import { Request, Response } from "express";
+import { PaymentService } from "../services/payment/payment.service";
+import { SaleService } from "../services/sale.service";
+import { SaleRepository } from "../repositories/sale.repository";
+import { Providers } from "../models/providers.enum";
 
 export class PaymentController {
   private saleService: SaleService;
@@ -14,32 +14,72 @@ export class PaymentController {
   async initializePayment(req: Request, res: Response) {
     try {
       const { provider, amount, orderId } = req.body;
+
+      // Verifica se o provider é válido
+      if (!Object.values(Providers).includes(provider)) {
+        return res.status(400).json({ error: "Invalid payment provider specified" });
+      }
+
+      // Processa o pagamento via PaymentService
       const result = await this.paymentService.processPayment(provider, amount, orderId);
+
       res.json(result);
     } catch (error) {
-      res.status(500).json({ error: 'Payment initialization failed' });
+      console.error("Payment initialization error:", error);
+      res.status(500).json({ error: "Payment initialization failed" });
     }
   }
 
   async handleWebhook(req: Request, res: Response) {
     try {
-      const provider = req.params.provider;
+      const provider = req.params.provider as Providers;
+
+      // Verifica se o provider é válido
+      if (!Object.values(Providers).includes(provider)) {
+        return res.status(400).json({ error: "Invalid provider specified" });
+      }
 
       if (provider === Providers.OpenPIX) {
         const { correlationID, status } = req.body;
-        const saleId = Number(correlationID.replace('sale_', ''));
 
-        if (status === 'COMPLETED') {
-          await this.saleService.updateSaleStatus(saleId, 'completed');
-        } else if (status === 'CANCELLED') {
-          await this.saleService.updateSaleStatus(saleId, 'cancelled');
+        if (!correlationID || typeof correlationID !== 'string') {
+          return res.status(400).json({ error: "Invalid or missing correlationID" });
+        }
+
+        if (!["COMPLETED", "CANCELLED"].includes(status)) {
+          return res.status(400).json({ error: "Invalid status received" });
+        }
+
+        const saleId = Number(correlationID.replace("sale_", ""));
+        console.log(provider, correlationID, status);
+
+        const sale = await this.saleService.getSaleById(saleId);
+
+        if (sale) {
+          switch (sale.status) {
+            case "approved":
+              return res.status(400).json({ error: `A venda ${saleId} já está aprovada` });
+            case "cancelled":
+              return res.status(400).json({ error: `A venda ${saleId} já foi cancelada` });
+            case "pending":
+              if (status === "COMPLETED") {
+                await this.saleService.updateSaleStatus(saleId, "approved");
+              } else if (status === "CANCELLED") {
+                await this.saleService.updateSaleStatus(saleId, "cancelled");
+              }
+              break;
+            default:
+              return res.status(400).json({ error: "Status de venda desconhecido" });
+          }
+        } else {
+          return res.status(404).json({ error: `Venda não encontrada: ${saleId}` });
         }
       }
 
       res.json({ success: true });
     } catch (error) {
-      console.error('Webhook handling error:', error);
-      res.status(500).json({ error: 'Webhook processing failed' });
+      console.error("Webhook handling error:", error);
+      res.status(500).json({ error: `Falha ao processar o webhook. ${error}` });
     }
   }
 }

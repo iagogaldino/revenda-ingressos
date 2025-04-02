@@ -5,7 +5,7 @@ export interface ISale {
   buyerEmail: string;
   buyerPhone: string;
   amount: number;
-  status: 'pending' | 'completed' | 'cancelled';
+  status: 'pending' | 'approved' | 'cancelled';
   createdAt?: Date;
   updatedAt?: Date;
 }
