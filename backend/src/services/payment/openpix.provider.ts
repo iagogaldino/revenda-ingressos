@@ -34,7 +34,7 @@ export class OpenPixProvider extends BasePaymentProvider {
         paymentUrl: response.data.qrCodeImage,
         transactionId: response.data.id
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.message
@@ -49,7 +49,7 @@ export class OpenPixProvider extends BasePaymentProvider {
         success: true,
         transactionId: paymentId
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.message
@@ -61,7 +61,7 @@ export class OpenPixProvider extends BasePaymentProvider {
     try {
       await this.logPaymentOperation('cancelPayment', { paymentId });
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.message
@@ -69,7 +69,10 @@ export class OpenPixProvider extends BasePaymentProvider {
     }
   }
 
-  async getPaymentStatus(paymentId: string) {
+  async getPaymentStatus(paymentId: string): Promise<{
+    status: 'completed' | 'pending' | 'failed' | 'cancelled';
+    error?: string;
+  }> {
     try {
       await this.logPaymentOperation('getPaymentStatus', { paymentId });
       const response = await axios.get(`${this.baseUrl}/charge/${paymentId}`, {
@@ -78,10 +81,23 @@ export class OpenPixProvider extends BasePaymentProvider {
         }
       });
       
-      return {
-        status: response.data.status === 'COMPLETED' ? 'completed' : 'pending'
-      };
-    } catch (error) {
+      let status: 'completed' | 'pending' | 'failed' | 'cancelled';
+      switch (response.data.status) {
+        case 'COMPLETED':
+          status = 'completed';
+          break;
+        case 'CANCELLED':
+          status = 'cancelled';
+          break;
+        case 'FAILED':
+          status = 'failed';
+          break;
+        default:
+          status = 'pending';
+      }
+      
+      return { status };
+    } catch (error: any) {
       return {
         status: 'failed',
         error: error.message

@@ -23,7 +23,7 @@ export class PaymentController {
       );
 
       res.json(result);
-    } catch (error) {
+    } catch (error: any) {
       res.status(500).json({
         success: false,
         error: error.message

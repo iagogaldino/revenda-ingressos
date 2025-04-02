@@ -1,6 +1,7 @@
 
 import { IPaymentProvider } from '../../interfaces/payment-provider.interface';
 import { MercadoPagoProvider } from './mercadopago.provider';
+import { OpenPixProvider } from './openpix.provider';
 
 export class PaymentService {
   private providers: Map<string, IPaymentProvider> = new Map();

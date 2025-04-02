@@ -10,7 +10,7 @@ export class MercadoPagoProvider extends BasePaymentProvider {
         success: true,
         paymentUrl: `https://mercadopago.com/checkout/${orderId}`
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.message
@@ -26,7 +26,7 @@ export class MercadoPagoProvider extends BasePaymentProvider {
         success: true,
         transactionId: `MP_${paymentId}`
       };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.message
@@ -39,7 +39,7 @@ export class MercadoPagoProvider extends BasePaymentProvider {
       await this.logPaymentOperation('cancelPayment', { paymentId });
       // Implement MercadoPago specific logic here
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error: error.message
@@ -52,7 +52,7 @@ export class MercadoPagoProvider extends BasePaymentProvider {
       await this.logPaymentOperation('getPaymentStatus', { paymentId });
       // Implement MercadoPago specific logic here
       return { status: 'pending' as const };
-    } catch (error) {
+    } catch (error: any) {
       return {
         status: 'failed' as const,
         error: error.message
