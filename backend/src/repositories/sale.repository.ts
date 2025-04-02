@@ -1,13 +1,13 @@
 
 import { Pool } from 'pg';
 import { ISale, ISaleRepository } from '../interfaces/sale.interface';
-import { db } from '../config/database';
+import { pool } from '../config/database';
 
 export class SaleRepository implements ISaleRepository {
   private db: Pool;
 
   constructor() {
-    this.db = db;
+    this.db = pool;
   }
 
   async create(sale: ISale): Promise<ISale> {
