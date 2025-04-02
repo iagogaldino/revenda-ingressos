@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'tickets', component: TicketListComponent },
   { path: 'tickets/:id', component: TicketDetailComponent },
+  { path: 'tickets/purchases', component: TicketListComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },

@@ -70,6 +70,13 @@ export class ProfileComponent implements OnInit {
   //   });
   // }
 
+  navigateToPurchases() {
+    this.router.navigate(['/tickets/purchases'])
+      .catch(error => {
+        console.error('Navigation error:', error);
+      });
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
