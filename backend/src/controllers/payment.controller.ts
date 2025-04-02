@@ -1,13 +1,39 @@
 
 import { Request, Response } from 'express';
-import { IPaymentWebhook } from '../interfaces/payment.interface';
-import { PaymentService } from '../services/payment.service';
+import { PaymentService } from '../services/payment/payment.service';
 
 export class PaymentController {
   constructor(private paymentService: PaymentService) {}
 
+  async initializePayment(req: Request, res: Response) {
+    try {
+      const { provider, amount, orderId } = req.body;
+
+      if (!provider || !amount || !orderId) {
+        return res.status(400).json({
+          success: false,
+          error: 'Missing required parameters'
+        });
+      }
+
+      const result = await this.paymentService.processPayment(
+        provider,
+        amount,
+        orderId
+      );
+
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: error.message
+      });
+    }
+  }
+
   async handleWebhook(req: Request, res: Response) {
     try {
+      const { provider } = req.params;
       const signature = req.headers['x-payment-signature'] as string;
       
       if (!signature) {
@@ -17,23 +43,11 @@ export class PaymentController {
         });
       }
 
-      if (!this.paymentService.validateWebhook(signature, req.body)) {
-        return res.status(401).json({
-          success: false,
-          error: 'Invalid signature'
-        });
-      }
+      const paymentProvider = this.paymentService.getProvider(provider);
+      const webhookData = req.body;
 
-      const webhookData = req.body as IPaymentWebhook;
-      
-      if (!this.validateWebhookData(webhookData)) {
-        return res.status(400).json({
-          success: false,
-          error: 'Invalid webhook data'
-        });
-      }
-
-      await this.paymentService.updateTicketStatus(webhookData);
+      // Process webhook data according to provider
+      // Implementation will vary based on provider requirements
 
       res.status(200).json({
         success: true,
@@ -46,16 +60,5 @@ export class PaymentController {
         error: 'Failed to process payment webhook'
       });
     }
-  }
-
-  private validateWebhookData(data: any): data is IPaymentWebhook {
-    return (
-      typeof data.ticketId === 'number' &&
-      ['pending', 'approved', 'rejected'].includes(data.status) &&
-      typeof data.transactionId === 'string' &&
-      typeof data.paymentMethod === 'string' &&
-      typeof data.amount === 'number' &&
-      typeof data.timestamp === 'string'
-    );
   }
 }

@@ -1,0 +1,51 @@
+
+import { IPaymentProvider } from '../../interfaces/payment-provider.interface';
+import { MercadoPagoProvider } from './mercadopago.provider';
+
+export class PaymentService {
+  private providers: Map<string, IPaymentProvider> = new Map();
+
+  constructor() {
+    // Register payment providers
+    this.registerProvider('mercadopago', new MercadoPagoProvider(
+      process.env.MERCADOPAGO_API_KEY || '',
+      process.env.MERCADOPAGO_API_SECRET || ''
+    ));
+  }
+
+  registerProvider(name: string, provider: IPaymentProvider) {
+    this.providers.set(name.toLowerCase(), provider);
+  }
+
+  getProvider(name: string): IPaymentProvider {
+    const provider = this.providers.get(name.toLowerCase());
+    if (!provider) {
+      throw new Error(`Payment provider '${name}' not found`);
+    }
+    return provider;
+  }
+
+  async processPayment(
+    providerName: string,
+    amount: number,
+    orderId: string
+  ) {
+    const provider = this.getProvider(providerName);
+    return provider.initializePayment(amount, orderId);
+  }
+
+  async confirmPayment(providerName: string, paymentId: string) {
+    const provider = this.getProvider(providerName);
+    return provider.confirmPayment(paymentId);
+  }
+
+  async cancelPayment(providerName: string, paymentId: string) {
+    const provider = this.getProvider(providerName);
+    return provider.cancelPayment(paymentId);
+  }
+
+  async getPaymentStatus(providerName: string, paymentId: string) {
+    const provider = this.getProvider(providerName);
+    return provider.getPaymentStatus(paymentId);
+  }
+}

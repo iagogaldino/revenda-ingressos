@@ -1,16 +1,13 @@
 
 import { Router } from 'express';
 import { PaymentController } from '../controllers/payment.controller';
-import { PaymentService } from '../services/payment.service';
-import { TicketService } from '../services/ticket.service';
-import { TicketRepository } from '../repositories/ticket.repository';
+import { PaymentService } from '../services/payment/payment.service';
 
 const router = Router();
-const ticketRepository = new TicketRepository();
-const ticketService = new TicketService(ticketRepository);
-const paymentService = new PaymentService(ticketService);
+const paymentService = new PaymentService();
 const paymentController = new PaymentController(paymentService);
 
-router.post('/webhook', (req, res) => paymentController.handleWebhook(req, res));
+router.post('/initialize', (req, res) => paymentController.initializePayment(req, res));
+router.post('/webhook/:provider', (req, res) => paymentController.handleWebhook(req, res));
 
 export const paymentRoutes = router;
