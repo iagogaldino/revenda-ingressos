@@ -56,7 +56,11 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [
+    //AuthService,  Assuming AuthService and TicketService exist.  If not, add them.
+    //TicketService,
+    SaleService // Added SaleService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

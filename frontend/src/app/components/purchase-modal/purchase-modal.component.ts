@@ -6,6 +6,7 @@ import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import * as QRCode from 'qrcode';
+import { SaleService } from '../../services/sale.service';
 
 @Component({
   standalone: false,
@@ -14,6 +15,10 @@ import * as QRCode from 'qrcode';
   styleUrls: ['./purchase-modal.component.css']
 })
 export class PurchaseModalComponent implements OnInit, OnDestroy {
+  constructor(
+    public activeModal: NgbActiveModal,
+    private saleService: SaleService
+  ) {}
   @Input() ticket!: Ticket;
   remainingTime: number = 300; // 5 minutes in seconds
   private timerSubscription?: Subscription;
@@ -73,7 +78,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
            phoneRegex.test(this.contactInfo.phone);
   }
 
-  async generateQrCode() {
+  generateQrCode() {
     const saleData = {
       ticketId: this.ticket.id,
       buyerEmail: this.contactInfo.email,
@@ -81,20 +86,8 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
       amount: this.ticket.price
     };
     
-    try {
-      const response = await fetch('http://0.0.0.0:5000/api/sales', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(saleData)
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create sale');
-      }
-
-      const sale = await response.json();
+    this.saleService.createSale(saleData).subscribe({
+      next: (sale) => {
       const ticketData = {
         saleId: sale.id,
         ticketId: this.ticket.id,
