@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { ticketRoutes } from './routes/ticket.routes';
 import usersRouters from './routes/user.routes';
-import authRouter from './routes/auth.routes';
+import { authRoutes } from './routes/auth.routes';
+import { paymentRoutes } from './routes/payment.routes';
 
 dotenv.config();
 
@@ -22,7 +23,8 @@ app.use('/uploads', express.static('uploads'));
 // Routes
 app.use('/api', ticketRoutes);
 app.use('/api', usersRouters);
-app.use('/api', authRouter);
+app.use('/api', authRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
