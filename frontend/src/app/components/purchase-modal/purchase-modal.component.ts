@@ -58,7 +58,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
   isFormValid(): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\(\d{2}\)\s?\d{4,5}-\d{4}$/;
+    const phoneRegex = /^\(?([0-9]{2})\)?[-. ]?([0-9]{4,5})[-. ]?([0-9]{4})$/;
     
     return emailRegex.test(this.contactInfo.email) && 
            phoneRegex.test(this.contactInfo.phone);
