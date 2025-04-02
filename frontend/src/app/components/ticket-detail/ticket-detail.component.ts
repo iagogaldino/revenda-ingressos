@@ -54,7 +54,7 @@ export class TicketDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/tickets']);
+    this.router.navigate(['/profile']);
   }
 
   generateStarRating(rating: number): number[] {

@@ -3,10 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { ticketRoutes } from './routes/ticket.routes';
 import usersRouters from './routes/user.routes';
-<<<<<<< HEAD
-=======
 import authRouter from './routes/auth.routes';
->>>>>>> f905f4f (Assistant checkpoint: Fix auth routes import and usage in server.ts)
 import { paymentRoutes } from './routes/payment.routes';
 import authRoutes from './routes/auth.routes';
 
