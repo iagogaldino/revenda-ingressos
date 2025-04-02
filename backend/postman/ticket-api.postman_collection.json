@@ -180,6 +180,35 @@
           "path": ["api", "logout"]
         }
       }
+    },
+    {
+      "name": "Payment Webhook",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://0.0.0.0:5000/api/payments/webhook",
+          "protocol": "http",
+          "host": ["0", "0", "0", "0"],
+          "port": "5000",
+          "path": ["api", "payments", "webhook"]
+        },
+        "header": [
+          {
+            "key": "x-payment-signature",
+            "value": "{{payment_signature}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"ticketId\": 1,\n    \"status\": \"approved\",\n    \"transactionId\": \"tx_123456\",\n    \"paymentMethod\": \"credit_card\",\n    \"amount\": 100,\n    \"timestamp\": \"2024-03-20T10:00:00Z\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
     }
   ]
 }
