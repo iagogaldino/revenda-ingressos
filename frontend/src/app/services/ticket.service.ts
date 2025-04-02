@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Ticket } from '../types/ticket';
+import { getToken } from '../utils/token-util';
 
 @Injectable({
   providedIn: 'root'
@@ -77,7 +78,11 @@ export class TicketService {
   }
 
   getSellerTickets(): Observable<Ticket[]> {
-    return this.http.get<Ticket[]>(`${this.apiUrl}/seller/tickets`)
+    return this.http.get<Ticket[]>(`${this.apiUrl}/seller/tickets`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
       .pipe(
         map((response: any) => response.data),
         catchError(this.handleError('getSellerTickets', []))

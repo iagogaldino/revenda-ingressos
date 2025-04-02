@@ -19,7 +19,7 @@ export class ProfileComponent implements OnInit {
   error: string | null = null;
   currentUser = {
     name: '',
-    createdAt: ''
+    email: ''
   }
 
   constructor(
@@ -51,7 +51,8 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.authService.currentUser$.subscribe(user => {
-      
+      this.currentUser.name = user?.name || 'Error';
+      this.currentUser.email = user?.email || 'Error';
     });
   }
 

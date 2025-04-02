@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ITicketService } from '../interfaces/ticket.interface';
 import { TicketService } from '../services/ticket.service';
 import { TicketRepository } from '../repositories/ticket.repository';
+import { AuthRequest } from '../middlewares/auth.middleware';
 
 export class TicketController {
   private ticketService: ITicketService;
@@ -99,6 +100,21 @@ export class TicketController {
     }
   }
 
+  async getTicketsBySeller(req: AuthRequest, res: Response) {
+    try {
+      if (!req.userId) {
+        return res.status(401).json({ success: false, error: 'Usuário não autenticado' });
+      }
+  
+      const tickets = await this.ticketService.getTicketsBySellerId(req.userId);
+  
+      res.status(200).json({ success: true, data: tickets });
+    } catch (error) {
+      console.log('error', error);
+      res.status(500).json({ success: false, error: 'Failed to fetch tickets' });
+    }
+  }
+  
   async getTicketById(req: Request, res: Response) {
     try {
       const { id } = req.params;

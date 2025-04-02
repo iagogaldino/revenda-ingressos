@@ -2,6 +2,7 @@ import { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
 import { TicketController } from '../controllers/ticket.controller';
+import { authenticateToken } from '../middlewares/auth.middleware';
 
 const router = Router();
 const ticketController = new TicketController();
@@ -26,13 +27,17 @@ const uploadMiddleware = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // 5MB
 }).fields([{ name: 'image' }, { name: 'file' }]); // Aceitar imagem e arquivo PDF
 
-// Rotas de Tickets
-router.post('/seller/tickets', uploadMiddleware, (req, res) => ticketController.create(req, res));
-router.put('/seller/tickets/:id', uploadMiddleware, (req, res) => ticketController.update(req, res));
+// Rotas de Tickets protegidas por autenticação
+router.post('/seller/tickets', authenticateToken, uploadMiddleware, (req, res) => ticketController.create(req, res));
+router.put('/seller/tickets/:id', authenticateToken, uploadMiddleware, (req, res) => ticketController.update(req, res));
+router.delete('/tickets/:id', authenticateToken, (req, res) => ticketController.deleteTicket(req, res));
+
+// Rotas públicas
 router.get('/tickets', (req, res) => ticketController.getAllTickets(req, res));
 router.get('/tickets/:id', (req, res) => ticketController.getTicketById(req, res));
-router.get('/seller/tickets', (req, res) => ticketController.getAllTickets(req, res));
-router.delete('/tickets/:id', (req, res) => ticketController.deleteTicket(req, res));
+
+// Rota protegida por autenticação (Busca ingressos do usuário autenticado)
+router.get('/seller/tickets', authenticateToken, ticketController.getTicketsBySeller.bind(ticketController));
 router.get('/tickets/seller/:sellerId', (req, res) => ticketController.getTicketsBySellerId(req, res));
 
 export const ticketRoutes = router;

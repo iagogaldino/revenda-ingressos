@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { User } from '../models/user';
+import { currentUser } from '../utils/session-current-user';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class AuthService {
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    const storedUser = localStorage.getItem('currentUser');
+    const storedUser = currentUser();
     if (storedUser) {
       this.currentUserSubject.next(JSON.parse(storedUser));
     }

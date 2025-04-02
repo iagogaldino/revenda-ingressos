@@ -24,6 +24,7 @@ export interface ITicketRepository {
   findById(id: number): Promise<ITicket | null>;
   update(id: number, ticket: Partial<ITicket>): Promise<ITicket>;
   delete(id: number): Promise<void>;
+  findBySellerId(id: number): Promise<ITicket[]>;
 }
 
 export interface ITicketService {
@@ -32,4 +33,5 @@ export interface ITicketService {
   getTicketById(id: number): Promise<ITicket | null>;
   updateTicket(id: number, ticket: Partial<ITicket>): Promise<ITicket>;
   deleteTicket(id: number): Promise<void>;
+  getTicketsBySellerId(id: number): Promise<ITicket[]>;
 }
