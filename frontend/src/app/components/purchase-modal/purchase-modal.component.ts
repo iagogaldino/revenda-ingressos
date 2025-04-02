@@ -74,20 +74,41 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   }
 
   async generateQrCode() {
-    const ticketData = {
-      id: this.ticket.id,
-      eventName: this.ticket.eventName,
-      date: this.ticket.eventDate,
-      price: this.ticket.price,
-      contactInfo: this.contactInfo
+    const saleData = {
+      ticketId: this.ticket.id,
+      buyerEmail: this.contactInfo.email,
+      buyerPhone: this.contactInfo.phone,
+      amount: this.ticket.price
     };
     
     try {
+      const response = await fetch('http://0.0.0.0:5000/api/sales', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(saleData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create sale');
+      }
+
+      const sale = await response.json();
+      const ticketData = {
+        saleId: sale.id,
+        ticketId: this.ticket.id,
+        eventName: this.ticket.eventName,
+        date: this.ticket.eventDate,
+        price: this.ticket.price,
+        contactInfo: this.contactInfo
+      };
+      
       this.qrCodeUrl = await QRCode.toDataURL(JSON.stringify(ticketData));
       this.showQrCode = true;
-      this.startTimer(); // Inicia o timer apenas após gerar o QR Code
+      this.startTimer();
     } catch (err) {
-      console.error('Error generating QR code:', err);
+      console.error('Error creating sale:', err);
     }
   }
 }
