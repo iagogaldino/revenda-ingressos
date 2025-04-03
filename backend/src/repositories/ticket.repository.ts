@@ -50,10 +50,13 @@ export class TicketRepository implements ITicketRepository {
         tickets.active,
         tickets.quantity,
         users.name as seller_name,
-        users.rating as seller_rating
+        users.rating as seller_rating,
+        CASE WHEN sales.id IS NOT NULL AND sales.status = 'completed' THEN true ELSE false END as sold
       FROM tickets
       INNER JOIN users ON tickets.seller_id = users.id
+      LEFT JOIN sales ON tickets.id = sales.ticket_id AND sales.status = 'completed'
       WHERE tickets.active = true
+      GROUP BY tickets.id, users.name, users.rating, sales.id, sales.status
       ORDER BY tickets.created_at DESC
     `);
   
@@ -74,7 +77,8 @@ export class TicketRepository implements ITicketRepository {
       },
       image: row.image,
       active: row.active,
-      quantity: row.quantity
+      quantity: row.quantity,
+      sold: row.sold
     }));
   }
   
