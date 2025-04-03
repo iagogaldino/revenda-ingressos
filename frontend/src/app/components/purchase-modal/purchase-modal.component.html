@@ -73,24 +73,39 @@
     </div>
   </div>
 
-  <div *ngIf="showQrCode" class="qr-code-container">
-    <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="qr-code-image">
-    <div class="timer-section">
-      <div class="timer">{{ formatTime(remainingTime) }}</div>
-      <div class="timer-label">Tempo restante para conclusão</div>
-    </div>
+  <div *ngIf="showQrCode" class="qr-code-container" [ngClass]="{'success-state': paymentStatus === 'approved'}">
+    <ng-container *ngIf="paymentStatus !== 'approved'">
+      <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="qr-code-image fade-element">
+      <div class="timer-section fade-element">
+        <div class="timer">{{ formatTime(remainingTime) }}</div>
+        <div class="timer-label">Tempo restante para conclusão</div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="paymentStatus === 'approved'">
+      <div class="success-animation fade-element">
+        <i class="bi bi-check-circle-fill success-icon"></i>
+      </div>
+    </ng-container>
+
     <div [ngClass]="{'alert': true, 
           'alert-info': paymentStatus === 'pending',
           'alert-success': paymentStatus === 'approved',
           'alert-danger': paymentStatus === 'failed'}" 
-          class="mt-3">
-          <span *ngIf="paymentStatus === 'pending'">Aguardando pagamento...</span>
-          <span *ngIf="paymentStatus === 'approved'">Pagamento recebido com sucesso!</span>
-          <span *ngIf="paymentStatus === 'failed'">Falha no pagamento. Por favor, tente novamente.</span>
-        </div>
-    <div class="alert alert-info mt-4">
+          class="mt-3 status-alert">
+      <span *ngIf="paymentStatus === 'pending'">Aguardando pagamento...</span>
+      <span *ngIf="paymentStatus === 'approved'">Pagamento recebido com sucesso!</span>
+      <span *ngIf="paymentStatus === 'failed'">Falha no pagamento. Por favor, tente novamente.</span>
+    </div>
+
+    <div class="alert alert-info mt-4" *ngIf="paymentStatus !== 'approved'">
       <i class="bi bi-whatsapp me-2"></i>
       Após a confirmação do pagamento, seu ticket será enviado para o WhatsApp <br><strong>{{ contactInfo.phone }}</strong>
+    </div>
+    
+    <div class="alert alert-success mt-4" *ngIf="paymentStatus === 'approved'">
+      <i class="bi bi-whatsapp me-2"></i>
+      Seu ticket será enviado em instantes para o WhatsApp <br><strong>{{ contactInfo.phone }}</strong>
     </div>
   </div>
 </div>

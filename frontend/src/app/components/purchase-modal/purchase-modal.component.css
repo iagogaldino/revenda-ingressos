@@ -130,6 +130,7 @@
   text-align: center;
   padding: 2rem;
   background: white;
+  transition: all 0.3s ease;
 }
 
 .qr-code-image {
@@ -139,6 +140,49 @@
 
 .timer-section {
   margin-bottom: 2rem;
+}
+
+.fade-element {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.success-state .fade-element {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.success-animation {
+  padding: 2rem;
+}
+
+.success-icon {
+  font-size: 5rem;
+  color: #28a745;
+  animation: scaleIn 0.5s ease forwards;
+}
+
+.status-alert {
+  transition: all 0.3s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 .timer {
