@@ -73,6 +73,26 @@
   letter-spacing: 0.02em;
 }
 
+.availability-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.sold-out {
+  color: #6c757d;
+}
+
+.btn-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.availability-status i {
+  font-size: 1.1rem;
+}
+
 @media (max-width: 767.98px) {
   .card-img-top {
     height: 150px;

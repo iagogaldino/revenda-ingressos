@@ -51,8 +51,21 @@
         </div>
       </div>
 
+      <!-- Status de disponibilidade -->
+      <div class="availability-status mb-2" [ngClass]="{'sold-out': !ticket.active}">
+        <i class="bi" [ngClass]="ticket.active ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'"></i>
+        <span>{{ ticket.active ? 'Disponível' : 'Vendido' }}</span>
+      </div>
+
       <!-- Botão de compra -->
-      <button class="btn btn-primary w-100" (click)="openPurchaseModal()">Comprar ingresso</button>
+      <button 
+        class="btn btn-primary w-100" 
+        (click)="openPurchaseModal()"
+        [disabled]="!ticket.active"
+        [title]="ticket.active ? '' : 'Ingressos Esgotados'"
+        [ngClass]="{'btn-disabled': !ticket.active}">
+        {{ ticket.active ? 'Comprar ingresso' : 'Esgotado' }}
+      </button>
     </div>
   </div>
 </div>
