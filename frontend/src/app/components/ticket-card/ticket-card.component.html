@@ -28,12 +28,17 @@
       {{ ticket.location }} - {{ ticket.venue }}
     </p>
 
-    <!-- Preços -->
+    <!-- Preços e Quantidade -->
     <div class="mt-auto">
-      <div class="price-container mb-2">
-        <span class="current-price">R$ {{ ticket.price }},00</span>
-        <span *ngIf="ticket.originalPrice > ticket.price" class="original-price">R$ {{ ticket.originalPrice }},00</span>
-      </div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="price-container">
+            <span class="current-price">R$ {{ ticket.price }},00</span>
+            <span *ngIf="ticket.originalPrice > ticket.price" class="original-price">R$ {{ ticket.originalPrice }},00</span>
+          </div>
+          <span class="quantity-badge" [ngClass]="{'low-stock': ticket.quantity < 5}">
+            {{ ticket.quantity }} disponível{{ ticket.quantity !== 1 ? 'is' : '' }}
+          </span>
+        </div>
 
       <!-- Informações do vendedor -->
       <div class="seller-info d-flex align-items-center mb-3">

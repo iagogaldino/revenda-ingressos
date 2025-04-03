@@ -16,15 +16,23 @@
         <div class="event-details">
           <div class="detail-item">
             <i class="bi bi-calendar-event"></i>
-            <span>{{ ticket.eventDate | date:'dd/MM/yyyy' }}</span>
+            <span>{{ ticket.eventDate | date:'dd/MM/yyyy HH:mm' }}</span>
           </div>
           <div class="detail-item">
             <i class="bi bi-geo-alt"></i>
-            <span>{{ ticket.location || 'Local do evento' }}</span>
+            <span>{{ ticket.location }} - {{ ticket.venue }}</span>
           </div>
-          <div class="price-tag">
-            <i class="bi bi-tag"></i>
-            <span>{{ ticket.price | currency:'BRL' }}</span>
+          <div class="detail-item mt-3">
+            <p class="ticket-description">{{ ticket.description }}</p>
+          </div>
+          <div class="quantity-selection mt-3">
+            <label for="quantity" class="form-label">Quantidade:</label>
+            <div class="input-group" style="max-width: 150px;">
+              <button class="btn btn-outline-secondary" type="button" (click)="decrementQuantity()" [disabled]="selectedQuantity <= 1">-</button>
+              <input type="number" class="form-control text-center" id="quantity" [(ngModel)]="selectedQuantity" min="1" [max]="ticket.quantity" readonly>
+              <button class="btn btn-outline-secondary" type="button" (click)="incrementQuantity()" [disabled]="selectedQuantity >= ticket.quantity">+</button>
+            </div>
+            <small class="text-muted">{{ ticket.quantity }} ingressos disponíveis</small>
           </div>
         </div>
       </div>
@@ -102,7 +110,7 @@
       <i class="bi bi-whatsapp me-2"></i>
       Após a confirmação do pagamento, seu ticket será enviado para o WhatsApp <br><strong>{{ contactInfo.phone }}</strong>
     </div>
-    
+
     <div class="alert alert-success mt-4" *ngIf="paymentStatus === 'approved'">
       <i class="bi bi-whatsapp me-2"></i>
       Seu ticket será enviado em instantes para o WhatsApp <br><strong>{{ contactInfo.phone }}</strong>

@@ -93,6 +93,19 @@
   font-size: 1.1rem;
 }
 
+.quantity-badge {
+  font-size: 0.85rem;
+  color: #198754;
+  background-color: #19875420;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.quantity-badge.low-stock {
+  color: #dc3545;
+  background-color: #dc354520;
+}
+
 @media (max-width: 767.98px) {
   .card-img-top {
     height: 150px;

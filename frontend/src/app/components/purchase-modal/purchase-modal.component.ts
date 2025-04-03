@@ -24,6 +24,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     email: "",
     phone: "",
   };
+  selectedQuantity = 1;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -142,6 +143,18 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     if (this.statusCheckInterval) {
       clearInterval(this.statusCheckInterval);
       this.statusCheckInterval = undefined;
+    }
+  }
+
+  incrementQuantity() {
+    if (this.selectedQuantity < this.ticket.quantity) {
+      this.selectedQuantity++;
+    }
+  }
+
+  decrementQuantity() {
+    if (this.selectedQuantity > 1) {
+      this.selectedQuantity--;
     }
   }
 
