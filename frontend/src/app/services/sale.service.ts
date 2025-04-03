@@ -1,3 +1,4 @@
+import { SaleDataResponse } from './../../../../backend/src/interfaces/sale.interface';
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -12,8 +13,8 @@ export class SaleService {
 
   constructor(private http: HttpClient) {}
 
-  createSale(saleData: any): Observable<any> {
-    return this.http.post(this.apiUrl, saleData);
+  createSale(saleData: any): Observable<SaleDataResponse> {
+    return this.http.post<SaleDataResponse>(this.apiUrl, saleData);
   }
 
   getSaleStatus(saleId: number): Observable<any> {

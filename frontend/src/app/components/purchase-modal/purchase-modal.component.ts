@@ -47,6 +47,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
+    this.stopPaymentStatusCheck();
   }
 
   startTimer() {
@@ -91,10 +92,10 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     };
 
     this.saleService.createSale(saleData).subscribe({
-      next: async (sale) => {
-        this.currentSaleId = sale.id;
+      next: async (response) => {
+        this.currentSaleId = response.sale.id;
         const ticketData = {
-          saleId: sale.id,
+          saleId: response.sale.id,
           ticketId: this.ticket.id,
           eventName: this.ticket.eventName,
           date: this.ticket.eventDate,
@@ -144,10 +145,5 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    if (this.timerSubscription) {
-      this.timerSubscription.unsubscribe();
-    }
-    this.stopPaymentStatusCheck();
-  }
+ 
 }
