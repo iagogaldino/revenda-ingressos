@@ -36,7 +36,7 @@
             <span *ngIf="ticket.originalPrice > ticket.price" class="original-price">R$ {{ ticket.originalPrice }},00</span>
           </div>
           <span class="quantity-badge" [ngClass]="{'low-stock': ticket.quantity < 5}">
-            {{ ticket.quantity }} disponível{{ ticket.quantity !== 1 ? 'is' : '' }}
+            {{ ticket.quantity }} ingressos
           </span>
         </div>
 

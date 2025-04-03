@@ -25,15 +25,8 @@
           <div class="detail-item mt-3">
             <p class="ticket-description">{{ ticket.description }}</p>
           </div>
-          <div class="quantity-selection mt-3">
-            <label for="quantity" class="form-label">Quantidade:</label>
-            <div class="input-group" style="max-width: 150px;">
-              <button class="btn btn-outline-secondary" type="button" (click)="decrementQuantity()" [disabled]="selectedQuantity <= 1">-</button>
-              <input type="number" class="form-control text-center" id="quantity" [(ngModel)]="selectedQuantity" min="1" [max]="ticket.quantity" readonly>
-              <button class="btn btn-outline-secondary" type="button" (click)="incrementQuantity()" [disabled]="selectedQuantity >= ticket.quantity">+</button>
-            </div>
-            <small class="text-muted">{{ ticket.quantity }} ingressos disponíveis</small>
-          </div>
+          <strong class="text-muted">{{ ticket.quantity }} ingressos</strong>
+          
         </div>
       </div>
     </div>
