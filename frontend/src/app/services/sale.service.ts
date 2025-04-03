@@ -15,4 +15,8 @@ export class SaleService {
   createSale(saleData: any): Observable<any> {
     return this.http.post(this.apiUrl, saleData);
   }
+
+  getSaleStatus(saleId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${saleId}/status`);
+  }
 }

@@ -78,6 +78,10 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     );
   }
 
+  currentSaleId?: number;
+  paymentStatus: 'pending' | 'approved' | 'failed' = 'pending';
+  private statusCheckInterval?: any;
+
   generateQrCode() {
     const saleData = {
       ticketId: this.ticket.id,
@@ -88,6 +92,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
     this.saleService.createSale(saleData).subscribe({
       next: async (sale) => {
+        this.currentSaleId = sale.id;
         const ticketData = {
           saleId: sale.id,
           ticketId: this.ticket.id,
@@ -100,7 +105,49 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
         this.qrCodeUrl = await QRCode.toDataURL(JSON.stringify(ticketData));
         this.showQrCode = true;
         this.startTimer();
+        this.startPaymentStatusCheck();
       },
+      error: (error) => {
+        console.error('Error creating sale:', error);
+        // Handle error appropriately
+      }
     });
+  }
+
+  private startPaymentStatusCheck() {
+    if (!this.currentSaleId) return;
+
+    this.statusCheckInterval = setInterval(() => {
+      this.saleService.getSaleStatus(this.currentSaleId!).subscribe({
+        next: (response) => {
+          if (response.status === 'approved') {
+            this.paymentStatus = 'approved';
+            this.stopPaymentStatusCheck();
+            // Optionally show success message or redirect
+          } else if (response.status === 'failed') {
+            this.paymentStatus = 'failed';
+            this.stopPaymentStatusCheck();
+          }
+        },
+        error: (error) => {
+          console.error('Error checking payment status:', error);
+          this.stopPaymentStatusCheck();
+        }
+      });
+    }, 3000); // Check every 3 seconds
+  }
+
+  private stopPaymentStatusCheck() {
+    if (this.statusCheckInterval) {
+      clearInterval(this.statusCheckInterval);
+      this.statusCheckInterval = undefined;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+    this.stopPaymentStatusCheck();
   }
 }
