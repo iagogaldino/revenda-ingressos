@@ -10,5 +10,6 @@ const saleService = new SaleService(saleRepository);
 const saleController = new SaleController(saleService);
 
 router.post('/', (req, res) => saleController.createSale(req, res));
+router.get('/:id/status', (req, res) => saleController.getSaleStatus(req, res));
 
 export const saleRoutes = router;

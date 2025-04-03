@@ -20,4 +20,32 @@ export class SaleController {
       res.status(500).json({ error: 'Failed to create sale' });
     }
   }
+
+  async getSaleStatus(req: Request, res: Response) {
+    try {
+      const saleId = parseInt(req.params.id);
+      
+      if (isNaN(saleId)) {
+        return res.status(400).json({ error: 'Invalid sale ID' });
+      }
+
+      const sale = await this.saleService.getSaleById(saleId);
+      
+      if (!sale) {
+        return res.status(404).json({ error: 'Sale not found' });
+      }
+
+      res.json({
+        saleId: sale.id,
+        status: sale.status,
+        payment: {
+          status: sale.status === 'approved' ? 'completed' : 
+                 sale.status === 'cancelled' ? 'cancelled' : 'pending'
+        }
+      });
+    } catch (error) {
+      console.error('Error getting sale status:', error);
+      res.status(500).json({ error: 'Failed to get sale status' });
+    }
+  }
 }
