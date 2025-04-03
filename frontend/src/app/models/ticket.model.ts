@@ -18,4 +18,5 @@ export interface Ticket {
   image: string;
   active: boolean
   quantity: number
+  sold: boolean
 }

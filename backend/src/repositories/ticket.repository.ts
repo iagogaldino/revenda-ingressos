@@ -51,12 +51,12 @@ export class TicketRepository implements ITicketRepository {
         tickets.quantity,
         users.name as seller_name,
         users.rating as seller_rating,
-        CASE WHEN sales.id IS NOT NULL AND sales.status = 'completed' THEN true ELSE false END as sold
+        CASE WHEN COUNT(sales.id) > 0 THEN true ELSE false END as sold
       FROM tickets
       INNER JOIN users ON tickets.seller_id = users.id
-      LEFT JOIN sales ON tickets.id = sales.ticket_id AND sales.status = 'completed'
+      LEFT JOIN sales ON tickets.id = sales.ticket_id AND sales.status = 'approved'
       WHERE tickets.active = true
-      GROUP BY tickets.id, users.name, users.rating, sales.id, sales.status
+      GROUP BY tickets.id, users.name, users.rating
       ORDER BY tickets.created_at DESC
     `);
   
@@ -81,6 +81,7 @@ export class TicketRepository implements ITicketRepository {
       sold: row.sold
     }));
   }
+
   
   async findById(id: number): Promise<ITicket | null> {
     const result = await pool.query('SELECT * FROM tickets WHERE id = $1', [id]);

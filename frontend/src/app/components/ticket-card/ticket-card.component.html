@@ -1,4 +1,4 @@
-<div class="card h-100 shadow-sm">
+<div class="card h-100 shadow-sm" [ngClass]="{'sold-out': ticket.sold}">
   <!-- Imagem do evento -->
   <img 
     [src]="ticket.image || 'assets/placeholder-event.jpg'" 
@@ -39,32 +39,28 @@
       <div class="seller-info d-flex align-items-center mb-3">
         <span class="seller-name text-muted me-2">{{ ticket.seller.name }}</span>
         <div class="seller-rating">
-          @for (star of generateStarRating(ticket.seller.rating); track $index) {
-            @if (star === 1) {
-              <i class="bi bi-star-fill text-warning"></i>
-            } @else if (star === 0.5) {
-              <i class="bi bi-star-half text-warning"></i>
-            } @else {
-              <i class="bi bi-star text-warning"></i>
-            }
-          }
+          <ng-container *ngFor="let star of generateStarRating(ticket.seller.rating); let i = index">
+            <i *ngIf="star === 1" class="bi bi-star-fill text-warning"></i>
+            <i *ngIf="star === 0.5" class="bi bi-star-half text-warning"></i>
+            <i *ngIf="star === 0" class="bi bi-star text-warning"></i>
+          </ng-container>
         </div>
       </div>
 
       <!-- Status de disponibilidade -->
-      <div class="availability-status mb-2" [ngClass]="{'sold-out': !ticket.active}">
-        <i class="bi" [ngClass]="ticket.active ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'"></i>
-        <span>{{ ticket.active ? 'Disponível' : 'Vendido' }}</span>
+      <div class="availability-status mb-2" [ngClass]="{'sold-out': ticket.sold}">
+        <i class="bi" [ngClass]="ticket.sold ? 'bi-x-circle-fill text-danger' : 'bi-check-circle-fill text-success'"></i>
+        <span>{{ ticket.sold ? 'Vendido' : 'Disponível' }}</span>
       </div>
 
       <!-- Botão de compra -->
       <button 
         class="btn btn-primary w-100" 
         (click)="openPurchaseModal()"
-        [disabled]="!ticket.active"
-        [title]="ticket.active ? '' : 'Ingressos Esgotados'"
-        [ngClass]="{'btn-disabled': !ticket.active}">
-        {{ ticket.active ? 'Comprar ingresso' : 'Esgotado' }}
+        [disabled]="ticket.sold"
+        [title]="ticket.sold ? 'Ingressos Esgotados' : ''"
+        [ngClass]="{'btn-disabled': ticket.sold}">
+        Comprar ingresso
       </button>
     </div>
   </div>
