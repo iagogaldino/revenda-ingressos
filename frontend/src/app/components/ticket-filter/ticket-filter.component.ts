@@ -48,7 +48,7 @@ export class TicketFilterComponent implements OnInit {
   }
 
   resetFilters(): void {
-    this.selectedCategory = '';
+    this.selectedCategory = 0;
     this.minPrice = null;
     this.maxPrice = null;
     this.resetFiltersEvent.emit();
