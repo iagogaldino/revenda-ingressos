@@ -10,12 +10,12 @@ import { Category } from 'src/app/models/category.interface';
   styleUrls: ['./ticket-filter.component.css']
 })
 export class TicketFilterComponent implements OnInit {
-  @Output() categoryChange = new EventEmitter<string>();
+  @Output() categoryChange = new EventEmitter<number>();
   @Output() priceRangeChange = new EventEmitter<{min: number | null, max: number | null}>();
   @Output() resetFiltersEvent = new EventEmitter<void>();
 
   categories: Category[] = [];
-  selectedCategory: string = '';
+  selectedCategory: number = 0;
   minPrice: number | null = null;
   maxPrice: number | null = null;
 
