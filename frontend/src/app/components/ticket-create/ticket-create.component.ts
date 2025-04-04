@@ -39,7 +39,7 @@ export class TicketCreateComponent implements OnInit {
     this.ticketForm = this.fb.group({
       eventName: ['Show do Gustavo Lima', Validators.required],
       description: ['Grande show de Gustavo Lima no São João de Petrolina.', Validators.required],
-      category: ['Música', Validators.required],
+      category: ['', Validators.required],
       location: ['Petrolina, PE', Validators.required],
       venue: ['Pátio Ana das Carrancas', Validators.required],
       eventDate: ['2025-06-21T20:00:00', Validators.required],
