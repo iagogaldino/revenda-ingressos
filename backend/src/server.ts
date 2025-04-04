@@ -7,6 +7,7 @@ import authRouter from './routes/auth.routes';
 import { paymentRoutes } from './routes/payment.routes';
 import authRoutes from './routes/auth.routes';
 import { saleRoutes } from './routes/sale.routes';
+import { categoryRoutes } from './routes/category.routes';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api', ticketRoutes);
 app.use('/api', usersRouters);
 app.use('/api', authRouter);
+app.use('/api', categoryRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/sales', saleRoutes);
 
