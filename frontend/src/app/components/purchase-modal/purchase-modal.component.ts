@@ -153,13 +153,13 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   }
 
   downloadTicket() {
-    if (this.paymentStatus === 'approved' && this.ticket.id) {
-      this.ticketService.downloadTicket(this.ticket.id).subscribe({
+    if (this.paymentStatus === 'approved' && this.currentSaleId) {
+      this.ticketService.downloadTicket(this.currentSaleId).subscribe({
         next: (blob) => {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
-          a.download = `ticket_${this.ticket.id}.pdf`; // Or appropriate filename
+          a.download = `ticket_${this.currentSaleId}.pdf`;
           a.click();
           window.URL.revokeObjectURL(url);
         },

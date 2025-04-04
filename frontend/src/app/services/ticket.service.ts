@@ -145,8 +145,8 @@ export class TicketService {
       .pipe(catchError(this.handleError("updateTicket", null)));
   }
 
-  downloadTicket(ticketId: number): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/tickets/download/${ticketId}`, {
+  downloadTicket(saleId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/tickets/download/sale/${saleId}`, {
       responseType: 'blob'
     });
   }

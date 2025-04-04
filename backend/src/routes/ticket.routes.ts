@@ -35,7 +35,7 @@ router.delete('/tickets/:id', authenticateToken, (req, res) => ticketController.
 // Rotas públicas
 router.get('/tickets', (req, res) => ticketController.getAllTickets(req, res));
 router.get('/tickets/:id', (req, res) => ticketController.getTicketById(req, res));
-router.get('/tickets/download/:id', (req, res) => ticketController.downloadTicket(req, res));
+router.get('/tickets/download/sale/:id', (req, res) => ticketController.downloadTicket(req, res));
 
 // Rota protegida por autenticação (Busca ingressos do usuário autenticado)
 router.get('/seller/tickets', authenticateToken, ticketController.getTicketsBySeller.bind(ticketController));

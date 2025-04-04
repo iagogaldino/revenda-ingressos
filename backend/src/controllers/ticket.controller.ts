@@ -229,17 +229,19 @@ formatDateForDatabase(dateString: string): string {
   async downloadTicket(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const ticket = await this.ticketService.getTicketById(Number(id));
+      const sale = await this.saleService.getSaleById(Number(id));
 
-      if (!ticket) {
-        return res.status(404).json({ success: false, error: 'Ticket not found' });
+      if (!sale) {
+        return res.status(404).json({ success: false, error: 'Sale not found' });
       }
 
-      if (ticket.paymentStatus !== PaymentStatus.Accredited) {
+      if (sale.status !== 'approved') {
         return res.status(403).json({ success: false, error: 'Payment not approved' });
       }
 
-      if (!ticket.file) {
+      const ticket = await this.ticketService.getTicketById(sale.ticket_id);
+
+      if (!ticket || !ticket.file) {
         return res.status(404).json({ success: false, error: 'Ticket file not found' });
       }
 
