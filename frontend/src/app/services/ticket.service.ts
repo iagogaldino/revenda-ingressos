@@ -146,7 +146,7 @@ export class TicketService {
   }
 
   downloadTicket(saleId: number): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/tickets/download/sale/${saleId}`, {
+    return this.http.get(`${this.apiUrl}/tickets/download/${saleId}`, {
       responseType: 'blob'
     });
   }

@@ -6,6 +6,8 @@ import { AuthRequest } from '../middlewares/auth.middleware';
 import { Ticket } from '../types/ticket';
 import { PaymentStatus } from '../interfaces/payment.interface';
 import path from 'path';
+import { SaleService } from '../services/sale.service';
+import { SaleRepository } from '../repositories/sale.repository';
 
 export class TicketController {
   private ticketService: ITicketService;
@@ -229,7 +231,8 @@ formatDateForDatabase(dateString: string): string {
   async downloadTicket(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const sale = await this.saleService.getSaleById(Number(id));
+      const saleService = new SaleService(new SaleRepository());
+      const sale = await saleService.getSaleById(Number(id));
 
       if (!sale) {
         return res.status(404).json({ success: false, error: 'Sale not found' });
