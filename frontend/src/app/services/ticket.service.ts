@@ -145,6 +145,12 @@ export class TicketService {
       .pipe(catchError(this.handleError("updateTicket", null)));
   }
 
+  downloadTicket(ticketId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/tickets/download/${ticketId}`, {
+      responseType: 'blob'
+    });
+  }
+
   private handleError<T>(operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);

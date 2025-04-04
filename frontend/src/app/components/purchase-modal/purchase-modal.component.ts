@@ -1,17 +1,29 @@
 import { Component, Input, OnInit, OnDestroy } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { Ticket } from "../../models/ticket.model";
-import { interval, Subscription } from "rxjs";
+import { interval, Subscription, Observable } from "rxjs";
 import { take } from "rxjs/operators";
 import { CommonModule } from "@angular/common";
 import * as QRCode from "qrcode";
 import { SaleService } from "../../services/sale.service";
+import { HttpClient } from '@angular/common/http';
+
+// Added TicketService
+class TicketService {
+  constructor(private http: HttpClient) {}
+
+  downloadTicket(ticketId: number): Observable<Blob> {
+    return this.http.get(`/api/tickets/download/${ticketId}`, { responseType: 'blob' });
+  }
+}
+
 
 @Component({
   standalone: false,
   selector: "app-purchase-modal",
   templateUrl: "./purchase-modal.component.html",
   styleUrls: ["./purchase-modal.component.css"],
+  providers: [TicketService] // Add TicketService provider here.
 })
 export class PurchaseModalComponent implements OnInit, OnDestroy {
   @Input() ticket!: Ticket;
@@ -28,7 +40,9 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private saleService: SaleService
+    private saleService: SaleService,
+    private ticketService: TicketService, // Inject TicketService
+    private http: HttpClient
   ) {}
 
   formatPhone(event: any) {
@@ -148,7 +162,20 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
   downloadTicket() {
     if (this.paymentStatus === 'approved' && this.ticket.id) {
-      window.open(`http://localhost:5000/api/tickets/download/${this.ticket.id}`, '_blank');
+      this.ticketService.downloadTicket(this.ticket.id).subscribe({
+        next: (blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `ticket_${this.ticket.id}.pdf`; // Or appropriate filename
+          a.click();
+          window.URL.revokeObjectURL(url);
+        },
+        error: (error) => {
+          console.error("Error downloading ticket:", error);
+          // Handle download error appropriately
+        }
+      });
     }
   }
 
@@ -164,5 +191,5 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     }
   }
 
- 
+
 }
