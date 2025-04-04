@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Ticket } from '../../models/ticket.model';
 import { TicketService } from '../../services/ticket.service';
 import { Category } from 'src/app/models/category.interface';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 interface Step {
   number: number;
@@ -66,7 +67,10 @@ export class HomeComponent implements OnInit {
     }
   ];
 
-  constructor(private ticketService: TicketService) { }
+  constructor(
+    private ticketService: TicketService,
+    private modalService: NgbModal
+  ) { }
 
   ngOnInit(): void {
     this.loadTickets();
