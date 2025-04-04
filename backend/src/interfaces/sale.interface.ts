@@ -1,4 +1,3 @@
-
 export interface ISale {
   id?: number;
   ticketId: number;
@@ -10,16 +9,38 @@ export interface ISale {
   updatedAt?: Date;
 }
 
+export interface ISaleDTO {
+  id?: number;
+  ticket_id: number;
+  buyer_email: string;
+  buyer_phone: string;
+  amount: number;
+  status: 'pending' | 'approved' | 'cancelled';
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export interface ISaleDTO {
+  id?: number;
+  ticket_id: number;
+  buyer_email: string;
+  buyer_phone: string;
+  amount: number;
+  status: 'pending' | 'approved' | 'cancelled';
+  created_at?: Date;
+  updated_at?: Date;
+}
+
 export interface ISaleRepository {
-  create(sale: ISale): Promise<ISale>;
-  findById(id: number): Promise<ISale | null>;
-  update(id: number, sale: Partial<ISale>): Promise<ISale>;
+  create(sale: ISaleDTO): Promise<ISaleDTO>;
+  findById(id: number): Promise<ISaleDTO | null>;
+  update(id: number, sale: Partial<ISaleDTO>): Promise<ISaleDTO>;
 }
 
 export interface ISaleService {
-  createSale(saleData: ISale): Promise<ISale>;
-  getSaleById(id: number): Promise<ISale | null>;
-  updateSaleStatus(id: number, status: ISale['status']): Promise<ISale>;
+  createSale(saleData: ISale): Promise<ISaleDTO>;
+  getSaleById(id: number): Promise<ISaleDTO | null>;
+  updateSaleStatus(id: number, status: ISaleDTO['status']): Promise<ISaleDTO>;
 }
 
 

@@ -1,6 +1,6 @@
 
 import { Pool } from 'pg';
-import { ISale, ISaleRepository } from '../interfaces/sale.interface';
+import { ISaleDTO, ISaleRepository } from '../interfaces/sale.interface';
 import { pool } from '../config/database';
 
 export class SaleRepository implements ISaleRepository {
@@ -10,24 +10,24 @@ export class SaleRepository implements ISaleRepository {
     this.db = pool;
   }
 
-  async create(sale: ISale): Promise<ISale> {
+  async create(sale: ISaleDTO): Promise<ISaleDTO> {
     const query = `
       INSERT INTO sales (ticket_id, buyer_email, buyer_phone, amount, status)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *
     `;
-    const values = [sale.ticketId, sale.buyerEmail, sale.buyerPhone, sale.amount, sale.status];
+    const values = [sale.ticket_id, sale.buyer_email, sale.buyer_phone, sale.amount, sale.status];
     const result = await this.db.query(query, values);
     return result.rows[0];
   }
 
-  async findById(id: number): Promise<ISale | null> {
+  async findById(id: number): Promise<ISaleDTO | null> {
     const query = 'SELECT * FROM sales WHERE id = $1';
     const result = await this.db.query(query, [id]);
     return result.rows[0] || null;
   }
 
-  async update(id: number, sale: Partial<ISale>): Promise<ISale> {
+  async update(id: number, sale: Partial<ISaleDTO>): Promise<ISaleDTO> {
     const query = `
       UPDATE sales
       SET status = $1, updated_at = NOW()

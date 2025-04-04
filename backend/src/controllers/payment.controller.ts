@@ -3,6 +3,10 @@ import { PaymentService } from "../services/payment/payment.service";
 import { SaleService } from "../services/sale.service";
 import { SaleRepository } from "../repositories/sale.repository";
 import { Providers } from "../models/providers.enum";
+import { SendFileWhatsApp } from "../services/send-file-whatsapp";
+import { Utils } from "../utils/utils";
+import { TicketService } from "../services/ticket.service";
+import { TicketRepository } from "../repositories/ticket.repository";
 
 export class PaymentController {
   private saleService: SaleService;
@@ -17,11 +21,17 @@ export class PaymentController {
 
       // Verifica se o provider é válido
       if (!Object.values(Providers).includes(provider)) {
-        return res.status(400).json({ error: "Invalid payment provider specified" });
+        return res
+          .status(400)
+          .json({ error: "Invalid payment provider specified" });
       }
 
       // Processa o pagamento via PaymentService
-      const result = await this.paymentService.processPayment(provider, amount, orderId);
+      const result = await this.paymentService.processPayment(
+        provider,
+        amount,
+        orderId
+      );
 
       res.json(result);
     } catch (error) {
@@ -32,6 +42,10 @@ export class PaymentController {
 
   async handleWebhook(req: Request, res: Response) {
     try {
+      const response = {
+        success: false,
+        statusFileSent: { error: false, message: "" },
+      };
       const provider = req.params.provider as Providers;
 
       // Verifica se o provider é válido
@@ -42,8 +56,10 @@ export class PaymentController {
       if (provider === Providers.OpenPIX) {
         const { correlationID, status } = req.body;
 
-        if (!correlationID || typeof correlationID !== 'string') {
-          return res.status(400).json({ error: "Invalid or missing correlationID" });
+        if (!correlationID || typeof correlationID !== "string") {
+          return res
+            .status(400)
+            .json({ error: "Invalid or missing correlationID" });
         }
 
         if (!["COMPLETED", "CANCELLED"].includes(status)) {
@@ -54,29 +70,44 @@ export class PaymentController {
         console.log(provider, correlationID, status);
 
         const sale = await this.saleService.getSaleById(saleId);
+        if (sale && sale.id) {
+          const { id, buyer_phone, buyer_email, ticket_id } = sale;
 
-        if (sale) {
           switch (sale.status) {
             case "approved":
-              return res.status(400).json({ error: `A venda ${saleId} já está aprovada` });
+              return res
+                .status(400)
+                .json({ error: `A venda ${saleId} já está aprovada` });
             case "cancelled":
-              return res.status(400).json({ error: `A venda ${saleId} já foi cancelada` });
+              return res
+                .status(400)
+                .json({ error: `A venda ${saleId} já foi cancelada` });
             case "pending":
               if (status === "COMPLETED") {
-                await this.saleService.updateSaleStatus(saleId, "approved");
+                await this.saleService.aproveSale(
+                  id,
+                  buyer_phone,
+                  buyer_email,
+                  ticket_id
+                );
               } else if (status === "CANCELLED") {
                 await this.saleService.updateSaleStatus(saleId, "cancelled");
               }
               break;
             default:
-              return res.status(400).json({ error: "Status de venda desconhecido" });
+              return res
+                .status(400)
+                .json({ error: "Status de venda desconhecido" });
           }
         } else {
-          return res.status(404).json({ error: `Venda não encontrada: ${saleId}` });
+          return res
+            .status(404)
+            .json({ error: `Venda não encontrada: ${saleId}` });
         }
       }
 
-      res.json({ success: true });
+      response.success = true;
+      res.json(response);
     } catch (error) {
       console.error("Webhook handling error:", error);
       res.status(500).json({ error: `Falha ao processar o webhook. ${error}` });
