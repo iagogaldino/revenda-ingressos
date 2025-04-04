@@ -116,10 +116,24 @@ export class TicketRepository implements ITicketRepository {
   }
 
   async findBySellerId(sellerId: number): Promise<ITicket[]> {
-    const result = await pool.query(
-      'SELECT * FROM tickets WHERE seller_id = $1 AND active = true ORDER BY created_at DESC',
+    const result = await pool.query(`
+      SELECT 
+        tickets.*,
+        CASE 
+          WHEN EXISTS (SELECT 1 FROM sales WHERE sales.ticket_id = tickets.id AND sales.status = 'approved') THEN 'approved'
+          WHEN EXISTS (SELECT 1 FROM sales WHERE sales.ticket_id = tickets.id AND sales.status = 'pending') THEN 'pending'
+          WHEN EXISTS (SELECT 1 FROM sales WHERE sales.ticket_id = tickets.id AND sales.status = 'cancelled') THEN 'cancelled'
+          ELSE 'pending'
+        END as payment_status
+      FROM tickets 
+      WHERE seller_id = $1 AND active = true 
+      ORDER BY created_at DESC`,
       [sellerId]
     );
-    return result.rows;
+    
+    return result.rows.map(row => ({
+      ...row,
+      paymentStatus: row.payment_status
+    }));
   }
 }
