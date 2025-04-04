@@ -146,6 +146,12 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  downloadTicket() {
+    if (this.paymentStatus === 'approved' && this.ticket.id) {
+      window.open(`http://localhost:5000/api/tickets/download/${this.ticket.id}`, '_blank');
+    }
+  }
+
   incrementQuantity() {
     if (this.selectedQuantity < this.ticket.quantity) {
       this.selectedQuantity++;

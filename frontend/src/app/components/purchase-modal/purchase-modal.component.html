@@ -26,7 +26,7 @@
             <p class="ticket-description">{{ ticket.description }}</p>
           </div>
           <strong class="text-muted">{{ ticket.quantity }} ingressos</strong>
-          
+
         </div>
       </div>
     </div>
@@ -99,15 +99,21 @@
       <span *ngIf="paymentStatus === 'failed'">Falha no pagamento. Por favor, tente novamente.</span>
     </div>
 
+    <div *ngIf="paymentStatus === 'approved'" class="alert alert-success mt-4">
+      <i class="bi bi-whatsapp me-2"></i>
+      Seu ticket será enviado em instantes para o WhatsApp <br><strong>{{ contactInfo.phone }}</strong>
+      <div class="mt-3">
+        <button class="btn btn-primary" (click)="downloadTicket()">
+          <i class="bi bi-download me-2"></i>
+          Baixar Ingresso
+        </button>
+      </div>
+    </div>
     <div class="alert alert-info mt-4" *ngIf="paymentStatus !== 'approved'">
       <i class="bi bi-whatsapp me-2"></i>
       Após a confirmação do pagamento, seu ticket será enviado para o WhatsApp <br><strong>{{ contactInfo.phone }}</strong>
     </div>
 
-    <div class="alert alert-success mt-4" *ngIf="paymentStatus === 'approved'">
-      <i class="bi bi-whatsapp me-2"></i>
-      Seu ticket será enviado em instantes para o WhatsApp <br><strong>{{ contactInfo.phone }}</strong>
-    </div>
   </div>
 </div>
 

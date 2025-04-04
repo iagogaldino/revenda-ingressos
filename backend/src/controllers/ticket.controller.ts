@@ -223,4 +223,29 @@ formatDateForDatabase(dateString: string): string {
       data.quantity > 0
     );
   }
+
+  async downloadTicket(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const ticket = await this.ticketService.getTicketById(Number(id));
+
+      if (!ticket) {
+        return res.status(404).json({ success: false, error: 'Ticket not found' });
+      }
+
+      if (ticket.paymentStatus !== 'approved') {
+        return res.status(403).json({ success: false, error: 'Payment not approved' });
+      }
+
+      if (!ticket.file) {
+        return res.status(404).json({ success: false, error: 'Ticket file not found' });
+      }
+
+      const filePath = path.join(__dirname, '../../uploads', ticket.file);
+      res.download(filePath);
+    } catch (error) {
+      console.error('Error downloading ticket:', error);
+      res.status(500).json({ success: false, error: 'Failed to download ticket' });
+    }
+  }
 }
