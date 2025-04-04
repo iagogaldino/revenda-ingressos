@@ -16,7 +16,12 @@
 
     <div class="mb-3">
       <label for="category" class="form-label">Categoria</label>
-      <input type="text" class="form-control" id="category" formControlName="category">
+      <select class="form-select" id="category" formControlName="category">
+        <option value="">Selecione uma categoria</option>
+        <option *ngFor="let category of categories" [value]="category.name">
+          {{category.name}}
+        </option>
+      </select>
     </div>
 
     <div class="mb-3">

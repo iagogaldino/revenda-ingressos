@@ -15,6 +15,7 @@ export class TicketCreateComponent implements OnInit {
   selectedImage: File | null = null;
   imagePreviewUrl: string | null = null;
   previewUrl: string | null = null;
+  categories: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -22,19 +23,19 @@ export class TicketCreateComponent implements OnInit {
     public activeModal: NgbActiveModal
   ) {}
 
-  ngOnInit(): void {
-    // this.ticketForm = this.fb.group({
-    //   eventName: ['', Validators.required],
-    //   description: ['', Validators.required],
-    //   category: ['', Validators.required],
-    //   location: ['', Validators.required],
-    //   venue: ['', Validators.required],
-    //   eventDate: ['', Validators.required],
-    //   price: ['', [Validators.required, Validators.min(0)]],
-    //   quantity: ['', [Validators.required, Validators.min(1)]]
-    // });
+  loadCategories() {
+    this.ticketService.getCategories().subscribe({
+      next: (categories) => {
+        this.categories = categories;
+      },
+      error: (error) => {
+        console.error('Error loading categories:', error);
+      }
+    });
+  }
 
-    // MOCK PARA TESTES
+  ngOnInit(): void {
+    this.loadCategories();
     this.ticketForm = this.fb.group({
       eventName: ['Show do Gustavo Lima', Validators.required],
       description: ['Grande show de Gustavo Lima no São João de Petrolina.', Validators.required],
