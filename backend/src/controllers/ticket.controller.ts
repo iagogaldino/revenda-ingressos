@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
-import { ITicketService } from '../interfaces/ticket.interface';
+import { ITicket, ITicketService } from '../interfaces/ticket.interface';
 import { TicketService } from '../services/ticket.service';
 import { TicketRepository } from '../repositories/ticket.repository';
 import { AuthRequest } from '../middlewares/auth.middleware';
+import { Ticket } from '../types/ticket';
 
 export class TicketController {
   private ticketService: ITicketService;
@@ -65,21 +66,55 @@ export class TicketController {
           error: 'Missing or invalid required fields'
         });
       }
+      let ticket = this.convertToDatabaseFormat(ticketData);
+ 
 
-      const updatedTicket = await this.ticketService.updateTicket(Number(id), {
-        ...ticketData,
-        image: imageFile ? imageFile.filename : null,
-        file: pdfFile ? pdfFile.filename : null,
-      });
+      if (imageFile && imageFile.filename && imageFile.filename != null) {
+        ticket = {
+          ...ticket,
+          image: imageFile.filename
+        }
+      }
+      
+      if (pdfFile) {
+        ticket = {
+          ...ticket,
+          file: pdfFile.filename
+        }
+      }
+
+      const updatedTicket = await this.ticketService.updateTicket(Number(id), ticket);
 
       res.status(200).json({ success: true, data: updatedTicket });
     } catch (error) {
+      console.error('Error updating ticket:', error);
       res.status(500).json({
         success: false,
         error: 'Internal server error'
       });
     }
   }
+
+  convertToDatabaseFormat(ticketData: any) {
+    return {
+        id: Number(ticketData.id),
+        status: ticketData.status || 'active',
+        event_name: ticketData.eventName,
+        event_date: this.formatDateForDatabase(ticketData.eventDate),
+        location: ticketData.location,
+        venue: ticketData.venue,
+        price: Number(ticketData.price),
+        original_price: ticketData.originalPrice ? Number(ticketData.originalPrice) : null,
+        description: ticketData.description,
+        category: ticketData.category,
+        quantity: ticketData.quantity,
+    } as Partial< ITicket >;
+}
+
+formatDateForDatabase(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString();  // Returns format like "2025-04-16T03:00:00.000Z"
+}
 
   async getAllTickets(req: Request, res: Response) {
     try {

@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS tickets (
   price DECIMAL(10, 2) NOT NULL,
   original_price DECIMAL(10, 2),
   description TEXT,
-  category VARCHAR(100),
+  category INTEGER NOT NULL,
   type VARCHAR(50),
   image VARCHAR(255),
   quantity INTEGER NOT NULL,

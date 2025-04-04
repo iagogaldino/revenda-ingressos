@@ -30,10 +30,8 @@ export class TicketManagementComponent implements OnInit {
     this.loading = true;
     this.ticketService.getSellerTickets().subscribe({
       next: (tickets) => {
-        this.tickets = tickets.map(ticket => ({
-          ...ticket,
-          image: `${environment.imageBaseUrl}/${ticket.image}`
-        }));
+        console.log("Tickets:", tickets);
+        this.tickets = tickets;
         this.loading = false;
       },
       error: (error) => {
@@ -87,6 +85,7 @@ export class TicketManagementComponent implements OnInit {
       modalRef.componentInstance.editMode = true;
       modalRef.componentInstance.ticketData = {...ticket};
       modalRef.componentInstance.imagePreviewUrl = ticket.image;
+      modalRef.componentInstance.previewUrl = ticket.file;
     }
 
     modalRef.result.then(
@@ -106,34 +105,8 @@ export class TicketManagementComponent implements OnInit {
             }
           });
 
-          if (ticket) {
-            // Update existing ticket
-            this.ticketService.updateTicket(ticket.id, formData).subscribe({
-              next: () => {
-                this.successMessage = "Ingresso atualizado com sucesso!";
-                this.loadTickets();
-                setTimeout(() => this.successMessage = "", 3000);
-              },
-              error: (error) => {
-                this.error = "Erro ao atualizar ingresso";
-                console.error("Error:", error);
-              }
-            });
-          } else {
-            // Create new ticket
-            this.ticketService.createTicket(formData).subscribe({
-              next: () => {
-                this.successMessage = "Ingresso criado com sucesso!";
-                this.loadTickets();
-                setTimeout(() => this.successMessage = "", 3000);
-              },
-              error: (error) => {
-                this.error = "Erro ao criar ingresso";
-                console.error("Error:", error);
-              }
-            });
-          }
         }
+        this.loadTickets();
       },
       (reason) => {
         console.log('Modal dismissed');

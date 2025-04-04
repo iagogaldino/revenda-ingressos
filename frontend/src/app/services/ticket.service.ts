@@ -101,7 +101,17 @@ export class TicketService {
         },
       })
       .pipe(
-        map((response: any) => response.data),
+        map((response: any) => {
+          if (!response || !response.data) {
+            return [];
+          }
+          console.log("Tickets:", response);
+          return response.data.map((ticket: Ticket) => ({
+            ...this.transformTicketData(ticket),
+            image: ticket.image ? `${environment.imageBaseUrl}/${ticket.image}` : 'assets/placeholder-event.jpg',
+            file: ticket.file ? `${environment.imageBaseUrl}/${ticket.file}` : 'assets/placeholder-event.jpg'
+          }));
+        }),
         catchError(this.handleError("getSellerTickets", []))
       );
   }
@@ -153,5 +163,37 @@ export class TicketService {
         map((response) => response.markdown),
         catchError(this.handleError("convertFile", ""))
       );
+  }
+
+
+  private transformTicketData(ticket: any): Partial< Ticket > {
+    return {
+      id: ticket.id,
+      eventName: ticket.event_name,
+      eventDate: this.formatDate(ticket.event_date),
+      location: ticket.location,
+      venue: ticket.venue,
+      price: parseFloat(ticket.price),
+      originalPrice: ticket.original_price ? parseFloat(ticket.original_price) : null,
+      description: ticket.description,
+      category: ticket.category,
+      image: ticket.image,
+      file: ticket.file,
+      active: ticket.active,
+      quantity: ticket.quantity,
+      paymentStatus: ticket.paymentStatus || ticket.payment_status,
+      status: ticket.status,
+      sold: ticket.sold
+    };
+  }
+
+  private formatDate(dateString: string): string {
+    if (!dateString) return '';
+
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }

@@ -12,12 +12,13 @@ export interface Ticket {
   location: string;
   venue: string;
   price: number;
-  originalPrice: number;
+  originalPrice: number | null;
   description: string;
   category: number;
   type: string;
   seller: Seller;
   image: string;
+  file: string;
   active: boolean
   quantity: number
   sold: boolean

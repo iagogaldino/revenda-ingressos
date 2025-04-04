@@ -64,11 +64,11 @@
           <div class="price-container mb-4">
             <div class="current-price-large mb-1">R$ {{ ticket.price }},00</div>
             <div class="price-details">
-              <span *ngIf="ticket.originalPrice > ticket.price" class="original-price me-2">
+              <span *ngIf="ticket.originalPrice || 0 > ticket.price" class="original-price me-2">
                 R$ {{ ticket.originalPrice }},00
               </span>
-              <span *ngIf="calculateDiscount(ticket.originalPrice, ticket.price) > 0" class="discount-badge">
-                {{ calculateDiscount(ticket.originalPrice, ticket.price) }}% OFF
+              <span *ngIf="calculateDiscount(ticket.originalPrice || 0, ticket.price) > 0" class="discount-badge">
+                {{ calculateDiscount(ticket.originalPrice || 0, ticket.price) }}% OFF
               </span>
             </div>
           </div>

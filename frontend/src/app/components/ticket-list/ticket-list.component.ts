@@ -48,7 +48,7 @@ export class TicketListComponent implements OnInit {
     if (!categoryId) {
       this.filteredTickets = this.tickets;
     } else {
-      this.filteredTickets = this.tickets.filter(ticket => ticket.category.id === categoryId);
+      this.filteredTickets = this.tickets.filter(ticket => ticket.category === categoryId);
     }
     this.sortTickets();
   }
@@ -88,8 +88,8 @@ export class TicketListComponent implements OnInit {
         break;
       case 'discount':
         this.filteredTickets.sort((a, b) => {
-          const discountA = this.calculateDiscount(a.originalPrice, a.price);
-          const discountB = this.calculateDiscount(b.originalPrice, b.price);
+          const discountA = this.calculateDiscount(a.originalPrice || 0, a.price);
+          const discountB = this.calculateDiscount(b.originalPrice || 0, b.price);
           return discountB - discountA;
         });
         break;

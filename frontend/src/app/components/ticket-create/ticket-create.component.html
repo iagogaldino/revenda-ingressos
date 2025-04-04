@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">Criar Novo Ingresso</h4>
+  <h4 class="modal-title">{{ editMode ? 'Editar venda' : 'Criar Novo Ingresso' }}</h4>
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
@@ -69,7 +69,7 @@
       <img [src]="previewUrl" class="img-thumbnail" style="max-width: 200px">
     </div>
 
-    <div class="alert alert-warning" *ngIf="!selectedFile">
+    <div class="alert alert-warning" *ngIf="!selectedFile && !previewUrl">
       <i class="bi bi-exclamation-triangle"></i>
       O ingresso será salvo como pendente até que um arquivo seja enviado.
     </div>
