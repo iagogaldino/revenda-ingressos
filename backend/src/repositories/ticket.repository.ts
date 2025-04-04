@@ -51,7 +51,13 @@ export class TicketRepository implements ITicketRepository {
         tickets.quantity,
         users.name as seller_name,
         users.rating as seller_rating,
-        CASE WHEN COUNT(sales.id) > 0 THEN true ELSE false END as sold
+        CASE WHEN COUNT(sales.id) > 0 THEN true ELSE false END as sold,
+        CASE 
+          WHEN EXISTS (SELECT 1 FROM sales WHERE sales.ticket_id = tickets.id AND sales.status = 'approved') THEN 'approved'
+          WHEN EXISTS (SELECT 1 FROM sales WHERE sales.ticket_id = tickets.id AND sales.status = 'pending') THEN 'pending'
+          WHEN EXISTS (SELECT 1 FROM sales WHERE sales.ticket_id = tickets.id AND sales.status = 'cancelled') THEN 'cancelled'
+          ELSE 'pending'
+        END as payment_status
       FROM tickets
       INNER JOIN users ON tickets.seller_id = users.id
       LEFT JOIN sales ON tickets.id = sales.ticket_id AND sales.status = 'approved'
@@ -78,7 +84,8 @@ export class TicketRepository implements ITicketRepository {
       image: row.image,
       active: row.active,
       quantity: row.quantity,
-      sold: row.sold
+      sold: row.sold,
+      paymentStatus: row.payment_status
     }));
   }
 

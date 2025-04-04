@@ -35,6 +35,7 @@
           <th>Preço</th>
           <th>Quantidade</th>
           <th>Status</th>
+          <th>Pagamento</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -58,6 +59,11 @@
             <span class="badge" [ngClass]="ticket.active ? 'bg-success' : 'bg-danger'">
               {{ ticket.active ? 'Ativo' : 'Inativo' }}
             </span>
+          </td>
+          <td>
+            <span *ngIf="ticket.paymentStatus === 'approved'" class="badge bg-success">Aprovado</span>
+            <span *ngIf="ticket.paymentStatus === 'pending'" class="badge bg-warning">Pendente</span>
+            <span *ngIf="ticket.paymentStatus === 'cancelled'" class="badge bg-danger">Cancelado</span>
           </td>
           <td>
             <div class="btn-group">
