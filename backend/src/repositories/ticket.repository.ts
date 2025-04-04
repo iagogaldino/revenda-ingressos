@@ -47,15 +47,18 @@ export class TicketRepository implements ITicketRepository {
         tickets.category,
         tickets.type,
         tickets.image,
-        tickets.active,
+        tickets.status,
         tickets.quantity,
         users.name as seller_name,
         users.rating as seller_rating,
-        CASE WHEN COUNT(sales.id) > 0 THEN true ELSE false END as sold
+        CASE 
+          WHEN EXISTS (SELECT 1 FROM sales WHERE sales.ticket_id = tickets.id AND sales.status = 'approved') THEN true 
+          ELSE false 
+        END as sold
       FROM tickets
       INNER JOIN users ON tickets.seller_id = users.id
-      LEFT JOIN sales ON tickets.id = sales.ticket_id AND sales.status = 'approved'
-      WHERE tickets.active = true
+      LEFT JOIN sales ON tickets.id = sales.ticket_id
+      WHERE tickets.status = 'active' AND (tickets.deleted IS NULL OR tickets.deleted = false)
       GROUP BY tickets.id, users.name, users.rating
       ORDER BY tickets.created_at DESC
     `);
@@ -76,11 +79,13 @@ export class TicketRepository implements ITicketRepository {
         rating: row.seller_rating
       },
       image: row.image,
-      active: row.active,
+      status: row.status,
       quantity: row.quantity,
       sold: row.sold
     }));
-  }
+}
+
+
 
   
   async findById(id: number): Promise<ITicket | null> {
@@ -105,7 +110,7 @@ export class TicketRepository implements ITicketRepository {
   }
 
   async delete(id: number): Promise<void> {
-    await pool.query('UPDATE tickets SET active = false WHERE id = $1', [id]);
+    await pool.query('UPDATE tickets SET deleted = true WHERE id = $1', [id]);
   }
 
   async findBySellerId(sellerId: number): Promise<ITicket[]> {
@@ -116,17 +121,18 @@ export class TicketRepository implements ITicketRepository {
           WHEN EXISTS (SELECT 1 FROM sales WHERE sales.ticket_id = tickets.id AND sales.status = 'approved') THEN 'approved'
           WHEN EXISTS (SELECT 1 FROM sales WHERE sales.ticket_id = tickets.id AND sales.status = 'pending') THEN 'pending'
           WHEN EXISTS (SELECT 1 FROM sales WHERE sales.ticket_id = tickets.id AND sales.status = 'cancelled') THEN 'cancelled'
-          ELSE 'pending'
+          ELSE 'no-sales'
         END as payment_status
       FROM tickets 
-      WHERE seller_id = $1 AND active = true 
-      ORDER BY created_at DESC`,
-      [sellerId]
-    );
+      WHERE seller_id = $1 AND (deleted IS NULL OR deleted = false)
+      ORDER BY created_at DESC
+    `, [sellerId]);
     
     return result.rows.map(row => ({
       ...row,
       paymentStatus: row.payment_status
     }));
-  }
+}
+
+
 }

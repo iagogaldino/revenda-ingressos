@@ -1,131 +1,152 @@
-
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { Ticket } from '../types/ticket';
-import { getToken } from '../utils/token-util';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
+import { Observable, of } from "rxjs";
+import { catchError, map } from "rxjs/operators";
+import { Ticket } from "../types/ticket";
+import { getToken } from "../utils/token-util";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TicketService {
-  private apiUrl = 'http://localhost:5000/api';
+  private apiUrl = "http://localhost:5000/api";
   private categoriesUrl = `${this.apiUrl}/categories`;
 
   constructor(private http: HttpClient) {}
 
   getAllTickets(): Observable<Ticket[]> {
-    return this.http.get<Ticket[]>(`${this.apiUrl}/tickets`)
-      .pipe(
-        map((response: any) => response.data),
-        map((tickets: Ticket[])=> {
-          return tickets.map(ticket => ({
-            ...ticket,
-            image: `${environment.imageBaseUrl}/${ticket.image}`
-          }));
-        }),
-        catchError(this.handleError('getAllTickets', []))
-      );
+    return this.http.get<Ticket[]>(`${this.apiUrl}/tickets`).pipe(
+      map((response: any) => response.data),
+      map((tickets: Ticket[]) => {
+        return tickets.map((ticket) => ({
+          ...ticket,
+          image: `${environment.imageBaseUrl}/${ticket.image}`,
+        }));
+      }),
+      catchError(this.handleError("getAllTickets", []))
+    );
   }
 
   getTicketById(id: number): Observable<Ticket | null> {
-    return this.http.get<Ticket | null>(`${this.apiUrl}/tickets/${id}`)
-      .pipe(
-        catchError(this.handleError('getTicketById', null))
-      );
+    return this.http
+      .get<Ticket | null>(`${this.apiUrl}/tickets/${id}`)
+      .pipe(catchError(this.handleError("getTicketById", null)));
   }
 
   getCategories(): Observable<string[]> {
-    return this.http.get<string[]>(this.categoriesUrl)
-      .pipe(
-        catchError(this.handleError('getCategories', []))
-      );
+    return this.http
+      .get<string[]>(this.categoriesUrl)
+      .pipe(catchError(this.handleError("getCategories", [])));
   }
 
-  filterTickets(category?: string, minPrice?: number, maxPrice?: number): Observable<Ticket[]> {
-    let queryParams = '';
+  filterTickets(
+    category?: string,
+    minPrice?: number,
+    maxPrice?: number
+  ): Observable<Ticket[]> {
+    let queryParams = "";
 
     if (category) {
       queryParams += `category=${category}`;
     }
     if (minPrice !== undefined) {
-      queryParams += queryParams ? `&minPrice=${minPrice}` : `minPrice=${minPrice}`;
+      queryParams += queryParams
+        ? `&minPrice=${minPrice}`
+        : `minPrice=${minPrice}`;
     }
     if (maxPrice !== undefined) {
-      queryParams += queryParams ? `&maxPrice=${maxPrice}` : `maxPrice=${maxPrice}`;
+      queryParams += queryParams
+        ? `&maxPrice=${maxPrice}`
+        : `maxPrice=${maxPrice}`;
     }
 
-    const url = queryParams ? `${this.apiUrl}/tickets?${queryParams}` : `${this.apiUrl}/tickets`;
+    const url = queryParams
+      ? `${this.apiUrl}/tickets?${queryParams}`
+      : `${this.apiUrl}/tickets`;
 
-    return this.http.get<Ticket[]>(url)
-      .pipe(
-        catchError(this.handleError('filterTickets', []))
-      );
+    return this.http
+      .get<Ticket[]>(url)
+      .pipe(catchError(this.handleError("filterTickets", [])));
   }
 
   createTicket(formData: FormData): Observable<Ticket | null> {
-    return this.http.post<Ticket>(`${this.apiUrl}/seller/tickets`, formData).pipe(
-      map(response => {
-        if (!response) {
-          throw new Error('No ticket data received');
-        }
-        return response;
-      }),
-      catchError(this.handleError('createTicket', null))
-    );
+    return this.http
+      .post<Ticket>(`${this.apiUrl}/seller/tickets`, formData, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
+      .pipe(
+        map((response) => {
+          if (!response) {
+            throw new Error("No ticket data received");
+          }
+          return response;
+        }),
+        catchError(this.handleError("createTicket", null))
+      );
   }
 
   getSellerTickets(): Observable<Ticket[]> {
-    return this.http.get<Ticket[]>(`${this.apiUrl}/seller/tickets`, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`
-      }
-    })
+    return this.http
+      .get<Ticket[]>(`${this.apiUrl}/seller/tickets`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
       .pipe(
         map((response: any) => response.data),
-        catchError(this.handleError('getSellerTickets', []))
+        catchError(this.handleError("getSellerTickets", []))
       );
   }
 
   updateTicketStatus(ticketId: number, active: boolean): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/tickets/${ticketId}/status`, { active })
-      .pipe(
-        catchError(this.handleError('updateTicketStatus'))
-      );
+    return this.http
+      .patch(`${this.apiUrl}/tickets/${ticketId}/status`, { active })
+      .pipe(catchError(this.handleError("updateTicketStatus")));
   }
 
   deleteTicket(ticketId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/tickets/${ticketId}`)
-      .pipe(
-        catchError(this.handleError('deleteTicket'))
-      );
+    return this.http
+      .delete(`${this.apiUrl}/tickets/${ticketId}`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
+      .pipe(catchError(this.handleError("deleteTicket")));
   }
 
-  updateTicket(ticketId: number, formData: FormData): Observable<Ticket | null> {
-    return this.http.put<Ticket>(`${this.apiUrl}/seller/tickets/${ticketId}`, formData)
-      .pipe(
-        catchError(this.handleError('updateTicket', null))
-      );
+  updateTicket(
+    ticketId: number,
+    formData: FormData
+  ): Observable<Ticket | null> {
+    return this.http
+      .put<Ticket>(`${this.apiUrl}/seller/tickets/${ticketId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
+      .pipe(catchError(this.handleError("updateTicket", null)));
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);
-      console.error('Error details:', error);
+      console.error("Error details:", error);
       return of(result as T);
     };
   }
 
   convertFile(file: File): Observable<string> {
     const formData = new FormData();
-    formData.append('file', file);
-    
-    return this.http.post<{markdown: string}>(`${this.apiUrl}/convert`, formData)
+    formData.append("file", file);
+
+    return this.http
+      .post<{ markdown: string }>(`${this.apiUrl}/convert`, formData)
       .pipe(
-        map(response => response.markdown),
-        catchError(this.handleError('convertFile', ''))
+        map((response) => response.markdown),
+        catchError(this.handleError("convertFile", ""))
       );
   }
 }

@@ -14,6 +14,10 @@ export class TicketController {
 
   async create(req: Request, res: Response) {
     try {
+      const userID = (req as any).userId as number;
+      if (!userID) {
+        return res.status(401).json({ success: false, error: 'Error: Usuário não autenticado' });
+      }
       const ticketData = req.body;
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
@@ -30,8 +34,11 @@ export class TicketController {
 
       const ticket = await this.ticketService.createTicket({
         ...ticketData,
+        sellerId: userID,
+        status: (pdfFile.filename ? 'active' : 'pending') as 'active' | 'pending',
         image: imageFile ? imageFile.filename : null,
         file: pdfFile ? pdfFile.filename : null,
+
       });
 
       res.status(201).json({ success: true, data: ticket });

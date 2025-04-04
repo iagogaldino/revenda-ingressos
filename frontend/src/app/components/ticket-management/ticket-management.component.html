@@ -56,25 +56,33 @@
           <td>R$ {{ ticket.price | number:'1.2-2' }}</td>
           <td>{{ ticket.quantity }}</td>
           <td>
-            <span class="badge" [ngClass]="ticket.active ? 'bg-success' : 'bg-danger'">
-              {{ ticket.active ? 'Ativo' : 'Inativo' }}
-            </span>
+            @if (ticket.status === 'active') {
+              <span class="badge bg-success">{{ ticket.status }}</span>
+            } @else if (ticket.status === 'inactive') {
+              <span class="badge bg-secondary">{{ ticket.status }}</span>
+            } @else if (ticket.status === 'cancelled') {
+              <span class="badge bg-danger">{{ ticket.status }}</span>
+            } @else if (ticket.status === 'completed') {
+              <span class="badge bg-info">{{ ticket.status }}</span>
+            } @else if (ticket.status === 'pending') {
+              <span class="badge bg-warning">{{ ticket.status }}</span>
+            }
           </td>
           <td>
-            <span *ngIf="ticket.paymentStatus === 'approved'" class="badge bg-success">Aprovado</span>
-            <span *ngIf="ticket.paymentStatus === 'pending'" class="badge bg-warning">Pendente</span>
+            <span *ngIf="ticket.paymentStatus === 'approved'" class="badge bg-success">Pago</span>
+            <span *ngIf="ticket.paymentStatus === 'pending'" class="badge bg-warning">Vendas em andamento...</span>
             <span *ngIf="ticket.paymentStatus === 'cancelled'" class="badge bg-danger">Cancelado</span>
           </td>
           <td>
             <div class="btn-group">
-              <button class="btn btn-sm btn-outline-primary" (click)="openTicketModal(ticket)">
+              <button class="btn btn-sm btn-outline-primary" (click)="openTicketModal(ticket)"  [disabled]="ticket.paymentStatus === 'approved'">
                 <i class="bi bi-pencil"></i>
               </button>
-              <button class="btn btn-sm btn-outline-secondary" 
+              <button [disabled]="ticket.paymentStatus === 'approved'" class="btn btn-sm btn-outline-secondary" 
                       (click)="onToggleStatus(ticket)">
                 <i class="bi" [ngClass]="ticket.active ? 'bi-toggle-on' : 'bi-toggle-off'"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger" 
+              <button  [disabled]="ticket.paymentStatus === 'approved'" class="btn btn-sm btn-outline-danger" 
                       (click)="onDelete(ticket.id)">
                 <i class="bi bi-trash"></i>
               </button>

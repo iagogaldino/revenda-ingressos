@@ -19,4 +19,6 @@ export interface Ticket {
   active: boolean
   quantity: number
   sold: boolean
+  paymentStatus: any
+  status: any
 }
