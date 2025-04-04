@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TicketService } from '../../services/ticket.service';
+import { Category } from 'src/app/models/category.interface';
 
 @Component({
   standalone: false,
@@ -13,7 +14,7 @@ export class TicketFilterComponent implements OnInit {
   @Output() priceRangeChange = new EventEmitter<{min: number | null, max: number | null}>();
   @Output() resetFiltersEvent = new EventEmitter<void>();
 
-  categories: string[] = [];
+  categories: Category[] = [];
   selectedCategory: string = '';
   minPrice: number | null = null;
   maxPrice: number | null = null;

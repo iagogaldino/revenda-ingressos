@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Ticket } from '../../models/ticket.model';
 import { TicketService } from '../../services/ticket.service';
+import { Category } from 'src/app/models/category.interface';
 
 interface Step {
   number: number;
@@ -19,8 +20,8 @@ interface Step {
 export class HomeComponent implements OnInit {
   tickets: Ticket[] = [];
   filteredTickets: Ticket[] = [];
-  categories: string[] = [];
-  selectedCategory: string = '';
+  categories: Category[] = [];
+  selectedCategory: number = 0;
   searchTerm: string = '';
   loading: boolean = true;
   error: string | null = null;
@@ -103,10 +104,12 @@ export class HomeComponent implements OnInit {
     this.filteredTickets = this.tickets;
 
     // Filtrar por categoria
+    console.log('Categoria selecionada:', this.selectedCategory, this.filteredTickets);
     if (this.selectedCategory) {
       this.filteredTickets = this.filteredTickets.filter(
-        ticket => ticket.category === this.selectedCategory
+        ticket => ticket.category.id === this.selectedCategory
       );
+      console.log('Ingressos filtrados por categoria:', this.filteredTickets);
     }
 
     // Filtrar por termo de busca
@@ -131,7 +134,7 @@ export class HomeComponent implements OnInit {
   }
 
   resetFilters(): void {
-    this.selectedCategory = '';
+    this.selectedCategory = 0;
     this.searchTerm = '';
     this.filteredTickets = this.tickets;
   }

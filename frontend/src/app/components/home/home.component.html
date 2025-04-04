@@ -27,16 +27,16 @@
         <div class="categories-container">
           <button 
             class="btn btn-outline-primary me-2 mb-2" 
-            [class.active]="selectedCategory === ''"
-            (click)="selectedCategory = ''; onCategoryChange()">
+            [class.active]="selectedCategory === 0"
+            (click)="selectedCategory = 0; onCategoryChange()">
             Todos
           </button>
           <button 
             *ngFor="let category of categories" 
             class="btn btn-outline-primary me-2 mb-2"
-            [class.active]="selectedCategory === category"
-            (click)="selectedCategory = category; onCategoryChange()">
-            {{ category }}
+            [class.active]="selectedCategory === category.id"
+            (click)="selectedCategory = category.id; onCategoryChange()">
+            {{ category.name }}
           </button>
         </div>
       </div>

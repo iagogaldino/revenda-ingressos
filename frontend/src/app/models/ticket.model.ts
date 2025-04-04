@@ -1,3 +1,5 @@
+import { Category } from "./category.interface";
+
 export interface Seller {
   name: string;
   rating: number;
@@ -12,7 +14,7 @@ export interface Ticket {
   price: number;
   originalPrice: number;
   description: string;
-  category: string;
+  category: Category;
   type: string;
   seller: Seller;
   image: string;
@@ -20,5 +22,5 @@ export interface Ticket {
   quantity: number
   sold: boolean
   paymentStatus: any
-  status: any
+  status  : any
 }

@@ -48,7 +48,7 @@ export class TicketListComponent implements OnInit {
     if (!category) {
       this.filteredTickets = this.tickets;
     } else {
-      this.filteredTickets = this.tickets.filter(ticket => ticket.category === category);
+      this.filteredTickets = this.tickets.filter(ticket => ticket.category.name === category);
     }
     this.sortTickets();
   }

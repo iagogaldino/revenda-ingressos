@@ -5,6 +5,7 @@ import { Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { Ticket } from "../types/ticket";
 import { getToken } from "../utils/token-util";
+import { Category } from "../models/category.interface";
 
 @Injectable({
   providedIn: "root",
@@ -34,10 +35,12 @@ export class TicketService {
       .pipe(catchError(this.handleError("getTicketById", null)));
   }
 
-  getCategories(): Observable<string[]> {
+  getCategories(): Observable<Category[]> {
     return this.http
       .get<string[]>(this.categoriesUrl)
-      .pipe(catchError(this.handleError("getCategories", [])));
+      .pipe(
+        map((response: any) => response.data),
+        catchError(this.handleError("getCategories", [])));
   }
 
   filterTickets(
