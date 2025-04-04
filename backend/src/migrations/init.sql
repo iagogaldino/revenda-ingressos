@@ -18,6 +18,17 @@ CREATE TABLE IF NOT EXISTS tickets (
   event_date TIMESTAMP NOT NULL,
   location VARCHAR(255) NOT NULL,
   venue VARCHAR(255) NOT NULL,
+  deleted BOOLEAN DEFAULT false,
+  price DECIMAL(10, 2) NOT NULL,
+  original_price DECIMAL(10, 2),
+  description TEXT,
+  category VARCHAR(100),
+  type VARCHAR(50),
+  image VARCHAR(255),
+  quantity INTEGER NOT NULL,
+  FOREIGN KEY (seller_id) REFERENCES users(id)
+);
+
 
 CREATE INDEX idx_tickets_seller_id ON tickets(seller_id);
 
@@ -31,3 +42,16 @@ CREATE INDEX idx_tickets_seller_id ON tickets(seller_id);
   quantity INTEGER NOT NULL,
   FOREIGN KEY (seller_id) REFERENCES users(id)
 );
+
+
+CREATE TABLE IF NOT EXISTS sales (
+  id SERIAL PRIMARY KEY,
+  ticket_id INTEGER NOT NULL REFERENCES tickets(id),
+  buyer_email VARCHAR(255) NOT NULL,
+  buyer_phone VARCHAR(20) NOT NULL,
+  amount DECIMAL(10,2) NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
