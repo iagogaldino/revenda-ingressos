@@ -8,7 +8,7 @@ export interface IPaymentWebhook {
 }
 
 export enum PaymentStatus {
-  Accredited = 'Accredited', 
+  Accredited = 'approved', 
   Cancelled = 'Cancelled', 
 }
 

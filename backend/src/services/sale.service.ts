@@ -108,7 +108,6 @@ export class SaleService implements ISaleService {
           caption
         )
         .catch((error) => {
-          console.error("Error sending WhatsApp file:", error);
           return error.message;
         });
     } catch (error: any) {

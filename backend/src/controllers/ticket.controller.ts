@@ -4,6 +4,8 @@ import { TicketService } from '../services/ticket.service';
 import { TicketRepository } from '../repositories/ticket.repository';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { Ticket } from '../types/ticket';
+import { PaymentStatus } from '../interfaces/payment.interface';
+import path from 'path';
 
 export class TicketController {
   private ticketService: ITicketService;
@@ -233,7 +235,7 @@ formatDateForDatabase(dateString: string): string {
         return res.status(404).json({ success: false, error: 'Ticket not found' });
       }
 
-      if (ticket.paymentStatus !== 'approved') {
+      if (ticket.paymentStatus !== PaymentStatus.Accredited) {
         return res.status(403).json({ success: false, error: 'Payment not approved' });
       }
 

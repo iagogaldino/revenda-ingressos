@@ -30,8 +30,7 @@ export class SendFileWhatsApp {
 
       return response.data;
     } catch (error: any) {
-      console.error("Error sending image:", error.message);
-      throw new Error(`Failed to send image: ${error.message}`);
+      throw new Error(`Failed to send image: ${error}`);
     }
   }
 }
