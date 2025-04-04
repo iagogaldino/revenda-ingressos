@@ -17,7 +17,6 @@ export interface ITicket {
   status: 'active' | 'pending';
   createdAt?: string;
   updatedAt?: string;
-  paymentStatus: PaymentStatus;
 }
 
 export interface ITicketRepository {

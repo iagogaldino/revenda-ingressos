@@ -7,15 +7,8 @@ import { CommonModule } from "@angular/common";
 import * as QRCode from "qrcode";
 import { SaleService } from "../../services/sale.service";
 import { HttpClient } from '@angular/common/http';
-
-// Added TicketService
-class TicketService {
-  constructor(private http: HttpClient) {}
-
-  downloadTicket(ticketId: number): Observable<Blob> {
-    return this.http.get(`/api/tickets/download/${ticketId}`, { responseType: 'blob' });
-  }
-}
+import { TicketService } from "src/app/services/ticket.service";
+ 
 
 
 @Component({
@@ -23,7 +16,6 @@ class TicketService {
   selector: "app-purchase-modal",
   templateUrl: "./purchase-modal.component.html",
   styleUrls: ["./purchase-modal.component.css"],
-  providers: [TicketService] // Add TicketService provider here.
 })
 export class PurchaseModalComponent implements OnInit, OnDestroy {
   @Input() ticket!: Ticket;
