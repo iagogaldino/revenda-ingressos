@@ -17,12 +17,14 @@ export class TicketService {
   constructor(private http: HttpClient) {}
 
   getAllTickets(): Observable<Ticket[]> {
-    return this.http.get<Ticket[]>(`${this.apiUrl}/tickets`).pipe(
-      map((response: any) => response.data),
-      map((tickets: Ticket[]) => {
-        return tickets.map((ticket) => ({
+    return this.http.get<any>(`${this.apiUrl}/tickets`).pipe(
+      map((response) => {
+        if (!response || !response.data) {
+          return [];
+        }
+        return response.data.map((ticket: Ticket) => ({
           ...ticket,
-          image: `${environment.imageBaseUrl}/${ticket.image}`,
+          image: ticket.image ? `${environment.imageBaseUrl}/${ticket.image}` : 'assets/placeholder-event.jpg'
         }));
       }),
       catchError(this.handleError("getAllTickets", []))

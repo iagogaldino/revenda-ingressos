@@ -85,7 +85,8 @@ export class TicketManagementComponent implements OnInit {
 
     if (ticket) {
       modalRef.componentInstance.editMode = true;
-      modalRef.componentInstance.ticketData = ticket;
+      modalRef.componentInstance.ticketData = {...ticket};
+      modalRef.componentInstance.imagePreviewUrl = ticket.image;
     }
 
     modalRef.result.then(
@@ -95,24 +96,43 @@ export class TicketManagementComponent implements OnInit {
           if (result.file) {
             formData.append('file', result.file);
           }
-          // Add other ticket data
+          if (result.image) {
+            formData.append('image', result.image);
+          }
+          
           Object.keys(result).forEach(key => {
-            if (key !== 'file') {
+            if (key !== 'file' && key !== 'image') {
               formData.append(key, result[key]?.toString());
             }
           });
 
-          this.ticketService.createTicket(formData).subscribe({
-            next: () => {
-              this.successMessage = "Ingresso criado com sucesso!";
-              this.loadTickets();
-              setTimeout(() => this.successMessage = "", 3000);
-            },
-            error: (error) => {
-              this.error = "Erro ao criar ingresso";
-              console.error("Error:", error);
-            }
-          });
+          if (ticket) {
+            // Update existing ticket
+            this.ticketService.updateTicket(ticket.id, formData).subscribe({
+              next: () => {
+                this.successMessage = "Ingresso atualizado com sucesso!";
+                this.loadTickets();
+                setTimeout(() => this.successMessage = "", 3000);
+              },
+              error: (error) => {
+                this.error = "Erro ao atualizar ingresso";
+                console.error("Error:", error);
+              }
+            });
+          } else {
+            // Create new ticket
+            this.ticketService.createTicket(formData).subscribe({
+              next: () => {
+                this.successMessage = "Ingresso criado com sucesso!";
+                this.loadTickets();
+                setTimeout(() => this.successMessage = "", 3000);
+              },
+              error: (error) => {
+                this.error = "Erro ao criar ingresso";
+                console.error("Error:", error);
+              }
+            });
+          }
         }
       },
       (reason) => {

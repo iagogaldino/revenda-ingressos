@@ -34,19 +34,30 @@ export class TicketCreateComponent implements OnInit {
     });
   }
 
+  editMode = false;
+  ticketData: any;
+  imagePreviewUrl: string | null = null;
+
   ngOnInit(): void {
     this.loadCategories();
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.ticketForm = this.fb.group({
-      eventName: ['Show do Gustavo Lima', Validators.required],
-      description: ['Grande show de Gustavo Lima no São João de Petrolina.', Validators.required],
-      category: ['', Validators.required],
-      location: ['Petrolina, PE', Validators.required],
-      venue: ['Pátio Ana das Carrancas', Validators.required],
-      eventDate: ['2025-06-21T20:00:00', Validators.required],
-      price: [250, [Validators.required, Validators.min(0)]],
-      quantity: [500, [Validators.required, Validators.min(1)]]
+      eventName: [this.editMode ? this.ticketData.eventName : '', Validators.required],
+      description: [this.editMode ? this.ticketData.description : '', Validators.required],
+      category: [this.editMode ? this.ticketData.category : '', Validators.required],
+      location: [this.editMode ? this.ticketData.location : '', Validators.required],
+      venue: [this.editMode ? this.ticketData.venue : '', Validators.required],
+      eventDate: [this.editMode ? this.ticketData.eventDate : '', Validators.required],
+      price: [this.editMode ? this.ticketData.price : 0, [Validators.required, Validators.min(0)]],
+      quantity: [this.editMode ? this.ticketData.quantity : 0, [Validators.required, Validators.min(1)]]
     });
 
+    if (this.editMode && this.ticketData.image) {
+      this.imagePreviewUrl = this.ticketData.image;
+    }
   }
 
   onImageSelected(event: Event): void {

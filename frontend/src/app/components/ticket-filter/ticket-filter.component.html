@@ -1,6 +1,6 @@
 <div class="card shadow-sm p-4 mb-4">
   <h5 class="mb-3">Filtrar Ingressos</h5>
-  
+
   <div class="mb-3">
     <label for="categorySelect" class="form-label">Categoria</label>
     <select 
@@ -8,13 +8,13 @@
       class="form-select" 
       [(ngModel)]="selectedCategory" 
       (change)="onCategoryChange()">
-      <option value="">Todas as categorias</option>
-      <option *ngFor="let category of categories" [value]="category">
+      <option [value]="0">Todas as categorias</option>
+      <option *ngFor="let category of categories" [value]="category.id">
         {{ category.name }}
       </option>
     </select>
   </div>
-  
+
   <div class="mb-3">
     <label for="minPrice" class="form-label">Preço Mínimo (R$)</label>
     <input 
@@ -25,7 +25,7 @@
       min="0" 
       placeholder="Mínimo">
   </div>
-  
+
   <div class="mb-3">
     <label for="maxPrice" class="form-label">Preço Máximo (R$)</label>
     <input 
@@ -36,7 +36,7 @@
       min="0" 
       placeholder="Máximo">
   </div>
-  
+
   <div class="d-grid gap-2">
     <button 
       class="btn btn-primary" 

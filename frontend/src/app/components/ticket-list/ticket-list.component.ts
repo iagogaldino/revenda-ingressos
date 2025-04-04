@@ -44,11 +44,11 @@ export class TicketListComponent implements OnInit {
     return Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
   }
 
-  filterByCategory(category: number): void {
-    if (!category) {
+  filterByCategory(categoryId: number): void {
+    if (!categoryId) {
       this.filteredTickets = this.tickets;
     } else {
-      this.filteredTickets = this.tickets.filter(ticket => ticket.category === category);
+      this.filteredTickets = this.tickets.filter(ticket => ticket.category.id === categoryId);
     }
     this.sortTickets();
   }
