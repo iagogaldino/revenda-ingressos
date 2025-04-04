@@ -244,7 +244,10 @@ formatDateForDatabase(dateString: string): string {
       }
 
       const filePath = path.join(__dirname, '../../uploads', ticket.file);
-      res.download(filePath);
+      const fileName = ticket.file;
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      res.sendFile(filePath);
     } catch (error) {
       console.error('Error downloading ticket:', error);
       res.status(500).json({ success: false, error: 'Failed to download ticket' });
