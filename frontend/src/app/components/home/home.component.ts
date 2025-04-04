@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit {
     console.log('Categoria selecionada:', this.selectedCategory, this.filteredTickets);
     if (this.selectedCategory) {
       this.filteredTickets = this.filteredTickets.filter(
-        ticket => ticket.category.id === this.selectedCategory
+        ticket => ticket.category === this.selectedCategory
       );
       console.log('Ingressos filtrados por categoria:', this.filteredTickets);
     }

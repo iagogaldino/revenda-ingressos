@@ -17,6 +17,7 @@ export class TicketService implements ITicketService {
   }
 
   async updateTicket(id: number, ticket: Partial<ITicket>): Promise<ITicket> {
+    console.log('Updating ticket with ID:', id, 'Data:', ticket);
     return this.ticketRepository.update(id, ticket);
   }
 

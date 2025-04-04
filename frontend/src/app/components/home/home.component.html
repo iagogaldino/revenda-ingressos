@@ -135,7 +135,7 @@
               <h5 class="mb-0">{{ testimonial.name }}</h5>
             </div>
             <div class="text-warning">
-              @for (star of testimonial.stars; track star) {
+              @for (star of testimonial.stars; track $index) {
                 <i class="bi bi-star-fill"></i>
               }
             </div>

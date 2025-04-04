@@ -14,7 +14,7 @@ export interface Ticket {
   price: number;
   originalPrice: number;
   description: string;
-  category: Category;
+  category: number;
   type: string;
   seller: Seller;
   image: string;
