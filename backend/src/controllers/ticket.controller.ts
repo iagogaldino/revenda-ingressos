@@ -249,9 +249,11 @@ formatDateForDatabase(dateString: string): string {
       }
 
       const filePath = path.join(__dirname, '../../uploads', ticket.file);
-      const fileName = ticket.file;
+      const fileExtension = ticket.file.split('.').pop();
+      const downloadFileName = `ingresso_${sale.id}_${ticket.event_name.replace(/[^a-zA-Z0-9]/g, '_')}.${fileExtension}`;
+      
       res.setHeader('Content-Type', 'application/octet-stream');
-      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      res.setHeader('Content-Disposition', `attachment; filename="${downloadFileName}"`);
       res.sendFile(filePath);
     } catch (error) {
       console.error('Error downloading ticket:', error);
