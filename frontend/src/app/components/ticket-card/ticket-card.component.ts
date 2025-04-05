@@ -20,10 +20,14 @@ export class TicketCardComponent {
 
   getYouTubeEmbedUrl(url: string): string {
     const videoId = this.extractYouTubeVideoId(url);
-    const link = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
+    if (!videoId) return '';
+
+    // Remover 'mute=1' se deseja que o som saia
+    const link = `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=0&modestbranding=1&rel=0&autohide=1&fs=0&disablekb=1`;
     console.log('link', link);
     return link;
-  }
+}
+
 
   private extractYouTubeVideoId(url: string): string {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;

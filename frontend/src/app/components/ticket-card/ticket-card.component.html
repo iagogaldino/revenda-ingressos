@@ -1,44 +1,38 @@
-<div class="card h-100 shadow-sm" [ngClass]="{'sold-out': ticket.sold}">
+<div class="card h-100 shadow-sm" [ngClass]="{ 'sold-out': ticket.sold }">
   <!-- Container de mídia do evento -->
-  <div class="media-container" 
-       (mouseenter)="showVideo()" 
-       (mouseleave)="hideVideo()">
-
-    <img 
-      [src]="ticket.image || 'assets/placeholder-event.jpg'" 
-      class="card-img-top" 
-      [alt]="ticket.eventName" 
+  <div
+    class="media-container"
+    (mouseenter)="showVideo()"
+    (mouseleave)="hideVideo()"
+  >
+    <img
+      [src]="ticket.image || 'assets/placeholder-event.jpg'"
+      class="card-img-top"
+      [alt]="ticket.eventName"
       [class.hidden]="isVideoVisible"
-      (error)="onImageError($event)">
-      @if (ticket.videoUrl) {
-      asdas{{ticket.videoUrl}}
+      (error)="onImageError($event)"
+    />
+    @if (ticket.videoUrl) { asdas{{ ticket.videoUrl }}
 
-          <!-- YouTube Embed -->
-          <iframe
-            [src]="getYouTubeEmbedUrl(ticket.videoUrl) | safe:'resourceUrl'"
-            class="card-video-top"
-            [class.visible]="isVideoVisible"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-          
-          <!-- Regular Video File -->
-          <video 
-            #videoPreview
-            [src]="ticket.videoUrl" 
-            class="card-video-top"
-            [class.visible]="isVideoVisible"
-            muted
-            loop
-            playsinline
-            preload="metadata">
-          </video>
-      }
+    <!-- YouTube Embed -->
+    <iframe
+      [src]="getYouTubeEmbedUrl(ticket.videoUrl) | safe : 'resourceUrl'"
+      class="card-video-top"
+      [class.visible]="isVideoVisible"
+      frameborder="0"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen
+    >
+    </iframe>
+
+    }
   </div>
 
   <!-- Badge de desconto -->
-  <div *ngIf="calculateDiscount(ticket.originalPrice || 0, ticket.price) > 0" class="badge-discount">
+  <div
+    *ngIf="calculateDiscount(ticket.originalPrice || 0, ticket.price) > 0"
+    class="badge-discount"
+  >
     -{{ calculateDiscount(ticket.originalPrice || 0, ticket.price) }}%
   </div>
 
@@ -52,7 +46,7 @@
     <h6 class="card-title">{{ ticket.eventName }}</h6>
     <p class="card-text text-muted mb-1">
       <i class="bi bi-calendar-event"></i>
-      {{ ticket.eventDate | date:'dd/MM/yyyy' }}
+      {{ ticket.eventDate | date : "dd/MM/yyyy" }}
     </p>
     <p class="card-text text-muted mb-3">
       <i class="bi bi-geo-alt"></i>
@@ -61,26 +55,37 @@
 
     <!-- Preços e Quantidade -->
     <div class="mt-auto">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <div class="price-container">
-            <span class="current-price">R$ {{ ticket.price }},00</span>
-            <span *ngIf="ticket.originalPrice || 0 > ticket.price" class="original-price">R$ {{ ticket.originalPrice }},00</span>
-          </div>
-          <span class="quantity-badge" [ngClass]="{'low-stock': ticket.quantity < 5}">
-            {{ ticket.quantity }} ingressos
-          </span>
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="price-container">
+          <span class="current-price">R$ {{ ticket.price }},00</span>
+          <span
+            *ngIf="ticket.originalPrice || 0 > ticket.price"
+            class="original-price"
+            >R$ {{ ticket.originalPrice }},00</span
+          >
         </div>
+        <span
+          class="quantity-badge"
+          [ngClass]="{ 'low-stock': ticket.quantity < 5 }"
+        >
+          {{ ticket.quantity }} ingressos
+        </span>
+      </div>
 
       <!-- Informações do vendedor -->
       <div class="seller-info d-flex align-items-center mb-3">
         <div class="d-flex align-items-center">
           <span *ngIf="ticket.seller.rating >= 4" title="Vendedor Verificado">
-            <i style="color: green;" class="bi bi-patch-check-fill me-1"></i>
+            <i style="color: green" class="bi bi-patch-check-fill me-1"></i>
           </span>
-          <span class="seller-name text-muted me-2">{{ ticket.seller.name }}</span>
+          <span class="seller-name text-muted me-2">{{
+            ticket.seller.name
+          }}</span>
         </div>
         <div class="seller-rating ms-2">
-          <ng-container *ngFor="let star of generateStarRating(ticket.seller.rating)">
+          <ng-container
+            *ngFor="let star of generateStarRating(ticket.seller.rating)"
+          >
             <i *ngIf="star === 1" class="bi bi-star-fill text-warning"></i>
             <i *ngIf="star === 0.5" class="bi bi-star-half text-warning"></i>
             <i *ngIf="star === 0" class="bi bi-star text-warning"></i>
@@ -89,18 +94,29 @@
       </div>
 
       <!-- Status de disponibilidade -->
-      <div class="availability-status mb-2" [ngClass]="{'sold-out': ticket.sold}">
-        <i class="bi" [ngClass]="ticket.sold ? 'bi-x-circle-fill text-danger' : 'bi-check-circle-fill text-success'"></i>
-        <span>{{ ticket.sold ? 'Vendido' : 'Disponível' }}</span>
+      <div
+        class="availability-status mb-2"
+        [ngClass]="{ 'sold-out': ticket.sold }"
+      >
+        <i
+          class="bi"
+          [ngClass]="
+            ticket.sold
+              ? 'bi-x-circle-fill text-danger'
+              : 'bi-check-circle-fill text-success'
+          "
+        ></i>
+        <span>{{ ticket.sold ? "Vendido" : "Disponível" }}</span>
       </div>
 
       <!-- Botão de compra -->
-      <button 
-        class="btn btn-primary w-100" 
+      <button
+        class="btn btn-primary w-100"
         (click)="openPurchaseModal()"
         [disabled]="ticket.sold"
         [title]="ticket.sold ? 'Ingressos Esgotados' : ''"
-        [ngClass]="{'btn-disabled': ticket.sold}">
+        [ngClass]="{ 'btn-disabled': ticket.sold }"
+      >
         Comprar ingresso
       </button>
     </div>
