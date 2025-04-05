@@ -25,4 +25,5 @@ export interface Ticket {
   paymentStatus: any
   status  : any
   videoUrl?: string;
+  videoType?: 'youtube' | 'file';
 }

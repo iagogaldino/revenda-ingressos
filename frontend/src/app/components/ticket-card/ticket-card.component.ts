@@ -18,22 +18,26 @@ export class TicketCardComponent {
 
   constructor(private modalService: NgbModal) {}
 
-  async showVideo() {
+  getYouTubeEmbedUrl(url: string): string {
+    const videoId = this.extractYouTubeVideoId(url);
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
+  }
+
+  private extractYouTubeVideoId(url: string): string {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : '';
+  }
+
+  showVideo() {
     if (this.ticket.videoUrl) {
       this.isVideoVisible = true;
-      try {
-        await this.videoPreview.nativeElement.play();
-      } catch (err) {
-        console.warn('Autoplay failed:', err);
-      }
     }
   }
 
   hideVideo() {
     if (this.ticket.videoUrl) {
       this.isVideoVisible = false;
-      this.videoPreview.nativeElement.pause();
-      this.videoPreview.nativeElement.currentTime = 0;
     }
   }
 
