@@ -42,9 +42,15 @@
 
       <!-- Informações do vendedor -->
       <div class="seller-info d-flex align-items-center mb-3">
-        <span class="seller-name text-muted me-2">{{ ticket.seller.name }}</span>
-        <div class="seller-rating">
-          <ng-container *ngFor="let star of generateStarRating(ticket.seller.rating); let i = index">
+        <div class="d-flex align-items-center">
+          <span class="seller-name text-muted me-2">{{ ticket.seller.name }}</span>
+          <span *ngIf="ticket.seller.rating >= 4.5" class="trusted-seller-badge">
+            <i class="bi bi-patch-check-fill me-1"></i>
+            Vendedor Confiável
+          </span>
+        </div>
+        <div class="seller-rating ms-2">
+          <ng-container *ngFor="let star of generateStarRating(ticket.seller.rating)">
             <i *ngIf="star === 1" class="bi bi-star-fill text-warning"></i>
             <i *ngIf="star === 0.5" class="bi bi-star-half text-warning"></i>
             <i *ngIf="star === 0" class="bi bi-star text-warning"></i>
