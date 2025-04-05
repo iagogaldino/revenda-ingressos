@@ -6,7 +6,7 @@ export interface Seller {
 }
 
 export interface Ticket {
-  id: number;
+  id: string;
   eventName: string;
   eventDate: string;
   location: string;
@@ -24,4 +24,5 @@ export interface Ticket {
   sold: boolean
   paymentStatus: any
   status  : any
+  videoUrl?: string;
 }

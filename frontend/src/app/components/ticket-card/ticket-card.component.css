@@ -3,10 +3,36 @@
   position: relative;
 }
 
-.card-img-top {
+.media-container {
+  position: relative;
   height: 180px;
+  overflow: hidden;
+}
+
+.card-img-top {
+  height: 100%;
+  width: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: opacity 0.3s ease;
+}
+
+.card-video-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-video-top.visible {
+  opacity: 1;
+}
+
+.card-img-top.hidden {
+  opacity: 0;
 }
 
 .card:hover .card-img-top {

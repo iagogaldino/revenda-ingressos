@@ -12,8 +12,26 @@ import { Ticket } from '../../models/ticket.model';
 })
 export class TicketCardComponent {
   @Input() ticket!: Ticket;
+  @ViewChild('videoPreview') videoPreview!: ElementRef<HTMLVideoElement>;
+  
+  isVideoVisible = false;
 
   constructor(private modalService: NgbModal) {}
+
+  showVideo() {
+    if (this.ticket.videoUrl) {
+      this.isVideoVisible = true;
+      this.videoPreview.nativeElement.play();
+    }
+  }
+
+  hideVideo() {
+    if (this.ticket.videoUrl) {
+      this.isVideoVisible = false;
+      this.videoPreview.nativeElement.pause();
+      this.videoPreview.nativeElement.currentTime = 0;
+    }
+  }
 
   openPurchaseModal() {
     const modalRef = this.modalService.open(PurchaseModalComponent, { 

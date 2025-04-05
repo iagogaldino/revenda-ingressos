@@ -1,10 +1,24 @@
 <div class="card h-100 shadow-sm" [ngClass]="{'sold-out': ticket.sold}">
-  <!-- Imagem do evento -->
-  <img 
-    [src]="ticket.image || 'assets/placeholder-event.jpg'" 
-    class="card-img-top" 
-    [alt]="ticket.eventName" 
-    (error)="onImageError($event)">
+  <!-- Container de mídia do evento -->
+  <div class="media-container" 
+       (mouseenter)="showVideo()" 
+       (mouseleave)="hideVideo()">
+    <img 
+      [src]="ticket.image || 'assets/placeholder-event.jpg'" 
+      class="card-img-top" 
+      [alt]="ticket.eventName" 
+      [class.hidden]="isVideoVisible"
+      (error)="onImageError($event)">
+    <video 
+      #videoPreview
+      *ngIf="ticket.videoUrl"
+      [src]="ticket.videoUrl" 
+      class="card-video-top"
+      [class.visible]="isVideoVisible"
+      muted
+      loop>
+    </video>
+  </div>
 
   <!-- Badge de desconto -->
   <div *ngIf="calculateDiscount(ticket.originalPrice || 0, ticket.price) > 0" class="badge-discount">
