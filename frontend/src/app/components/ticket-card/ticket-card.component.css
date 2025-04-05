@@ -1,3 +1,21 @@
+.ticket-type-banner {
+  background: linear-gradient(45deg, #2b5876, #4e4376);
+  color: white;
+  padding: 8px 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 4px 4px 0 0;
+}
+
+.ticket-type-banner i {
+  margin-right: 8px;
+}
+
 .card {
   overflow: hidden;
   position: relative;
