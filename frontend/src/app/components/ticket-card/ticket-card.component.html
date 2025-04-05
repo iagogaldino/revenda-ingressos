@@ -1,4 +1,9 @@
 <div class="card h-100 shadow-sm" [ngClass]="{ 'sold-out': ticket.sold }">
+  <!-- Tipo de Ingresso -->
+  <div class="ticket-type-banner">
+    <i class="bi bi-ticket-perforated"></i>
+    {{ ticket.ticketType || 'Normal' }}
+  </div>
   <!-- Container de mídia do evento -->
   <div
     class="media-container"
