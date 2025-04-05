@@ -20,7 +20,9 @@ export class TicketCardComponent {
 
   getYouTubeEmbedUrl(url: string): string {
     const videoId = this.extractYouTubeVideoId(url);
-    return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
+    const link = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
+    console.log('link', link);
+    return link;
   }
 
   private extractYouTubeVideoId(url: string): string {

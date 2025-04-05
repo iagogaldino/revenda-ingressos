@@ -19,6 +19,7 @@ import { TicketManagementComponent } from './components/ticket-management/ticket
 import { ProfileComponent } from './components/profile/profile.component';
 import { TicketCreateComponent } from './components/ticket-create/ticket-create.component';
 import { SaleService } from './services/sale.service';
+import { SafePipe } from './pipes/safe.pipe';
 
 
 const routes: Routes = [
@@ -36,7 +37,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    SafePipe,
     TicketCreateComponent,
     HomeComponent,
     AboutComponent,
@@ -51,6 +51,7 @@ const routes: Routes = [
     ProfileComponent,
   ],
   imports: [
+    SafePipe,
     BrowserModule,
     CommonModule,
     FormsModule,
