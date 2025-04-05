@@ -8,36 +8,40 @@
           Compre e venda ingressos de forma segura e confiável para shows, eventos esportivos, teatro e muito mais.
         </p>
 
-        <!-- Search form -->
-        <div class="search-container mb-4">
-          <form (ngSubmit)="onSearch()" class="d-flex">
-            <input 
-              type="text" 
-              class="form-control me-2" 
-              placeholder="Buscar por evento, local ou artista..."
-              [(ngModel)]="searchTerm"
-              name="searchTerm">
-            <button type="submit" class="btn btn-primary">
-              <i class="bi bi-search"></i>
-            </button>
+        <!-- Search section -->
+        <div class="search-section">
+          <form (ngSubmit)="onSearch()" class="search-form">
+            <div class="search-input-container">
+              <i class="bi bi-search search-icon"></i>
+              <input 
+                type="text" 
+                class="search-input" 
+                placeholder="Buscar por evento, local ou artista..."
+                [(ngModel)]="searchTerm"
+                name="searchTerm">
+              <button type="submit" class="search-button">
+                Buscar
+              </button>
+            </div>
           </form>
-        </div>
 
-        <!-- Categories buttons -->
-        <div class="categories-container">
-          <button 
-            class="btn btn-outline-primary me-2 mb-2" 
-            [class.active]="selectedCategory === 0"
-            (click)="selectedCategory = 0; onCategoryChange()">
-            Todos
-          </button>
-          <button 
-            *ngFor="let category of categories" 
-            class="btn btn-outline-primary me-2 mb-2"
-            [class.active]="selectedCategory === category.id"
-            (click)="selectedCategory = category.id; onCategoryChange()">
-            {{ category.name }}
-          </button>
+          <!-- Categories buttons -->
+          <div class="categories-container">
+            <button 
+              class="category-btn" 
+              [class.active]="selectedCategory === 0"
+              (click)="selectedCategory = 0; onCategoryChange()">
+              <i class="bi bi-grid-fill"></i>
+              Todos
+            </button>
+            <button 
+              *ngFor="let category of categories" 
+              class="category-btn"
+              [class.active]="selectedCategory === category.id"
+              (click)="selectedCategory = category.id; onCategoryChange()">
+              {{ category.name }}
+            </button>
+          </div>
         </div>
       </div>
 
