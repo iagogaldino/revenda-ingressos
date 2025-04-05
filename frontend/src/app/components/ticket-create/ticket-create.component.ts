@@ -53,7 +53,8 @@ export class TicketCreateComponent implements OnInit {
       venue: [this.editMode && this.ticketData?.venue ? this.ticketData.venue : '', Validators.required],
       eventDate: [this.editMode && this.ticketData?.eventDate ? this.formatDate(this.ticketData.eventDate) : '', Validators.required],
       price: [this.editMode && this.ticketData?.price ? this.ticketData.price : 0, [Validators.required, Validators.min(0)]],
-      quantity: [this.editMode && this.ticketData?.quantity ? this.ticketData.quantity : 0, [Validators.required, Validators.min(1)]]
+      quantity: [this.editMode && this.ticketData?.quantity ? this.ticketData.quantity : 0, [Validators.required, Validators.min(1)]],
+      ticketType: [this.editMode && this.ticketData?.ticketType ? this.ticketData.ticketType : '', Validators.required]
     });
 
     if (this.editMode && this.ticketData?.image) {
