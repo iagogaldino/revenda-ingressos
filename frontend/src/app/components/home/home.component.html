@@ -92,9 +92,11 @@
 
     <!-- Tickets grid -->
     <div *ngIf="!loading && !error && filteredTickets.length > 0" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-      <div class="col" *ngFor="let ticket of filteredTickets.slice(0, 6)">
-        <app-ticket-card [ticket]="ticket"></app-ticket-card>
-      </div>
+      @for (ticket of filteredTickets.slice(0, 6); track $index) {
+      <div class="col">
+          <app-ticket-card [ticket]="ticket"></app-ticket-card>
+        </div>
+      }
     </div>
 
     <div class="text-center mt-4">

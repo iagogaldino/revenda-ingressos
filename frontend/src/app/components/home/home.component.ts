@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Category } from 'src/app/models/category.interface';
 import { Ticket } from '../../models/ticket.model';
 import { TicketService } from '../../services/ticket.service';
-import { Category } from 'src/app/models/category.interface';
 
 interface Step {
   number: number;
@@ -77,10 +77,10 @@ export class HomeComponent implements OnInit {
   loadTickets(): void {
     this.loading = true;
     this.ticketService.getAllTickets().subscribe({
-      next: (response: any) => {
-        if (response && response.data) {
-          this.tickets = response.data;
-          this.filteredTickets = response.data;
+      next: (tickets: Ticket[]) => {
+        if (tickets && tickets) {
+          this.tickets = tickets;
+          this.filteredTickets = tickets;
           this.updateTicketCountByCategory();
         } else {
           this.tickets = [];
