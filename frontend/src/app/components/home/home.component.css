@@ -204,3 +204,33 @@
     font-size: 1.75rem;
   }
 }
+
+/* Added search container styles */
+.search-container {
+  max-width: 100%;
+}
+
+.search-container .form-control {
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+}
+
+.search-container .btn {
+  padding: 0.75rem 1.25rem;
+  border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .search-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-container .form-control,
+  .search-container .btn {
+    width: 100%;
+  }
+}
