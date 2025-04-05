@@ -43,6 +43,7 @@ export class TicketController {
         status: (pdfFile.filename ? 'active' : 'pending') as 'active' | 'pending',
         image: imageFile ? imageFile.filename : null,
         file: pdfFile ? pdfFile.filename : null,
+        videoUrl: ticketData.videoUrl || null,
 
       });
 

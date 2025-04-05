@@ -9,8 +9,8 @@ export class TicketRepository implements ITicketRepository {
     const query = `
       INSERT INTO tickets (
         seller_id, status, event_name, event_date, location, venue,
-        price, description, category, image, file, quantity, created_at, updated_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW(), NOW())
+        price, description, category, image, file, quantity, video_url, created_at, updated_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW(), NOW())
       RETURNING *
     `;
   

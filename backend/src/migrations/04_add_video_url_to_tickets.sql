@@ -1,0 +1,2 @@
+
+ALTER TABLE tickets ADD COLUMN IF NOT EXISTS video_url VARCHAR(255);
