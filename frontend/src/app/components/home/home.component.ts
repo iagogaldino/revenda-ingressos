@@ -77,10 +77,15 @@ export class HomeComponent implements OnInit {
   loadTickets(): void {
     this.loading = true;
     this.ticketService.getAllTickets().subscribe({
-      next: (tickets) => {
-        this.tickets = tickets;
-        this.filteredTickets = tickets;
-        this.updateTicketCountByCategory();
+      next: (response: any) => {
+        if (response && response.data) {
+          this.tickets = response.data;
+          this.filteredTickets = response.data;
+          this.updateTicketCountByCategory();
+        } else {
+          this.tickets = [];
+          this.filteredTickets = [];
+        }
         this.loading = false;
       },
       error: (error) => {
