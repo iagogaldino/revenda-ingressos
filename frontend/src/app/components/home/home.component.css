@@ -3,13 +3,30 @@
   background-color: #ffffff;
 }
 
-.search-section {
+.hero-section {
+  padding: 4rem 0;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.hero-section h1 {
   max-width: 800px;
+  margin: 0 auto 1.5rem;
+}
+
+.hero-section p {
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
+.search-section {
+  max-width: 700px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .search-form {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .search-input-container {
