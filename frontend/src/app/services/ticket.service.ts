@@ -24,8 +24,9 @@ export class TicketService {
         }
         return response.data.map((ticket: Ticket) => ({
           ...ticket,
+          videoUrl: 'https://www.youtube.com/watch?v=OPUMBJyutQI&list=PLNN6_x8rcV7I-VvW2D08J9OP3F-ugeL89', //MOCK - Isso vai ser retirado futuramente.
           image: ticket.image ? `${environment.imageBaseUrl}/${ticket.image}` : 'assets/placeholder-event.jpg'
-        }));
+        } as Ticket));
       }),
       catchError(this.handleError("getAllTickets", []))
     );

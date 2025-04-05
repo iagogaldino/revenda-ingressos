@@ -1,5 +1,5 @@
 
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PurchaseModalComponent } from '../purchase-modal/purchase-modal.component';
 import { Ticket } from '../../models/ticket.model';

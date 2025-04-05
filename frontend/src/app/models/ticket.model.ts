@@ -6,7 +6,7 @@ export interface Seller {
 }
 
 export interface Ticket {
-  id: string;
+  id: number;
   eventName: string;
   eventDate: string;
   location: string;
