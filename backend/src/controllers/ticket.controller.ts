@@ -127,6 +127,7 @@ export class TicketController {
         category: ticketData.category,
         quantity: ticketData.quantity,
         video_url: ticketData.videoUrl,
+        ticket_type: ticketData.ticketType,
     } as Partial< ITicket >;
 }
 

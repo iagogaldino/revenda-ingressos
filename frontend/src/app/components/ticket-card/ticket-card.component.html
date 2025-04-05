@@ -12,7 +12,7 @@
       [class.hidden]="isVideoVisible"
       (error)="onImageError($event)"
     />
-    @if (ticket.videoUrl) { asdas{{ ticket.videoUrl }}
+    @if (ticket.videoUrl) {  
 
     <!-- YouTube Embed -->
     <iframe
@@ -37,11 +37,6 @@
   </div>
 
   <div class="card-body d-flex flex-column">
-    <!-- Categoria -->
-    <div class="mb-2">
-      <span class="badge bg-light text-dark">{{ ticket.category }}</span>
-    </div>
-
     <!-- Título e data -->
     <h6 class="card-title">{{ ticket.eventName }}</h6>
     <p class="card-text text-muted mb-1">

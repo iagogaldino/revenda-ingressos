@@ -24,7 +24,6 @@ export class TicketService {
         }
         return response.data.map((ticket: Ticket) => ({
           ...ticket,
-          // videoUrl: 'https://youtube.com/watch?v=3MsefIuCp44', //MOCK - Isso vai ser retirado futuramente.
           image: ticket.image ? `${environment.imageBaseUrl}/${ticket.image}` : 'assets/placeholder-event.jpg'
         } as Ticket));
       }),
