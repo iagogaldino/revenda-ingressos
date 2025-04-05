@@ -87,6 +87,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   }
 
   currentSaleId?: number;
+  ticketDownload: string = '';
   paymentStatus: 'pending' | 'approved' | 'failed' = 'pending';
   private statusCheckInterval?: any;
 
@@ -130,6 +131,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
         next: (response) => {
           if (response.status === 'approved') {
             this.paymentStatus = 'approved';
+            this.ticketDownload = response.ticket || '';
             this.stopPaymentStatusCheck();
             // Optionally show success message or redirect
           } else if (response.status === 'failed') {
@@ -168,7 +170,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
           if (contentDisposition && contentDisposition.includes('filename=')) {
             fileName = contentDisposition.split('filename=')[1].trim().replace(/"/g, '');
           } else {
-            fileName = 'ticket.pdf'; // Fallback filename
+            fileName = `ingresso.${this.ticketDownload.split(".")[1]}`; // Fallback filename
           }
 
           console.log('Tipo de arquivo detectado:', fileExtension); // Log para verificar a extensão detectada

@@ -1,6 +1,9 @@
+import { TicketService } from './../services/ticket.service';
+import { TicketRepository } from './../repositories/ticket.repository';
 
 import { Request, Response } from 'express';
 import { SaleService } from '../services/sale.service';
+import { TicketController } from '../controllers/ticket.controller';
 
 export class SaleController {
   constructor(private saleService: SaleService) {}
@@ -35,7 +38,12 @@ export class SaleController {
         return res.status(404).json({ error: 'Sale not found' });
       }
 
+      const ticketRepository = new TicketRepository();
+      const ticketService = new TicketService(ticketRepository);
+      const ticket = await ticketService.getTicketById(sale?.ticket_id as number);
+      
       res.json({
+        ticket: sale.status === 'approved' ? ticket?.file : null,
         saleId: sale.id,
         status: sale.status,
         payment: {
