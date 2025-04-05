@@ -134,6 +134,12 @@ export class HomeComponent implements OnInit {
 
   onSearch(): void {
     this.applyFilters();
+    setTimeout(() => {
+      const ticketsSection = document.querySelector('.featured-section');
+      if (ticketsSection) {
+        ticketsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   }
 
   updateTicketCountByCategory(): void {
