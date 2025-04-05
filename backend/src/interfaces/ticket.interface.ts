@@ -10,6 +10,7 @@ export interface ITicket {
   eventDate: string;
   price: number;
   quantity: number;
+  ticketType: string; // Tipo de ingresso (VIP, Normal, Camarote, etc)
   ticket?: string;
   image?: string;
   file?: string;

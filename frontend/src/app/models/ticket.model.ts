@@ -16,6 +16,7 @@ export interface Ticket {
   description: string;
   category: number;
   type: string;
+  ticketType: string;
   seller: Seller;
   image: string;
   file: string;
