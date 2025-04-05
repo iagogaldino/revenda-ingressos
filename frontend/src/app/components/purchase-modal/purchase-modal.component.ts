@@ -165,24 +165,10 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
           let fileName = 'ticket'; // Nome padrão caso o header não seja encontrado
           let fileExtension = '';  // Variável para armazenar a extensão do arquivo
 
-          // Extrai o nome do arquivo do Content-Disposition, se existir
           if (contentDisposition && contentDisposition.includes('filename=')) {
             fileName = contentDisposition.split('filename=')[1].trim().replace(/"/g, '');
-            const fileParts = fileName.split('.');
-            if (fileParts.length > 1) {
-              fileExtension = fileParts.pop() || '';
-            }
-          } else if (contentType) {
-            // Se o Content-Disposition não fornecer um nome, tenta inferir pelo tipo MIME
-            const mimeExtensions: { [key: string]: string } = {
-              'application/pdf': 'pdf',
-              'image/png': 'png',
-              'image/jpeg': 'jpg',
-              'application/zip': 'zip',
-              'text/plain': 'txt'
-            };
-            fileExtension = mimeExtensions[contentType] || '';
-            fileName = `${fileName}.${fileExtension}`;
+          } else {
+            fileName = 'ticket.pdf'; // Fallback filename
           }
 
           console.log('Tipo de arquivo detectado:', fileExtension); // Log para verificar a extensão detectada
