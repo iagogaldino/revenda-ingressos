@@ -46,17 +46,20 @@
               <i class="bi bi-grid-fill"></i>
               Todos
             </button>
-            <button 
-              *ngFor="let category of categories" 
-              class="category-btn"
-              [class.active]="selectedCategory === category.id"
-              [disabled]="!hasTicketsInCategory(category.id)"
-              (click)="selectedCategory = category.id; onCategoryChange()">
-              {{ category.name }}
-              <span class="badge ms-2" *ngIf="ticketCountByCategory[category.id]">
-                {{ ticketCountByCategory[category.id] }}
-              </span>
-            </button>
+            @for (category of categories; track category.id) {
+              <button 
+                class="category-btn"
+                [class.active]="selectedCategory === category.id"
+                [disabled]="!hasTicketsInCategory(category.id)"
+                (click)="selectedCategory = category.id; onCategoryChange()">
+                {{ category.name }}
+                @if (ticketCountByCategory[category.id]) {
+                  <span class="badge ms-2">
+                    {{ ticketCountByCategory[category.id] }}
+                  </span>
+                }
+              </button>
+            }
           </div>
         </div>
       </div>

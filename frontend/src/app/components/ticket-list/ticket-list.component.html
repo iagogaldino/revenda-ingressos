@@ -56,15 +56,9 @@
 
       <!-- Tickets grid -->
       <div *ngIf="!loading && !error && filteredTickets.length > 0" class="row row-cols-1 row-cols-md-2 g-4">
-        @for (ticket of filteredTickets; track ticket.id) {
-          <div class="col">
-            <app-ticket-card [ticket]="ticket"></app-ticket-card>
-          </div>
-        } @empty {
-          <div class="col">
-            <p>Não há ingressos disponíveis.</p>
-          </div>
-        }
+        <div class="col" *ngFor="let ticket of filteredTickets; trackBy: trackTicketId">
+          <app-ticket-card [ticket]="ticket"></app-ticket-card>
+        </div>
       </div>
     </div>
   </div>
