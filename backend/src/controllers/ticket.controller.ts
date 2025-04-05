@@ -8,6 +8,7 @@ import { PaymentStatus } from '../interfaces/payment.interface';
 import path from 'path';
 import { SaleService } from '../services/sale.service';
 import { SaleRepository } from '../repositories/sale.repository';
+import { YoutubeService } from '../services/youtube.service';
 
 export class TicketController {
   private ticketService: ITicketService;
@@ -71,6 +72,15 @@ export class TicketController {
           error: 'Missing or invalid required fields'
         });
       }
+
+      const youtubeService = new YoutubeService();
+      const resultVideos = await youtubeService.searchVideos(`${ticketData.eventName} - Clip`,15);
+      if (resultVideos.length) {
+        const mostViewedVideo = resultVideos.reduce((max, video) => (video.views > max.views ? video : max), resultVideos[0]);
+        console.log('mostViewedVideo', mostViewedVideo);
+        ticketData.videoUrl = mostViewedVideo.url;
+      }
+
       let ticket = this.convertToDatabaseFormat(ticketData);
  
 
@@ -87,6 +97,9 @@ export class TicketController {
           file: pdfFile.filename
         }
       }
+
+    
+      
 
       const updatedTicket = await this.ticketService.updateTicket(Number(id), ticket);
 
@@ -113,6 +126,7 @@ export class TicketController {
         description: ticketData.description,
         category: ticketData.category,
         quantity: ticketData.quantity,
+        video_url: ticketData.videoUrl,
     } as Partial< ITicket >;
 }
 

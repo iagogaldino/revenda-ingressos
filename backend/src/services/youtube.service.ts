@@ -37,7 +37,7 @@ export class YoutubeService {
         title: video.title,
         url: video.url,
         embedUrl: this.getEmbedUrl(video.url),
-        thumbnail: video.thumbnail,
+        thumbnail: video.thumbnail || "",
         duration: video.duration.timestamp,
         views: video.views,
         description: video.description
@@ -61,7 +61,7 @@ export class YoutubeService {
           duration: video.duration.timestamp,
           views: video.views,
           description: video.description
-        }));
+        } as any));
     } catch (error) {
       console.error('Error searching YouTube videos:', error);
       return [];

@@ -49,6 +49,7 @@ export class TicketRepository implements ITicketRepository {
         tickets.image,
         tickets.status,
         tickets.quantity,
+        tickets.video_url,
         users.name as seller_name,
         users.rating as seller_rating,
         CASE 
@@ -81,7 +82,8 @@ export class TicketRepository implements ITicketRepository {
       image: row.image,
       status: row.status,
       quantity: row.quantity,
-      sold: row.sold
+      sold: row.sold,
+      videoUrl: row.video_url
     }));
 }
 
