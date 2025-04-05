@@ -8,6 +8,7 @@ import { paymentRoutes } from './routes/payment.routes';
 import authRoutes from './routes/auth.routes';
 import { saleRoutes } from './routes/sale.routes';
 import { categoryRoutes } from './routes/category.routes';
+import { youtubeRoutes } from './routes/youtube.routes'; // Added import for YouTube routes
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use('/api', authRouter);
 app.use('/api', categoryRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/sales', saleRoutes);
+app.use('/api', youtubeRoutes); // Registered YouTube routes
 
 // Health check route
 app.get('/api/health', (req, res) => {
