@@ -6,7 +6,7 @@ import { take } from "rxjs/operators";
 import { CommonModule } from "@angular/common";
 import * as QRCode from "qrcode";
 import { SaleService } from "../../services/sale.service";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { TicketService } from "src/app/services/ticket.service";
  
 
@@ -155,21 +155,55 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   downloadTicket() {
     if (this.paymentStatus === 'approved' && this.currentSaleId) {
       this.ticketService.downloadTicket(this.currentSaleId).subscribe({
-        next: (blob) => {
+        next: (response: HttpResponse<Blob>) => {
+          const blob = new Blob([response.body as Blob], { type: response.body?.type });
           const url = window.URL.createObjectURL(blob);
+
+          // Obtém o nome do arquivo dos headers do backend
+          const contentDisposition = response.headers.get('Content-Disposition');
+          const contentType = response.headers.get('Content-Type');
+          let fileName = 'ticket'; // Nome padrão caso o header não seja encontrado
+          let fileExtension = '';  // Variável para armazenar a extensão do arquivo
+
+          // Extrai o nome do arquivo do Content-Disposition, se existir
+          if (contentDisposition && contentDisposition.includes('filename=')) {
+            fileName = contentDisposition.split('filename=')[1].trim().replace(/"/g, '');
+            const fileParts = fileName.split('.');
+            if (fileParts.length > 1) {
+              fileExtension = fileParts.pop() || '';
+            }
+          } else if (contentType) {
+            // Se o Content-Disposition não fornecer um nome, tenta inferir pelo tipo MIME
+            const mimeExtensions: { [key: string]: string } = {
+              'application/pdf': 'pdf',
+              'image/png': 'png',
+              'image/jpeg': 'jpg',
+              'application/zip': 'zip',
+              'text/plain': 'txt'
+            };
+            fileExtension = mimeExtensions[contentType] || '';
+            fileName = `${fileName}.${fileExtension}`;
+          }
+
+          console.log('Tipo de arquivo detectado:', fileExtension); // Log para verificar a extensão detectada
+
+          // Cria o link de download
           const a = document.createElement('a');
           a.href = url;
-          // a.download = `ingresso${this.currentSaleId}.pdf`;
+          a.download = fileName; // Nome do arquivo extraído do backend
           a.click();
+
           window.URL.revokeObjectURL(url);
         },
         error: (error) => {
           console.error("Error downloading ticket:", error);
-          // Handle download error appropriately
         }
       });
     }
   }
+
+
+
 
   incrementQuantity() {
     if (this.selectedQuantity < this.ticket.quantity) {
