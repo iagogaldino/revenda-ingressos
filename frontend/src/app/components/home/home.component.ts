@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   searchTerm: string = '';
   loading: boolean = true;
   error: string | null = null;
+  ticketCountByCategory: { [key: number]: number } = {};
   testimonials = [
     {
       name: 'João Silva',
@@ -79,6 +80,7 @@ export class HomeComponent implements OnInit {
       next: (tickets) => {
         this.tickets = tickets;
         this.filteredTickets = tickets;
+        this.updateTicketCountByCategory();
         this.loading = false;
       },
       error: (error) => {
@@ -129,8 +131,27 @@ export class HomeComponent implements OnInit {
     this.applyFilters();
   }
 
+  updateTicketCountByCategory(): void {
+    this.ticketCountByCategory = {};
+    this.tickets.forEach(ticket => {
+      if (ticket.category) {
+        this.ticketCountByCategory[ticket.category] = (this.ticketCountByCategory[ticket.category] || 0) + 1;
+      }
+    });
+  }
+
   onCategoryChange(): void {
     this.applyFilters();
+    setTimeout(() => {
+      const ticketsSection = document.querySelector('.featured-section');
+      if (ticketsSection) {
+        ticketsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  }
+
+  hasTicketsInCategory(categoryId: number): boolean {
+    return this.ticketCountByCategory[categoryId] > 0;
   }
 
   resetFilters(): void {

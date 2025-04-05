@@ -38,8 +38,12 @@
               *ngFor="let category of categories" 
               class="category-btn"
               [class.active]="selectedCategory === category.id"
+              [disabled]="!hasTicketsInCategory(category.id)"
               (click)="selectedCategory = category.id; onCategoryChange()">
               {{ category.name }}
+              <span class="badge ms-2" *ngIf="ticketCountByCategory[category.id]">
+                {{ ticketCountByCategory[category.id] }}
+              </span>
             </button>
           </div>
         </div>
