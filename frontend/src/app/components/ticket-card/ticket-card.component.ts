@@ -18,10 +18,14 @@ export class TicketCardComponent {
 
   constructor(private modalService: NgbModal) {}
 
-  showVideo() {
+  async showVideo() {
     if (this.ticket.videoUrl) {
       this.isVideoVisible = true;
-      this.videoPreview.nativeElement.play();
+      try {
+        await this.videoPreview.nativeElement.play();
+      } catch (err) {
+        console.warn('Autoplay failed:', err);
+      }
     }
   }
 
