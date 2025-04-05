@@ -145,11 +145,13 @@ export class TicketService {
       .pipe(catchError(this.handleError("updateTicket", null)));
   }
 
-  downloadTicket(saleId: number): Observable<any> {
+  downloadTicket(saleId: number, token: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/tickets/download/${saleId}`, {
       responseType: 'blob',
       observe: 'response',
-    });
+      headers: {
+        Authorization: `Bearer ${token}`,
+  }});
   }
 
   private handleError<T>(operation = "operation", result?: T) {

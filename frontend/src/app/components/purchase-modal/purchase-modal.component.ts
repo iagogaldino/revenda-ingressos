@@ -88,6 +88,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
   currentSaleId?: number;
   ticketDownload: string = '';
+  tokenDownload: string = '';
   paymentStatus: 'pending' | 'approved' | 'failed' = 'pending';
   private statusCheckInterval?: any;
 
@@ -132,6 +133,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
           if (response.status === 'approved') {
             this.paymentStatus = 'approved';
             this.ticketDownload = response.ticket || '';
+            this.tokenDownload = response.token || '';
             this.stopPaymentStatusCheck();
             // Optionally show success message or redirect
           } else if (response.status === 'failed') {
@@ -156,7 +158,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
   downloadTicket() {
     if (this.paymentStatus === 'approved' && this.currentSaleId) {
-      this.ticketService.downloadTicket(this.currentSaleId).subscribe({
+      this.ticketService.downloadTicket(this.currentSaleId, this.tokenDownload).subscribe({
         next: (response: HttpResponse<Blob>) => {
           const blob = new Blob([response.body as Blob], { type: response.body?.type });
           const url = window.URL.createObjectURL(blob);
