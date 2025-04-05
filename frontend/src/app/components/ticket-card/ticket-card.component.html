@@ -1,9 +1,5 @@
 <div class="card h-100 shadow-sm" [ngClass]="{ 'sold-out': ticket.sold }">
-  <!-- Tipo de Ingresso -->
-  <div class="ticket-type-banner">
-    <i class="bi bi-ticket-perforated"></i>
-    {{ ticket.ticketType || 'Normal' }}
-  </div>
+
   <!-- Container de mídia do evento -->
   <div
     class="media-container"
@@ -32,7 +28,11 @@
 
     }
   </div>
-
+  <!-- Tipo de Ingresso -->
+  <div class="ticket-type-banner">
+    <i class="bi bi-ticket-perforated"></i>
+    {{ ticket.ticketType || 'Normal' }}
+  </div>
   <!-- Badge de desconto -->
   <div
     *ngIf="calculateDiscount(ticket.originalPrice || 0, ticket.price) > 0"
@@ -119,11 +119,6 @@
       >
         Comprar ingresso
       </button>
-    </div>
-  </div>
-  <div class="card-footer">
-    <div class="badge bg-secondary mb-2">{{ ticket.ticketType || 'Normal' }}</div>
-    <div class="d-flex justify-content-between align-items-center">
     </div>
   </div>
 </div>

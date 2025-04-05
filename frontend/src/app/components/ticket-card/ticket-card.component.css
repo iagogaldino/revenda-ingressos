@@ -1,15 +1,13 @@
 .ticket-type-banner {
-  background: linear-gradient(45deg, #2b5876, #4e4376);
+  background: linear-gradient(45deg, #337eba, #000000);
   color: white;
   padding: 8px 15px;
-  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1;
   font-weight: 600;
   text-align: center;
-  border-radius: 4px 4px 0 0;
 }
 
 .ticket-type-banner i {
