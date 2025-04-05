@@ -228,9 +228,13 @@ formatDateForDatabase(dateString: string): string {
     );
   }
 
-  async downloadTicket(req: Request, res: Response) {
+  async downloadTicket(req: AuthRequest, res: Response) {
     try {
-      const { id } = req.params;
+      const id = req.tokenDecoded?.saleID as number;
+      if (!id) {
+        return res.status(404).json({ success: false, error: 'Error sale id' });
+      }
+
       const saleService = new SaleService(new SaleRepository());
       const sale = await saleService.getSaleById(Number(id));
 

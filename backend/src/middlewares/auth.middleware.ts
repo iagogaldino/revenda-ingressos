@@ -3,9 +3,13 @@ import jwt from 'jsonwebtoken';
 
 export interface AuthRequest extends Request {
   userId?: number;
+  tokenDecoded?: {
+    saleID: number;
+  };
 }
 
 export const authenticateToken = (req: AuthRequest, res: Response, next: NextFunction) => {
+  console.log('authenticateToken');
   const token = req.headers['authorization']?.split(' ')[1];
   const JWT_SECRET = process.env.JWT_SECRET || '';
 
@@ -20,6 +24,7 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
     req.userId = decoded.userId;
+    req.tokenDecoded = jwt.verify(token, JWT_SECRET) as any;
     next();
   } catch (err) {
     return res.status(403).json({ success: false, error: 'Token inválido' });

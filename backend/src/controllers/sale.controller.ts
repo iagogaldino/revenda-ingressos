@@ -1,3 +1,4 @@
+import { TokenService } from './../services/token.service';
 import { TicketService } from './../services/ticket.service';
 import { TicketRepository } from './../repositories/ticket.repository';
 
@@ -40,9 +41,11 @@ export class SaleController {
 
       const ticketRepository = new TicketRepository();
       const ticketService = new TicketService(ticketRepository);
-      const ticket = await ticketService.getTicketById(sale?.ticket_id as number);
-      
+      const ticket = await ticketService.getTicketById(sale.ticket_id as number);
+      const token = new TokenService().generateToken({ saleID: sale.id as number });
+
       res.json({
+        token: sale.status === 'approved' ? token : null,
         ticket: sale.status === 'approved' ? ticket?.file : null,
         saleId: sale.id,
         status: sale.status,
