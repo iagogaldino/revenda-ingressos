@@ -78,9 +78,14 @@
     <ng-container *ngIf="paymentStatus !== 'approved'">
       <div class="qr-code-wrapper">
         <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="qr-code-image fade-element">
-        <button class="btn-copy-qr" (click)="copyQRCode()" title="Copiar QR Code">
-          <i class="bi bi-clipboard"></i>
+        <button class="btn-copy-qr" (click)="copyQRCode()" aria-label="Copiar QR Code">
+          <i class="bi bi-clipboard me-2"></i>
+          <span>Copiar QR Code</span>
         </button>
+        <div *ngIf="copySuccess" class="copy-success-message">
+          <i class="bi bi-check-circle-fill me-1"></i>
+          QR Code copiado com sucesso!
+        </div>
       </div>
       <div class="timer-section fade-element">
         <div class="timer">{{ formatTime(remainingTime) }}</div>

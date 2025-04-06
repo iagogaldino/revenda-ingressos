@@ -195,10 +195,17 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
 
 
+  copySuccess: boolean = false;
+
   async copyQRCode() {
     try {
       await navigator.clipboard.writeText(this.qrCodeUrl);
-      // You could add a toast notification here if desired
+      this.copySuccess = true;
+      
+      // Reset the success message after 3 seconds
+      setTimeout(() => {
+        this.copySuccess = false;
+      }, 3000);
     } catch (err) {
       console.error('Failed to copy QR Code:', err);
     }
