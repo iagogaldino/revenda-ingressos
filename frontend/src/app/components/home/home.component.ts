@@ -132,14 +132,19 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onSearch(): void {
-    this.applyFilters();
-    setTimeout(() => {
+  private searchDebounceTimeout: any;
+
+  onSearchTermChange(term: string): void {
+    this.searchTerm = term;
+    clearTimeout(this.searchDebounceTimeout);
+    
+    this.searchDebounceTimeout = setTimeout(() => {
+      this.applyFilters();
       const ticketsSection = document.querySelector('.featured-section');
       if (ticketsSection) {
         ticketsSection.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 100);
+    }, 300);
   }
 
   updateTicketCountByCategory(): void {

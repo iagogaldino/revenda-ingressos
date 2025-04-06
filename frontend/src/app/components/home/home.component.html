@@ -22,20 +22,18 @@
 
         <!-- Search section -->
         <div class="search-section">
-          <form (ngSubmit)="onSearch()" class="search-form">
+          <div class="search-form">
             <div class="search-input-container">
               <i class="bi bi-search search-icon"></i>
               <input 
                 type="text" 
                 class="search-input" 
                 placeholder="Buscar por evento, local ou artista..."
-                [(ngModel)]="searchTerm"
+                [ngModel]="searchTerm"
+                (ngModelChange)="onSearchTermChange($event)"
                 name="searchTerm">
-              <button type="submit" class="search-button">
-                Buscar
-              </button>
             </div>
-          </form>
+          </div>
 
           <!-- Categories buttons -->
           <div class="categories-container">
