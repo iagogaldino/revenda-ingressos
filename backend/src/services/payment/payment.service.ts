@@ -39,7 +39,7 @@ export class PaymentService {
     payer: Payer
   ) {
     const provider = this.getProvider(providerName);
-    return provider.initializePayment(amount, orderId, payer);
+    return provider.initializePayment(Number(amount), orderId, payer);
   }
 
   async confirmPayment(providerName: string, paymentId: string) {

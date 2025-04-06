@@ -58,7 +58,7 @@ export class SaleService implements ISaleService {
         sale.amount,
         `sale_${sale.id}`,
         {
-          email: sale.buyer_email,
+          email: 'iago_galdino@hotmail.com', //sale.buyer_email,
           name: 'Revenda ticket',
           phone: sale.buyer_phone
         }

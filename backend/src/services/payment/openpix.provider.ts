@@ -9,19 +9,26 @@ export class OpenPixProvider extends BasePaymentProvider {
   async initializePayment(amount: number, orderId: string, payer: Payer) {
     try {
       await this.logPaymentOperation('initializePayment', { amount, orderId });
-      
+
+      // Multiplica o valor por 100 para converter para centavos e usa Math.round() para evitar problemas de precisão
+      const amountInCents = Math.round(amount * 100);
+
+      const payload = {
+        correlationID: orderId,
+        value: amountInCents.toString(), // Convertido para string
+        comment: `Pagamento do pedido ${orderId}`,
+        customer: {
+          name: payer.name,
+          email: payer.email,
+          phone: payer.phone
+        }
+      }
+
+      console.log('payload', payload);
+
       const response = await axios.post(
         `${this.baseUrl}/charge`,
-        {
-          correlationID: orderId,
-          value: amount, // Convert to centavos
-          comment: `Pagamento do pedido ${orderId}`,
-          customer: {
-            name: payer.name,
-            email: payer.email,
-            phone: payer.phone
-          }
-        },
+        payload,
         {
           headers: {
             Authorization: this.apiKey,
@@ -29,7 +36,7 @@ export class OpenPixProvider extends BasePaymentProvider {
           }
         }
       );
-      // console.log('OpenPixProvider: response', response);
+
       return {
         success: true,
         paymentUrl: response.data.qrCodeImage,
@@ -44,6 +51,7 @@ export class OpenPixProvider extends BasePaymentProvider {
       };
     }
   }
+
 
   async confirmPayment(paymentId: string) {
     try {
