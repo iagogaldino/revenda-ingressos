@@ -26,6 +26,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   showQrCode: boolean = false;
 
   contactInfo = {
+    name: "",
     email: "",
     phone: "",
   };
@@ -82,6 +83,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     const phoneRegex = /^\(?([0-9]{2})\)?[-. ]?([0-9]{4,5})[-. ]?([0-9]{4})$/;
 
     return (
+      this.contactInfo.name.trim().length > 0 &&
       emailRegex.test(this.contactInfo.email) &&
       phoneRegex.test(this.contactInfo.phone)
     );
@@ -96,6 +98,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   generateQrCode() {
     const saleData = {
       ticketId: this.ticket.id,
+      buyerName: this.contactInfo.name,
       buyerEmail: this.contactInfo.email,
       buyerPhone: this.contactInfo.phone,
       amount: this.ticket.price,

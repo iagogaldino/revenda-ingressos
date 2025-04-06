@@ -23,6 +23,7 @@ export class SaleService implements ISaleService {
       const sale = await this.saleRepository.create({
         id: saleData?.id,
         ticket_id: saleData.ticketId,
+        buyer_name: saleData.buyerName,
         buyer_email: saleData.buyerEmail,
         buyer_phone: saleData.buyerPhone,
         amount: saleData.amount,
