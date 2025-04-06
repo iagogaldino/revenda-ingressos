@@ -76,7 +76,12 @@
 
   <div *ngIf="showQrCode" class="qr-code-container" [ngClass]="{'success-state': paymentStatus === 'approved'}">
     <ng-container *ngIf="paymentStatus !== 'approved'">
-      <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="qr-code-image fade-element">
+      <div class="qr-code-wrapper">
+        <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="qr-code-image fade-element">
+        <button class="btn-copy-qr" (click)="copyQRCode()" title="Copiar QR Code">
+          <i class="bi bi-clipboard"></i>
+        </button>
+      </div>
       <div class="timer-section fade-element">
         <div class="timer">{{ formatTime(remainingTime) }}</div>
         <div class="timer-label">Tempo restante para conclusão</div>

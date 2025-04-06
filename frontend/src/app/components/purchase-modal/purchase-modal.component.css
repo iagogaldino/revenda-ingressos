@@ -133,9 +133,35 @@
   transition: all 0.3s ease;
 }
 
+.qr-code-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
 .qr-code-image {
   max-width: 250px;
-  margin-bottom: 2rem;
+}
+
+.btn-copy-qr {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-copy-qr:hover {
+  background: white;
+  transform: scale(1.1);
 }
 
 .timer-section {

@@ -195,6 +195,15 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
 
 
+  async copyQRCode() {
+    try {
+      await navigator.clipboard.writeText(this.qrCodeUrl);
+      // You could add a toast notification here if desired
+    } catch (err) {
+      console.error('Failed to copy QR Code:', err);
+    }
+  }
+
   incrementQuantity() {
     if (this.selectedQuantity < this.ticket.quantity) {
       this.selectedQuantity++;
