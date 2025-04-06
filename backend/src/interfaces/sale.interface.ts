@@ -1,6 +1,7 @@
 export interface ISale {
   id?: number;
   ticketId: number;
+  buyerName: string;
   buyerEmail: string;
   buyerPhone: string;
   amount: number;
@@ -12,6 +13,7 @@ export interface ISale {
 export interface ISaleDTO {
   id?: number;
   ticket_id: number;
+  buyer_name: string;
   buyer_email: string;
   buyer_phone: string;
   amount: number;
