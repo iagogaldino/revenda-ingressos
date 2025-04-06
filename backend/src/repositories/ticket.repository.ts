@@ -24,14 +24,16 @@ export class TicketRepository implements ITicketRepository {
       ticket.price,
       ticket.description,
       ticket.category,
-      ticket.image,   // Caminho ou URL da imagem
-      ticket.file,    // Caminho ou URL do arquivo PDF
-      ticket.quantity
+      ticket.image,    
+      ticket.file,     
+      ticket.quantity,
+      ticket.videoUrl  
     ];
   
     const result = await pool.query(query, values);
     return result.rows[0];
-  }
+}
+
   
   async findAll(): Promise<any[]> {
     const result = await pool.query(`

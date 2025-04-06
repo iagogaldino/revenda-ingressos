@@ -89,7 +89,6 @@ export class TicketService {
           }
           return response;
         }),
-        catchError(this.handleError("createTicket", null))
       );
   }
 

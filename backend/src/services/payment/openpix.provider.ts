@@ -1,11 +1,12 @@
 
 import axios from 'axios';
 import { BasePaymentProvider } from './base-payment.provider';
+import { Payer } from '../../interfaces/payment-provider.interface';
 
 export class OpenPixProvider extends BasePaymentProvider {
   private baseUrl = 'https://api.openpix.com.br/api/v1';
 
-  async initializePayment(amount: number, orderId: string) {
+  async initializePayment(amount: number, orderId: string, payer: Payer) {
     try {
       await this.logPaymentOperation('initializePayment', { amount, orderId });
       
@@ -13,12 +14,12 @@ export class OpenPixProvider extends BasePaymentProvider {
         `${this.baseUrl}/charge`,
         {
           correlationID: orderId,
-          value: amount * 100, // Convert to centavos
+          value: amount, // Convert to centavos
           comment: `Pagamento do pedido ${orderId}`,
           customer: {
-            name: "Cliente",
-            email: "cliente@email.com",
-            phone: "5511999999999"
+            name: payer.name,
+            email: payer.email,
+            phone: payer.phone
           }
         },
         {
@@ -28,11 +29,13 @@ export class OpenPixProvider extends BasePaymentProvider {
           }
         }
       );
-
+      // console.log('OpenPixProvider: response', response);
       return {
         success: true,
         paymentUrl: response.data.qrCodeImage,
-        transactionId: response.data.id
+        qrCode: response.data.brCode,
+        pixKey: response.data.pixKey,
+        transactionId: response.data.id,
       };
     } catch (error: any) {
       return {

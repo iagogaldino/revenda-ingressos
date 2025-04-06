@@ -59,6 +59,7 @@ export interface Sale {
   status: 'pending' | 'approved' | 'cancelled';
   created_at: string; // ISO date string
   updated_at: string; // ISO date string
+  qrCode: string;
 }
 
 export interface Payment {

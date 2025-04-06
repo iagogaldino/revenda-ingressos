@@ -1,9 +1,10 @@
 
 export interface IPaymentProvider {
-  initializePayment(amount: number, orderId: string): Promise<{
+  initializePayment(amount: number, orderId: string, payer: Payer): Promise<{
     success: boolean;
     paymentUrl?: string;
     error?: string;
+    qrCode?: string;
   }>;
 
   confirmPayment(paymentId: string): Promise<{
@@ -21,4 +22,10 @@ export interface IPaymentProvider {
     status: 'pending' | 'completed' | 'failed' | 'cancelled';
     error?: string;
   }>;
+}
+
+export interface Payer {
+  name: string,
+  email: string,
+  phone: string
 }

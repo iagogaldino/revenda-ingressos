@@ -144,7 +144,6 @@
 }
 
 .btn-copy-qr {
-  position: absolute;
   bottom: 10px;
   right: 10px;
   background: rgba(255, 255, 255, 0.95);

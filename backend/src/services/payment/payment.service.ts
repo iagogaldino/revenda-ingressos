@@ -1,5 +1,5 @@
 
-import { IPaymentProvider } from '../../interfaces/payment-provider.interface';
+import { IPaymentProvider, Payer } from '../../interfaces/payment-provider.interface';
 import { Providers } from '../../models/providers.enum';
 import { MercadoPagoProvider } from './mercadopago.provider';
 import { OpenPixProvider } from './openpix.provider';
@@ -35,10 +35,11 @@ export class PaymentService {
   async processPayment(
     providerName: string,
     amount: number,
-    orderId: string
+    orderId: string,
+    payer: Payer
   ) {
     const provider = this.getProvider(providerName);
-    return provider.initializePayment(amount, orderId);
+    return provider.initializePayment(amount, orderId, payer);
   }
 
   async confirmPayment(providerName: string, paymentId: string) {

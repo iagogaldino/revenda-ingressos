@@ -41,7 +41,7 @@ export class TicketController {
       const ticket = await this.ticketService.createTicket({
         ...ticketData,
         sellerId: userID,
-        status: (pdfFile.filename ? 'active' : 'pending') as 'active' | 'pending',
+        status: (pdfFile?.filename ? 'active' : 'pending') as 'active' | 'pending',
         image: imageFile ? imageFile.filename : null,
         file: pdfFile ? pdfFile.filename : null,
         videoUrl: ticketData.videoUrl || null,
@@ -50,6 +50,7 @@ export class TicketController {
 
       res.status(201).json({ success: true, data: ticket });
     } catch (error) {
+      console.log(error);
       res.status(500).json({
         success: false,
         error: 'Internal server error'

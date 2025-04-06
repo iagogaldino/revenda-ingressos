@@ -17,7 +17,7 @@ export class PaymentController {
 
   async initializePayment(req: Request, res: Response) {
     try {
-      const { provider, amount, orderId } = req.body;
+      const { provider, amount, orderId, payer } = req.body;
 
       // Verifica se o provider é válido
       if (!Object.values(Providers).includes(provider)) {
@@ -30,7 +30,8 @@ export class PaymentController {
       const result = await this.paymentService.processPayment(
         provider,
         amount,
-        orderId
+        orderId,
+        payer
       );
 
       res.json(result);

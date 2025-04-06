@@ -21,6 +21,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   @Input() ticket!: Ticket;
   remainingTime: number = 300; // 5 minutes in seconds
   private timerSubscription?: Subscription;
+  qrCode: string = "";
   qrCodeUrl: string = "";
   showQrCode: boolean = false;
 
@@ -103,16 +104,8 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
     this.saleService.createSale(saleData).subscribe({
       next: async (response) => {
         this.currentSaleId = response.sale.id;
-        const ticketData = {
-          saleId: response.sale.id,
-          ticketId: this.ticket.id,
-          eventName: this.ticket.eventName,
-          date: this.ticket.eventDate,
-          price: this.ticket.price,
-          contactInfo: this.contactInfo,
-        };
-
-        this.qrCodeUrl = await QRCode.toDataURL(JSON.stringify(ticketData));
+        this.qrCode = response.sale.qrCode;
+        this.qrCodeUrl = await QRCode.toDataURL(this.qrCode);
         this.showQrCode = true;
         this.startTimer();
         this.startPaymentStatusCheck();
@@ -199,7 +192,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
   async copyQRCode() {
     try {
-      await navigator.clipboard.writeText(this.qrCodeUrl);
+      await navigator.clipboard.writeText(this.qrCode);
       this.copySuccess = true;
       
       // Reset the success message after 3 seconds

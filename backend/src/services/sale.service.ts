@@ -18,7 +18,7 @@ export class SaleService implements ISaleService {
     this.paymentService = new PaymentService();
   }
 
-  async createSale(saleData: ISale): Promise<ISaleDTO & { paymentUrl?: string }> {
+  async createSale(saleData: ISale): Promise<ISaleDTO & { paymentUrl?: string, qrCode: string }> {
     try {
       const sale = await this.saleRepository.create({
         id: saleData?.id,
@@ -40,9 +40,10 @@ export class SaleService implements ISaleService {
       }
 
       // Retorna a venda com a URL de pagamento
+      // console.log(payment);
       return {
         ...sale,
-        paymentUrl: payment.paymentUrl,
+        qrCode: payment.qrCode || ''
       };
     } catch (error: any) {
       console.error("Erro ao criar venda:", error.message);
@@ -55,7 +56,12 @@ export class SaleService implements ISaleService {
       return await this.paymentService.processPayment(
         "openpix",
         sale.amount,
-        `sale_${sale.id}`
+        `sale_${sale.id}`,
+        {
+          email: sale.buyer_email,
+          name: 'Revenda ticket',
+          phone: sale.buyer_phone
+        }
       );
     } catch (error: any) {
       console.error("Erro ao processar pagamento:", error.message);
