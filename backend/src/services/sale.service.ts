@@ -24,7 +24,7 @@ export class SaleService implements ISaleService {
         id: saleData?.id,
         ticket_id: saleData.ticketId,
         buyer_name: saleData.buyerName,
-        buyer_email: saleData.buyerEmail,
+        buyer_email: 'iago_galdino@hotmail.com',//saleData.buyerEmail,
         buyer_phone: saleData.buyerPhone,
         amount: saleData.amount,
         status: "pending",
@@ -53,16 +53,24 @@ export class SaleService implements ISaleService {
   }
 
   private async generatePayment(sale: ISaleDTO) {
+    
+    const ticket = await new TicketService(new TicketRepository()).getTicketById(sale.ticket_id);
+    const commentPayment = `
+    ${(ticket as any)?.event_name} -
+    \n${ticket?.description}
+    `;
+    console.log('commentPayment', ticket);
     try {
       return await this.paymentService.processPayment(
         "openpix",
         sale.amount,
         `sale_${sale.id}`,
         {
-          email: 'iago_galdino@hotmail.com', //sale.buyer_email,
-          name: 'Revenda ticket',
+          email: sale.buyer_email, //sale.buyer_email,
+          name: sale.buyer_name,
           phone: sale.buyer_phone
-        }
+        },
+        commentPayment
       );
     } catch (error: any) {
       console.error("Erro ao processar pagamento:", error.message);

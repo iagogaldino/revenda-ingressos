@@ -1,6 +1,6 @@
 
 export interface IPaymentProvider {
-  initializePayment(amount: number, orderId: string, payer: Payer): Promise<{
+  initializePayment(amount: number, orderId: string, payer: Payer, commentPayment: string): Promise<{
     success: boolean;
     paymentUrl?: string;
     error?: string;

@@ -12,11 +12,11 @@ export class SaleRepository implements ISaleRepository {
 
   async create(sale: ISaleDTO): Promise<ISaleDTO> {
     const query = `
-      INSERT INTO sales (ticket_id, buyer_email, buyer_phone, amount, status)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO sales (ticket_id, buyer_email, buyer_phone, amount, status, buyer_name)
+      VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *
     `;
-    const values = [sale.ticket_id, sale.buyer_email, sale.buyer_phone, sale.amount, sale.status];
+    const values = [sale.ticket_id, sale.buyer_email, sale.buyer_phone, sale.amount, sale.status, sale.buyer_name];
     const result = await this.db.query(query, values);
     return result.rows[0];
   }

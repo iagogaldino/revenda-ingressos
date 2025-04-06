@@ -4,7 +4,7 @@ import { IPaymentProvider, Payer } from '../../interfaces/payment-provider.inter
 export abstract class BasePaymentProvider implements IPaymentProvider {
   constructor(protected apiKey: string, protected apiSecret: string) {}
 
-  abstract initializePayment(amount: number, orderId: string, payer: Payer): Promise<{
+  abstract initializePayment(amount: number, orderId: string, payer: Payer, commentPayment: string): Promise<{
     success: boolean;
     paymentUrl?: string;
     error?: string;

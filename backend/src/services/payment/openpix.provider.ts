@@ -6,7 +6,7 @@ import { Payer } from '../../interfaces/payment-provider.interface';
 export class OpenPixProvider extends BasePaymentProvider {
   private baseUrl = 'https://api.openpix.com.br/api/v1';
 
-  async initializePayment(amount: number, orderId: string, payer: Payer) {
+  async initializePayment(amount: number, orderId: string, payer: Payer, commentPayment?: string) {
     try {
       await this.logPaymentOperation('initializePayment', { amount, orderId });
 
@@ -16,7 +16,7 @@ export class OpenPixProvider extends BasePaymentProvider {
       const payload = {
         correlationID: orderId,
         value: amountInCents.toString(), // Convertido para string
-        comment: `Pagamento do pedido ${orderId}`,
+        comment: commentPayment,// `Pagamento do pedido ${orderId}`,
         customer: {
           name: payer.name,
           email: payer.email,
@@ -24,7 +24,7 @@ export class OpenPixProvider extends BasePaymentProvider {
         }
       }
 
-      console.log('payload', payload);
+      // console.log('payload', payload);
 
       const response = await axios.post(
         `${this.baseUrl}/charge`,
@@ -36,7 +36,7 @@ export class OpenPixProvider extends BasePaymentProvider {
           }
         }
       );
-
+      console.log('response', response.data);
       return {
         success: true,
         paymentUrl: response.data.qrCodeImage,

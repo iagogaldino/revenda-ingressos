@@ -17,7 +17,7 @@ export class PaymentController {
 
   async initializePayment(req: Request, res: Response) {
     try {
-      const { provider, amount, orderId, payer } = req.body;
+      const { provider, amount, orderId, payer, commentPayment } = req.body;
 
       // Verifica se o provider é válido
       if (!Object.values(Providers).includes(provider)) {
@@ -31,7 +31,8 @@ export class PaymentController {
         provider,
         amount,
         orderId,
-        payer
+        payer,
+        commentPayment
       );
 
       res.json(result);
