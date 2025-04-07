@@ -1,4 +1,3 @@
-
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
@@ -10,6 +9,11 @@ const configDB = {
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'admin',
   port: parseInt(process.env.DB_PORT || '5432'),
+  ssl: {
+    rejectUnauthorized: false  // Necessário para conexões externas seguras no Render
+  }
 };
+
 console.log(configDB);
+
 export const pool = new Pool(configDB);
