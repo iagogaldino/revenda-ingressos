@@ -8,8 +8,9 @@ const usersRouters = (0, express_1.Router)();
 const userRepository = new user_repository_1.UserRepository();
 const userService = new user_service_1.UserService(userRepository);
 const userController = new user_controller_1.UserController(userService);
-usersRouters.post('/users', (req, res) => userController.create(req, res));
-usersRouters.get('/users/:id', (req, res) => userController.findById(req, res));
-usersRouters.put('/users/:id', (req, res) => userController.update(req, res));
-usersRouters.delete('/users/:id', (req, res) => userController.delete(req, res));
+// Adicionando o NextFunction para tratamento de erros corretamente
+usersRouters.post('/users', (req, res, next) => userController.create(req, res, next));
+usersRouters.get('/users/:id', (req, res, next) => userController.findById(req, res, next));
+usersRouters.put('/users/:id', (req, res, next) => userController.update(req, res, next));
+usersRouters.delete('/users/:id', (req, res, next) => userController.delete(req, res, next));
 exports.default = usersRouters;

@@ -16,22 +16,23 @@ class TicketController {
         const ticketRepository = new ticket_repository_1.TicketRepository();
         this.ticketService = new ticket_service_1.TicketService(ticketRepository);
     }
-    async create(req, res) {
+    async create(req, res, next) {
         try {
             const userID = req.userId;
             if (!userID) {
-                return res.status(401).json({ success: false, error: 'Error: Usuário não autenticado' });
+                res.status(401).json({ success: false, error: 'Error: Usuário não autenticado' });
+                return;
             }
             const ticketData = req.body;
             const files = req.files;
-            // Validar se os arquivos foram enviados corretamente
             const imageFile = files?.image?.[0] || null;
             const pdfFile = files?.file?.[0] || null;
             if (!this.validateTicketData(ticketData)) {
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
                     error: 'Missing or invalid required fields'
                 });
+                return;
             }
             const ticket = await this.ticketService.createTicket({
                 ...ticketData,
@@ -44,14 +45,10 @@ class TicketController {
             res.status(201).json({ success: true, data: ticket });
         }
         catch (error) {
-            console.log(error);
-            res.status(500).json({
-                success: false,
-                error: 'Internal server error'
-            });
+            next(error);
         }
     }
-    async update(req, res) {
+    async update(req, res, next) {
         try {
             const { id } = req.params;
             const ticketData = req.body;
@@ -59,16 +56,16 @@ class TicketController {
             const imageFile = files?.image?.[0] || null;
             const pdfFile = files?.file?.[0] || null;
             if (!this.validateTicketData(ticketData)) {
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
                     error: 'Missing or invalid required fields'
                 });
+                return;
             }
             const youtubeService = new youtube_service_1.YoutubeService();
             const resultVideos = await youtubeService.searchVideos(`${ticketData.eventName} - Clip`, 15);
             if (resultVideos.length) {
                 const mostViewedVideo = resultVideos.reduce((max, video) => (video.views > max.views ? video : max), resultVideos[0]);
-                console.log('mostViewedVideo', mostViewedVideo);
                 ticketData.videoUrl = mostViewedVideo.url;
             }
             let ticket = this.convertToDatabaseFormat(ticketData);
@@ -88,11 +85,7 @@ class TicketController {
             res.status(200).json({ success: true, data: updatedTicket });
         }
         catch (error) {
-            console.error('Error updating ticket:', error);
-            res.status(500).json({
-                success: false,
-                error: 'Internal server error'
-            });
+            next(error);
         }
     }
     convertToDatabaseFormat(ticketData) {
@@ -114,9 +107,9 @@ class TicketController {
     }
     formatDateForDatabase(dateString) {
         const date = new Date(dateString);
-        return date.toISOString(); // Returns format like "2025-04-16T03:00:00.000Z"
+        return date.toISOString();
     }
-    async getAllTickets(req, res) {
+    async getAllTickets(req, res, next) {
         try {
             const { category, minPrice, maxPrice } = req.query;
             let tickets = await this.ticketService.getAllTickets();
@@ -132,68 +125,66 @@ class TicketController {
             res.status(200).json({ success: true, data: tickets });
         }
         catch (error) {
-            console.log('error', error);
-            res.status(500).json({ success: false, error: 'Failed to fetch tickets' });
+            next(error);
         }
     }
-    async getTicketsBySeller(req, res) {
+    async getTicketsBySeller(req, res, next) {
         try {
             if (!req.userId) {
-                return res.status(401).json({ success: false, error: 'Usuário não autenticado' });
+                res.status(401).json({ success: false, error: 'Usuário não autenticado' });
+                return;
             }
             const tickets = await this.ticketService.getTicketsBySellerId(req.userId);
             res.status(200).json({ success: true, data: tickets });
         }
         catch (error) {
-            console.log('error', error);
-            res.status(500).json({ success: false, error: 'Failed to fetch tickets' });
+            next(error);
         }
     }
-    async getTicketById(req, res) {
+    async getTicketById(req, res, next) {
         try {
             const { id } = req.params;
             const ticket = await this.ticketService.getTicketById(Number(id));
             if (!ticket) {
-                return res.status(404).json({ success: false, error: 'Ticket not found' });
+                res.status(404).json({ success: false, error: 'Ticket not found' });
+                return;
             }
             res.status(200).json({ success: true, data: ticket });
         }
         catch (error) {
-            res.status(500).json({ success: false, error: 'Failed to fetch ticket' });
+            next(error);
         }
     }
-    async deleteTicket(req, res) {
+    async deleteTicket(req, res, next) {
         try {
             const { id } = req.params;
             const ticket = await this.ticketService.getTicketById(Number(id));
             if (!ticket) {
-                return res.status(404).json({ success: false, error: 'Ticket not found' });
+                res.status(404).json({ success: false, error: 'Ticket not found' });
+                return;
             }
             await this.ticketService.deleteTicket(Number(id));
             res.status(200).json({ success: true, message: 'Ticket deleted successfully' });
         }
         catch (error) {
-            res.status(500).json({ success: false, error: 'Failed to delete ticket' });
+            next(error);
         }
     }
-    async getTicketsBySellerId(req, res) {
+    async getTicketsBySellerId(req, res, next) {
         try {
             const { sellerId } = req.params;
             if (!sellerId || isNaN(Number(sellerId))) {
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
                     error: 'Invalid seller ID provided'
                 });
+                return;
             }
             const tickets = await this.ticketService.getTicketsBySellerId(Number(sellerId));
             res.status(200).json({ success: true, data: tickets });
         }
         catch (error) {
-            console.error('Error fetching seller tickets:', error);
-            res.status(500).json({
-                success: false,
-                error: 'Failed to fetch seller tickets'
-            });
+            next(error);
         }
     }
     validateTicketData(data) {
@@ -207,33 +198,36 @@ class TicketController {
             data.price > 0 &&
             data.quantity > 0);
     }
-    async downloadTicket(req, res) {
+    async downloadTicket(req, res, next) {
         try {
             const id = req.tokenDecoded?.saleID;
             if (!id) {
-                return res.status(404).json({ success: false, error: 'Error sale id' });
+                res.status(404).json({ success: false, error: 'Error sale id' });
+                return;
             }
             const saleService = new sale_service_1.SaleService(new sale_repository_1.SaleRepository());
             const sale = await saleService.getSaleById(Number(id));
             if (!sale) {
-                return res.status(404).json({ success: false, error: 'Sale not found' });
+                res.status(404).json({ success: false, error: 'Sale not found' });
+                return;
             }
             if (sale.status !== 'approved') {
-                return res.status(403).json({ success: false, error: 'Payment not approved' });
+                res.status(403).json({ success: false, error: 'Payment not approved' });
+                return;
             }
             const ticket = await this.ticketService.getTicketById(sale.ticket_id);
             if (!ticket || !ticket.file) {
-                return res.status(404).json({ success: false, error: 'Ticket file not found' });
+                res.status(404).json({ success: false, error: 'Ticket file not found' });
+                return;
             }
             const filePath = path_1.default.join(__dirname, '../../uploads', ticket.file);
-            const originalFileName = ticket.file.split('-').slice(2).join('-'); // Get original filename
+            const originalFileName = ticket.file.split('-').slice(2).join('-');
             res.setHeader('Content-Type', 'application/octet-stream');
             res.setHeader('Content-Disposition', `attachment; filename="${originalFileName}"`);
             res.sendFile(filePath);
         }
         catch (error) {
-            console.error('Error downloading ticket:', error);
-            res.status(500).json({ success: false, error: 'Failed to download ticket' });
+            next(error);
         }
     }
 }

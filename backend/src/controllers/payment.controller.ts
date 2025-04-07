@@ -55,13 +55,13 @@ export class PaymentController {
         const { correlationID, status } = req.body;
 
         if (!correlationID || typeof correlationID !== "string") {
-          return res
+          res
             .status(400)
             .json({ error: "Invalid or missing correlationID" });
         }
 
         if (!["COMPLETED", "CANCELLED"].includes(status)) {
-          return res.status(400).json({ error: "Invalid status received" });
+          res.status(400).json({ error: "Invalid status received" });
         }
 
         const saleId = Number(correlationID.replace("sale_", ""));
@@ -73,11 +73,11 @@ export class PaymentController {
 
           switch (sale.status) {
             case "approved":
-              return res
+              res
                 .status(400)
                 .json({ error: `A venda ${saleId} já está aprovada` });
             case "cancelled":
-              return res
+              res
                 .status(400)
                 .json({ error: `A venda ${saleId} já foi cancelada` });
             case "pending":
@@ -93,12 +93,12 @@ export class PaymentController {
               }
               break;
             default:
-              return res
+              res
                 .status(400)
                 .json({ error: "Status de venda desconhecido" });
           }
         } else {
-          return res
+          res
             .status(404)
             .json({ error: `Venda não encontrada: ${saleId}` });
         }

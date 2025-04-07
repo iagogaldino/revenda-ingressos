@@ -6,47 +6,44 @@ class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    async create(req, res) {
+    async create(req, res, next) {
         try {
             const user = await this.userService.create(req.body);
-            return res.status(201).json(user);
+            res.status(201).json(user);
         }
         catch (error) {
-            console.log(error);
-            if (error.message === 'Email already registered') {
-                return res.status(400).json({ error: error.message });
-            }
-            return res.status(500).json({ error: 'Internal server error' });
+            next(error);
         }
     }
-    async findById(req, res) {
+    async findById(req, res, next) {
         try {
             const user = await this.userService.findById(Number(req.params.id));
             if (!user) {
-                return res.status(404).json({ error: 'User not found' });
+                res.status(404).json({ error: 'User not found' });
+                return;
             }
-            return res.status(200).json(user);
+            res.status(200).json(user);
         }
         catch (error) {
-            return res.status(500).json({ error: 'Internal server error' });
+            next(error);
         }
     }
-    async update(req, res) {
+    async update(req, res, next) {
         try {
             const user = await this.userService.update(Number(req.params.id), req.body);
-            return res.status(200).json(user);
+            res.status(200).json(user);
         }
         catch (error) {
-            return res.status(500).json({ error: 'Internal server error' });
+            next(error);
         }
     }
-    async delete(req, res) {
+    async delete(req, res, next) {
         try {
             await this.userService.delete(Number(req.params.id));
-            return res.status(204).send();
+            res.status(204).send();
         }
         catch (error) {
-            return res.status(500).json({ error: 'Internal server error' });
+            next(error);
         }
     }
 }

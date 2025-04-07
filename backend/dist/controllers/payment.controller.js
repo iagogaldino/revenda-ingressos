@@ -14,19 +14,15 @@ class PaymentController {
     async initializePayment(req, res, next) {
         try {
             const { provider, amount, orderId, payer, commentPayment } = req.body;
-            // Verifica se o provider é válido
             if (!Object.values(providers_enum_1.Providers).includes(provider)) {
-                return res
-                    .status(400)
-                    .json({ error: "Invalid payment provider specified" });
+                res.status(400).json({ error: "Invalid payment provider specified" });
+                return;
             }
-            // Processa o pagamento via PaymentService
             const result = await this.paymentService.processPayment(provider, amount, orderId, payer, commentPayment);
-            res.json(result);
+            res.status(200).json(result);
         }
         catch (error) {
-            console.error("Payment initialization error:", error);
-            res.status(500).json({ error: "Payment initialization failed" });
+            next(error);
         }
     }
     async handleWebhook(req, res, next) {
@@ -36,9 +32,9 @@ class PaymentController {
                 statusFileSent: { error: false, message: "" },
             };
             const provider = req.params.provider;
-            // Verifica se o provider é válido
             if (!Object.values(providers_enum_1.Providers).includes(provider)) {
-                return res.status(400).json({ error: "Invalid provider specified" });
+                res.status(400).json({ error: "Invalid provider specified" });
+                return;
             }
             if (provider === providers_enum_1.Providers.OpenPIX) {
                 const { correlationID, status } = req.body;
@@ -88,8 +84,7 @@ class PaymentController {
             res.json(response);
         }
         catch (error) {
-            console.error("Webhook handling error:", error);
-            res.status(500).json({ error: `Falha ao processar o webhook. ${error}` });
+            next(error);
         }
     }
 }
