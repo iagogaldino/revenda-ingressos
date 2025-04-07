@@ -15,18 +15,15 @@ export class PaymentController {
     this.saleService = new SaleService(new SaleRepository());
   }
 
-  async initializePayment(req: Request, res: Response, next: NextFunction) {
+  async initializePayment(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { provider, amount, orderId, payer, commentPayment } = req.body;
 
-      // Verifica se o provider é válido
       if (!Object.values(Providers).includes(provider)) {
-        return res
-          .status(400)
-          .json({ error: "Invalid payment provider specified" });
+        res.status(400).json({ error: "Invalid payment provider specified" });
+        return;
       }
 
-      // Processa o pagamento via PaymentService
       const result = await this.paymentService.processPayment(
         provider,
         amount,
@@ -37,8 +34,7 @@ export class PaymentController {
 
       res.json(result);
     } catch (error) {
-      console.error("Payment initialization error:", error);
-      res.status(500).json({ error: "Payment initialization failed" });
+      next(error);
     }
   }
 

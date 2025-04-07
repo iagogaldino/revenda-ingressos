@@ -9,7 +9,7 @@ import { TicketController } from '../controllers/ticket.controller';
 export class SaleController {
   constructor(private saleService: SaleService) {}
 
-  async createSale(req: Request, res: Response, next: NextFunction) {
+  async createSale(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const sale = await this.saleService.createSale(req.body);
       res.status(201).json({
@@ -20,23 +20,24 @@ export class SaleController {
         }
       });
     } catch (error) {
-      console.error('Error creating sale:', error);
-      res.status(500).json({ error: 'Failed to create sale' });
+      next(error);
     }
   }
 
-  async getSaleStatus(req: Request, res: Response, next: NextFunction) {
+  async getSaleStatus(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const saleId = parseInt(req.params.id);
       
       if (isNaN(saleId)) {
-        return res.status(400).json({ error: 'Invalid sale ID' });
+        res.status(400).json({ error: 'Invalid sale ID' });
+        return;
       }
 
       const sale = await this.saleService.getSaleById(saleId);
       
       if (!sale) {
-        return res.status(404).json({ error: 'Sale not found' });
+        res.status(404).json({ error: 'Sale not found' });
+        return;
       }
 
       const ticketRepository = new TicketRepository();
@@ -55,8 +56,7 @@ export class SaleController {
         }
       });
     } catch (error) {
-      console.error('Error getting sale status:', error);
-      res.status(500).json({ error: 'Failed to get sale status' });
+      next(error);
     }
   }
 }
