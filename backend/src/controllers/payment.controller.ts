@@ -32,13 +32,13 @@ export class PaymentController {
         commentPayment
       );
 
-      res.json(result);
+      res.status(200).json(result);
     } catch (error) {
       next(error);
     }
   }
 
-  async handleWebhook(req: Request, res: Response, next: NextFunction) {
+  async handleWebhook(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const response = {
         success: false,
@@ -46,9 +46,9 @@ export class PaymentController {
       };
       const provider = req.params.provider as Providers;
 
-      // Verifica se o provider é válido
       if (!Object.values(Providers).includes(provider)) {
-        return res.status(400).json({ error: "Invalid provider specified" });
+        res.status(400).json({ error: "Invalid provider specified" });
+        return;
       }
 
       if (provider === Providers.OpenPIX) {
@@ -107,8 +107,7 @@ export class PaymentController {
       response.success = true;
       res.json(response);
     } catch (error) {
-      console.error("Webhook handling error:", error);
-      res.status(500).json({ error: `Falha ao processar o webhook. ${error}` });
+      next(error);
     }
   }
 }
