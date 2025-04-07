@@ -94,29 +94,30 @@ export class TicketController {
 
       if (!sale) {
         res.status(404).json({ success: false, error: "Sale not found" });
-        return;
-      }
-
-      if (sale.status !== "approved") {
-        res.status(403).json({ success: false, error: "Payment not approved" });
-      }
-
-      const ticket = await this.ticketService.getTicketById(sale.ticket_id);
-
-      if (!ticket || !ticket.file) {
-        res
-          .status(404)
-          .json({ success: false, error: "Ticket file not found" });
       } else {
-        const filePath = path.join(__dirname, "../../uploads", ticket.file);
-        const originalFileName = ticket.file.split("-").slice(2).join("-");
+        if (sale.status !== "approved") {
+          res
+            .status(403)
+            .json({ success: false, error: "Payment not approved" });
+        }
 
-        res.setHeader("Content-Type", "application/octet-stream");
-        res.setHeader(
-          "Content-Disposition",
-          `attachment; filename="${originalFileName}"`
-        );
-        res.sendFile(filePath);
+        const ticket = await this.ticketService.getTicketById(sale.ticket_id);
+
+        if (!ticket || !ticket.file) {
+          res
+            .status(404)
+            .json({ success: false, error: "Ticket file not found" });
+        } else {
+          const filePath = path.join(__dirname, "../../uploads", ticket.file);
+          const originalFileName = ticket.file.split("-").slice(2).join("-");
+
+          res.setHeader("Content-Type", "application/octet-stream");
+          res.setHeader(
+            "Content-Disposition",
+            `attachment; filename="${originalFileName}"`
+          );
+          res.sendFile(filePath);
+        }
       }
     } catch (error) {
       next(error);
