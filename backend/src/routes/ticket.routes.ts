@@ -27,7 +27,7 @@ const uploadMiddleware = multer({
   limits: { fileSize: 5 * 1024 * 1024 }
 }).fields([{ name: 'image' }, { name: 'file' }]);
 
-const handleUpload = (req: Request, res: Response, next: NextFunction) => {
+const handleUpload = (req: any, res: Response, next: NextFunction) => {
   uploadMiddleware(req, res, (err: any) => {
     if (err) {
       return res.status(400).json({ error: err.message });
