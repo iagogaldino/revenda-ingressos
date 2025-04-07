@@ -16,14 +16,30 @@ const ticketController = new ticket_controller_1.TicketController(ticketService)
 // Configuração do multer
 const uploadMiddleware = (0, multer_1.default)().fields([{ name: 'image' }, { name: 'file' }]);
 // Rotas de Tickets protegidas por autenticação
-router.post('/seller/tickets', auth_middleware_1.authenticateToken, uploadMiddleware, (req, res, next) => ticketController.create(req, res, next));
-router.put('/seller/tickets/:id', auth_middleware_1.authenticateToken, uploadMiddleware, (req, res, next) => ticketController.update(req, res, next));
-router.delete('/tickets/:id', auth_middleware_1.authenticateToken, (req, res, next) => ticketController.deleteTicket(req, res, next));
+router.post('/seller/tickets', auth_middleware_1.authenticateToken, uploadMiddleware, async (req, res, next) => {
+    await ticketController.create(req, res, next);
+});
+router.put('/seller/tickets/:id', auth_middleware_1.authenticateToken, uploadMiddleware, async (req, res, next) => {
+    await ticketController.update(req, res, next);
+});
+router.delete('/tickets/:id', auth_middleware_1.authenticateToken, async (req, res, next) => {
+    await ticketController.deleteTicket(req, res, next);
+});
 // Rotas públicas
-router.get('/tickets', (req, res, next) => ticketController.getAllTickets(req, res, next));
-router.get('/tickets/:id', (req, res, next) => ticketController.getTicketById(req, res, next));
-router.get('/tickets/download/:id', auth_middleware_1.authenticateToken, (req, res, next) => ticketController.downloadTicket(req, res, next));
+router.get('/tickets', async (req, res, next) => {
+    await ticketController.getAllTickets(req, res, next);
+});
+router.get('/tickets/:id', async (req, res, next) => {
+    await ticketController.getTicketById(req, res, next);
+});
+router.get('/tickets/download/:id', auth_middleware_1.authenticateToken, async (req, res, next) => {
+    await ticketController.downloadTicket(req, res, next);
+});
 // Rota protegida por autenticação (Busca ingressos do usuário autenticado)
-router.get('/seller/tickets', auth_middleware_1.authenticateToken, (req, res, next) => ticketController.getTicketsBySeller(req, res, next));
-router.get('/tickets/seller/:sellerId', (req, res, next) => ticketController.getTicketsBySellerId(req, res, next));
+router.get('/seller/tickets', auth_middleware_1.authenticateToken, async (req, res, next) => {
+    await ticketController.getTicketsBySeller(req, res, next);
+});
+router.get('/tickets/seller/:sellerId', async (req, res, next) => {
+    await ticketController.getTicketsBySellerId(req, res, next);
+});
 exports.ticketRoutes = router;

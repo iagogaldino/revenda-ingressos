@@ -67,29 +67,32 @@ class TicketController {
         try {
             const id = req.tokenDecoded?.saleID;
             if (!id) {
-                res.status(404).json({ success: false, error: 'Error sale id' });
-                return;
+                res.status(404).json({ success: false, error: "Error sale id" });
             }
             const saleService = new sale_service_1.SaleService(new sale_repository_1.SaleRepository());
             const sale = await saleService.getSaleById(Number(id));
             if (!sale) {
-                res.status(404).json({ success: false, error: 'Sale not found' });
-                return;
-            }
-            if (sale.status !== 'approved') {
-                res.status(403).json({ success: false, error: 'Payment not approved' });
-                return;
-            }
-            const ticket = await this.ticketService.getTicketById(sale.ticket_id);
-            if (!ticket || !ticket.file) {
-                res.status(404).json({ success: false, error: 'Ticket file not found' });
+                res.status(404).json({ success: false, error: "Sale not found" });
             }
             else {
-                const filePath = path_1.default.join(__dirname, '../../uploads', ticket.file);
-                const originalFileName = ticket.file.split('-').slice(2).join('-');
-                res.setHeader('Content-Type', 'application/octet-stream');
-                res.setHeader('Content-Disposition', `attachment; filename="${originalFileName}"`);
-                res.sendFile(filePath);
+                if (sale.status !== "approved") {
+                    res
+                        .status(403)
+                        .json({ success: false, error: "Payment not approved" });
+                }
+                const ticket = await this.ticketService.getTicketById(sale.ticket_id);
+                if (!ticket || !ticket.file) {
+                    res
+                        .status(404)
+                        .json({ success: false, error: "Ticket file not found" });
+                }
+                else {
+                    const filePath = path_1.default.join(__dirname, "../../uploads", ticket.file);
+                    const originalFileName = ticket.file.split("-").slice(2).join("-");
+                    res.setHeader("Content-Type", "application/octet-stream");
+                    res.setHeader("Content-Disposition", `attachment; filename="${originalFileName}"`);
+                    res.sendFile(filePath);
+                }
             }
         }
         catch (error) {
