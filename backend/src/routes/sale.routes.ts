@@ -1,5 +1,6 @@
 
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
+
 import { SaleController } from '../controllers/sale.controller';
 import { SaleService } from '../services/sale.service';
 import { SaleRepository } from '../repositories/sale.repository';

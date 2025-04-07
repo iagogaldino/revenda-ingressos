@@ -1,5 +1,6 @@
 
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
+
 import { YoutubeController } from '../controllers/youtube.controller';
 import { YoutubeService } from '../services/youtube.service';
 

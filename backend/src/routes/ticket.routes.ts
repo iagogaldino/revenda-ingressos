@@ -1,4 +1,5 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
+
 import multer from 'multer';
 import path from 'path';
 import { TicketController } from '../controllers/ticket.controller';
