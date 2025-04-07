@@ -18,24 +18,25 @@ export class TicketController {
     this.ticketService = new TicketService(ticketRepository);
   }
 
-  async create(req: Request, res: Response, next: NextFunction) {
+  async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const userID = (req as any).userId as number;
       if (!userID) {
-        return res.status(401).json({ success: false, error: 'Error: Usuário não autenticado' });
+        res.status(401).json({ success: false, error: 'Error: Usuário não autenticado' });
+        return;
       }
       const ticketData = req.body;
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
-      // Validar se os arquivos foram enviados corretamente
       const imageFile = files?.image?.[0] || null;
       const pdfFile = files?.file?.[0] || null;
 
       if (!this.validateTicketData(ticketData)) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: 'Missing or invalid required fields'
         });
+        return;
       }
 
       const ticket = await this.ticketService.createTicket({
@@ -45,16 +46,11 @@ export class TicketController {
         image: imageFile ? imageFile.filename : null,
         file: pdfFile ? pdfFile.filename : null,
         videoUrl: ticketData.videoUrl || null,
-
       });
 
       res.status(201).json({ success: true, data: ticket });
     } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        success: false,
-        error: 'Internal server error'
-      });
+      next(error);
     }
   }
 
@@ -137,7 +133,7 @@ formatDateForDatabase(dateString: string): string {
     return date.toISOString();  // Returns format like "2025-04-16T03:00:00.000Z"
 }
 
-  async getAllTickets(req: Request, res: Response, next: NextFunction) {
+  async getAllTickets(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { category, minPrice, maxPrice } = req.query;
       let tickets = await this.ticketService.getAllTickets();
@@ -158,8 +154,7 @@ formatDateForDatabase(dateString: string): string {
 
       res.status(200).json({ success: true, data: tickets });
     } catch (error) {
-      console.log('error', error);
-      res.status(500).json({ success: false, error: 'Failed to fetch tickets' });
+      next(error);
     }
   }
 
