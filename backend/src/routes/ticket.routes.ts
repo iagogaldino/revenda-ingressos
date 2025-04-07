@@ -1,3 +1,4 @@
+
 import { Router, Request, Response, NextFunction } from 'express';
 import { TicketController } from '../controllers/ticket.controller';
 import { authenticateToken } from '../middlewares/auth.middleware';
@@ -13,17 +14,38 @@ const ticketController = new TicketController(ticketService);
 const uploadMiddleware = multer().fields([{ name: 'image' }, { name: 'file' }]);
 
 // Rotas de Tickets protegidas por autenticação
-router.post('/seller/tickets', authenticateToken, uploadMiddleware, (req: Request, res: Response, next: NextFunction) => ticketController.create(req, res, next));
-router.put('/seller/tickets/:id', authenticateToken, uploadMiddleware, (req: Request, res: Response, next: NextFunction) => ticketController.update(req, res, next));
-router.delete('/tickets/:id', authenticateToken, (req: Request, res: Response, next: NextFunction) => ticketController.deleteTicket(req, res, next));
+router.post('/seller/tickets', authenticateToken, uploadMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+  await ticketController.create(req, res, next);
+});
+
+router.put('/seller/tickets/:id', authenticateToken, uploadMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+  await ticketController.update(req, res, next);
+});
+
+router.delete('/tickets/:id', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
+  await ticketController.deleteTicket(req, res, next);
+});
 
 // Rotas públicas
-router.get('/tickets', (req: Request, res: Response, next: NextFunction) => ticketController.getAllTickets(req, res, next));
-router.get('/tickets/:id', (req: Request, res: Response, next: NextFunction) => ticketController.getTicketById(req, res, next));
-router.get('/tickets/download/:id', authenticateToken, (req: Request, res: Response, next: NextFunction) => ticketController.downloadTicket(req, res, next));
+router.get('/tickets', async (req: Request, res: Response, next: NextFunction) => {
+  await ticketController.getAllTickets(req, res, next);
+});
+
+router.get('/tickets/:id', async (req: Request, res: Response, next: NextFunction) => {
+  await ticketController.getTicketById(req, res, next);
+});
+
+router.get('/tickets/download/:id', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
+  await ticketController.downloadTicket(req, res, next);
+});
 
 // Rota protegida por autenticação (Busca ingressos do usuário autenticado)
-router.get('/seller/tickets', authenticateToken, (req: Request, res: Response, next: NextFunction) => ticketController.getTicketsBySeller(req, res, next));
-router.get('/tickets/seller/:sellerId', (req: Request, res: Response, next: NextFunction) => ticketController.getTicketsBySellerId(req, res, next));
+router.get('/seller/tickets', authenticateToken, async (req: Request, res: Response, next: NextFunction) => {
+  await ticketController.getTicketsBySeller(req, res, next);
+});
+
+router.get('/tickets/seller/:sellerId', async (req: Request, res: Response, next: NextFunction) => {
+  await ticketController.getTicketsBySellerId(req, res, next);
+});
 
 export const ticketRoutes = router;
