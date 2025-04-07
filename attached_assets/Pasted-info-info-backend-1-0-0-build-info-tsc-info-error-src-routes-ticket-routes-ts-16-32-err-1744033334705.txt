@@ -1,0 +1,68 @@
+info
+info
+> backend@1.0.0 build
+info
+> tsc
+info
+error
+src/routes/ticket.routes.ts(16,32): error TS2769: No overload matches this call.
+error
+  The last overload gave the following error.
+info
+    Argument of type '(req: AuthRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+info
+      Type '(req: AuthRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+info
+        Type 'Response<any, Record<string, any>> | undefined' is not assignable to type 'void | Promise<void>'.
+info
+          Type 'Response<any, Record<string, any>>' is not assignable to type 'void | Promise<void>'.
+error
+src/routes/ticket.routes.ts(17,35): error TS2769: No overload matches this call.
+error
+  The last overload gave the following error.
+info
+    Argument of type '(req: AuthRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+info
+      Type '(req: AuthRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+info
+        Type 'Response<any, Record<string, any>> | undefined' is not assignable to type 'void | Promise<void>'.
+info
+          Type 'Response<any, Record<string, any>>' is not assignable to type 'void | Promise<void>'.
+error
+src/routes/ticket.routes.ts(18,31): error TS2769: No overload matches this call.
+error
+  The last overload gave the following error.
+info
+    Argument of type '(req: AuthRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+info
+      Type '(req: AuthRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+info
+        Type 'Response<any, Record<string, any>> | undefined' is not assignable to type 'void | Promise<void>'.
+info
+          Type 'Response<any, Record<string, any>>' is not assignable to type 'void | Promise<void>'.
+error
+src/routes/ticket.routes.ts(23,37): error TS2769: No overload matches this call.
+error
+  The last overload gave the following error.
+info
+    Argument of type '(req: AuthRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+info
+      Type '(req: AuthRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+info
+        Type 'Response<any, Record<string, any>> | undefined' is not assignable to type 'void | Promise<void>'.
+info
+          Type 'Response<any, Record<string, any>>' is not assignable to type 'void | Promise<void>'.
+error
+src/routes/ticket.routes.ts(26,31): error TS2769: No overload matches this call.
+error
+  The last overload gave the following error.
+info
+    Argument of type '(req: AuthRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to parameter of type 'RequestHandlerParams<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+info
+      Type '(req: AuthRequest, res: Response, next: NextFunction) => Response<any, Record<string, any>> | undefined' is not assignable to type 'RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+info
+        Type 'Response<any, Record<string, any>> | undefined' is not assignable to type 'void | Promise<void>'.
+info
+          Type 'Response<any, Record<string, any>>' is not assignable to type 'void | Promise<void>'.
+info
+==> Build failed 😞
