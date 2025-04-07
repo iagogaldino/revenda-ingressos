@@ -1,10 +1,9 @@
 
-import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
 import { UserRepository } from '../repositories/user.repository';
-import { pool } from '../config/database';
+import { Router, Request, Response } from 'express';
 
 const authRouter = Router();
 
