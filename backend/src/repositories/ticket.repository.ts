@@ -1,7 +1,6 @@
 
-import { ITicket, ITicketRepository } from '../interfaces/ticket.interface';
 import { pool } from '../config/database';
-import { Ticket } from '../types/ticket';
+import { ITicket, ITicketRepository } from '../interfaces/ticket.interface';
 
 export class TicketRepository implements ITicketRepository {
   async create(ticket: ITicket): Promise<ITicket> {
@@ -99,11 +98,18 @@ export class TicketRepository implements ITicketRepository {
     return result.rows[0] || null;
   }
 
+  camelToSnake(str: string): string {
+    return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+  }
+
   async update(id: number, ticket: Partial<ITicket>): Promise<ITicket> {
     const keys = Object.keys(ticket);
     const values = Object.values(ticket);
     
-    const setClause = keys.map((key, index) => `${key} = $${index + 1}`).join(', ');
+    
+    const snakeCaseKeys = keys.map(key => this.camelToSnake(key));
+    const setClause = snakeCaseKeys.map((key, index) => `${key} = $${index + 1}`).join(', ');
+    console.log('setClause', setClause);
     const query = `
       UPDATE tickets 
       SET ${setClause}, updated_at = NOW()

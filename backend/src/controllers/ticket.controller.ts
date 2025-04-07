@@ -20,8 +20,8 @@ export class TicketController {
       const ticketData = req.body;
       
       ticketData.sellerId = userID;
-      ticketData.image = `${randomUUID()}.${files['image']?.[0].originalname.split(".")[1]}`;
-      ticketData.file = `${randomUUID()}.${files['file']?.[0].originalname.split(".")[1]}`;
+      ticketData.image = files['image'];
+      ticketData.file = files['file'];
       
       
       const result = await this.ticketService.createTicket(ticketData);
@@ -35,6 +35,11 @@ export class TicketController {
     try {
       const ticketId = Number(req.params.id);
       const ticketData = req.body;
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+       
+      ticketData.image = files['image'][0].filename;
+      ticketData.file = files['file'][0].filename;
+
       const result = await this.ticketService.updateTicket(
         ticketId,
         ticketData
@@ -140,7 +145,7 @@ export class TicketController {
     try {
       const userID = (req as AuthRequest).userId as number;
       const tickets = await this.ticketService.getTicketsBySellerId(userID);
-      res.status(200).json(tickets);
+      res.status(200).json({ success: true, data: tickets });
     } catch (error) {
       next(error);
     }
@@ -154,7 +159,7 @@ export class TicketController {
     try {
       const sellerId = Number(req.params.sellerId);
       const tickets = await this.ticketService.getTicketsBySellerId(sellerId);
-      res.status(200).json(tickets);
+      res.status(200).json({ success: true, data: tickets });
     } catch (error) {
       next(error);
     }

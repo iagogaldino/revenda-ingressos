@@ -14,6 +14,6 @@ const configDB = {
   }
 };
 
-console.log(configDB);
+// console.log(configDB);
 
 export const pool = new Pool(configDB);
