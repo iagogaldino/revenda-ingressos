@@ -8,6 +8,13 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS categories (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL UNIQUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS tickets (
   id SERIAL PRIMARY KEY,
   seller_id INTEGER NOT NULL,
@@ -25,24 +32,10 @@ CREATE TABLE IF NOT EXISTS tickets (
   category INTEGER NOT NULL,
   type VARCHAR(50),
   image VARCHAR(255),
+  video_url VARCHAR(255),
   quantity INTEGER NOT NULL,
   FOREIGN KEY (seller_id) REFERENCES users(id)
 );
-
-
-CREATE INDEX idx_tickets_seller_id ON tickets(seller_id);
-
-  price NUMERIC(10,2) NOT NULL,
-  original_price NUMERIC(10,2),
-  description TEXT,
-  category VARCHAR(100) NOT NULL,
-  type VARCHAR(50),
-  ticket VARCHAR(255),
-  active BOOLEAN DEFAULT true,
-  quantity INTEGER NOT NULL,
-  FOREIGN KEY (seller_id) REFERENCES users(id)
-);
-
 
 CREATE TABLE IF NOT EXISTS sales (
   id SERIAL PRIMARY KEY,
@@ -55,3 +48,11 @@ CREATE TABLE IF NOT EXISTS sales (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE INDEX idx_tickets_seller_id ON tickets(seller_id);
+
+INSERT INTO categories (name) VALUES 
+  ('Shows'),
+  ('Esportes'),
+  ('Teatro'),
+  ('Festivais'),
+  ('Cinema');
