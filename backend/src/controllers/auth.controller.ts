@@ -1,11 +1,11 @@
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { IAuthService } from '../interfaces/auth.interface';
 
 export class AuthController {
   constructor(private authService: IAuthService) {}
 
-  async login(req: Request, res: Response) {
+  async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
       const result = await this.authService.login({ email, password });
@@ -15,7 +15,7 @@ export class AuthController {
     }
   }
 
-  async validateToken(req: Request, res: Response) {
+  async validateToken(req: Request, res: Response, next: NextFunction) {
     try {
       const token = req.headers.authorization?.split(' ')[1];
       if (!token) {

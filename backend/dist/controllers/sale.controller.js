@@ -9,7 +9,7 @@ class SaleController {
     constructor(saleService) {
         this.saleService = saleService;
     }
-    async createSale(req, res) {
+    async createSale(req, res, next) {
         try {
             const sale = await this.saleService.createSale(req.body);
             res.status(201).json({
@@ -25,7 +25,7 @@ class SaleController {
             res.status(500).json({ error: 'Failed to create sale' });
         }
     }
-    async getSaleStatus(req, res) {
+    async getSaleStatus(req, res, next) {
         try {
             const saleId = parseInt(req.params.id);
             if (isNaN(saleId)) {

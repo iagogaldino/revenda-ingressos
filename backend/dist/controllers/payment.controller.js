@@ -11,7 +11,7 @@ class PaymentController {
         this.paymentService = paymentService;
         this.saleService = new sale_service_1.SaleService(new sale_repository_1.SaleRepository());
     }
-    async initializePayment(req, res) {
+    async initializePayment(req, res, next) {
         try {
             const { provider, amount, orderId, payer, commentPayment } = req.body;
             // Verifica se o provider é válido
@@ -29,7 +29,7 @@ class PaymentController {
             res.status(500).json({ error: "Payment initialization failed" });
         }
     }
-    async handleWebhook(req, res) {
+    async handleWebhook(req, res, next) {
         try {
             const response = {
                 success: false,

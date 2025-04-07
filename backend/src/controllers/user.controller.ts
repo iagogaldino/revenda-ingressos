@@ -1,11 +1,11 @@
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { IUserService } from '../interfaces/user.interface';
 
 export class UserController {
   constructor(private readonly userService: IUserService) {}
 
-  async create(req: Request, res: Response): Promise<Response> {
+  async create(req: Request, res: Response, next: NextFunction): Promise<Response> {
     try {
       const user = await this.userService.create(req.body);
       return res.status(201).json(user);
@@ -18,7 +18,7 @@ export class UserController {
     }
   }
 
-  async findById(req: Request, res: Response): Promise<Response> {
+  async findById(req: Request, res: Response, next: NextFunction): Promise<Response> {
     try {
       const user = await this.userService.findById(Number(req.params.id));
       if (!user) {
@@ -30,7 +30,7 @@ export class UserController {
     }
   }
 
-  async update(req: Request, res: Response): Promise<Response> {
+  async update(req: Request, res: Response, next: NextFunction): Promise<Response> {
     try {
       const user = await this.userService.update(Number(req.params.id), req.body);
       return res.status(200).json(user);
@@ -39,7 +39,7 @@ export class UserController {
     }
   }
 
-  async delete(req: Request, res: Response): Promise<Response> {
+  async delete(req: Request, res: Response, next: NextFunction): Promise<Response> {
     try {
       await this.userService.delete(Number(req.params.id));
       return res.status(204).send();

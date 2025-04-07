@@ -1,11 +1,11 @@
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { YoutubeService } from '../services/youtube.service';
 
 export class YoutubeController {
   constructor(private youtubeService: YoutubeService) {}
 
-  async searchVideo(req: Request, res: Response) {
+  async searchVideo(req: Request, res: Response, next: NextFunction) {
     try {
       const { query } = req.query;
       if (!query || typeof query !== 'string') {
@@ -19,7 +19,7 @@ export class YoutubeController {
     }
   }
 
-  async searchVideos(req: Request, res: Response) {
+  async searchVideos(req: Request, res: Response, next: NextFunction) {
     try {
       const { query, limit } = req.query;
       if (!query || typeof query !== 'string') {

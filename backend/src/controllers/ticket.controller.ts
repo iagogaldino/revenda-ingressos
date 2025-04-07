@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { ITicket, ITicketService } from '../interfaces/ticket.interface';
 import { TicketService } from '../services/ticket.service';
 import { TicketRepository } from '../repositories/ticket.repository';
@@ -18,7 +18,7 @@ export class TicketController {
     this.ticketService = new TicketService(ticketRepository);
   }
 
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response, next: NextFunction) {
     try {
       const userID = (req as any).userId as number;
       if (!userID) {
@@ -58,7 +58,7 @@ export class TicketController {
     }
   }
 
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const ticketData = req.body;
@@ -137,7 +137,7 @@ formatDateForDatabase(dateString: string): string {
     return date.toISOString();  // Returns format like "2025-04-16T03:00:00.000Z"
 }
 
-  async getAllTickets(req: Request, res: Response) {
+  async getAllTickets(req: Request, res: Response, next: NextFunction) {
     try {
       const { category, minPrice, maxPrice } = req.query;
       let tickets = await this.ticketService.getAllTickets();
@@ -163,7 +163,7 @@ formatDateForDatabase(dateString: string): string {
     }
   }
 
-  async getTicketsBySeller(req: AuthRequest, res: Response) {
+  async getTicketsBySeller(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       if (!req.userId) {
         return res.status(401).json({ success: false, error: 'Usuário não autenticado' });
@@ -178,7 +178,7 @@ formatDateForDatabase(dateString: string): string {
     }
   }
   
-  async getTicketById(req: Request, res: Response) {
+  async getTicketById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const ticket = await this.ticketService.getTicketById(Number(id));
@@ -193,7 +193,7 @@ formatDateForDatabase(dateString: string): string {
     }
   }
 
-  async deleteTicket(req: Request, res: Response) {
+  async deleteTicket(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const ticket = await this.ticketService.getTicketById(Number(id));
@@ -209,7 +209,7 @@ formatDateForDatabase(dateString: string): string {
     }
   }
 
-  async getTicketsBySellerId(req: Request, res: Response) {
+  async getTicketsBySellerId(req: Request, res: Response, next: NextFunction) {
     try {
       const { sellerId } = req.params;
       
@@ -245,7 +245,7 @@ formatDateForDatabase(dateString: string): string {
     );
   }
 
-  async downloadTicket(req: AuthRequest, res: Response) {
+  async downloadTicket(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const id = req.tokenDecoded?.saleID as number;
       if (!id) {

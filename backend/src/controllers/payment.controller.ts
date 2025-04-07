@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { PaymentService } from "../services/payment/payment.service";
 import { SaleService } from "../services/sale.service";
 import { SaleRepository } from "../repositories/sale.repository";
@@ -15,7 +15,7 @@ export class PaymentController {
     this.saleService = new SaleService(new SaleRepository());
   }
 
-  async initializePayment(req: Request, res: Response) {
+  async initializePayment(req: Request, res: Response, next: NextFunction) {
     try {
       const { provider, amount, orderId, payer, commentPayment } = req.body;
 
@@ -42,7 +42,7 @@ export class PaymentController {
     }
   }
 
-  async handleWebhook(req: Request, res: Response) {
+  async handleWebhook(req: Request, res: Response, next: NextFunction) {
     try {
       const response = {
         success: false,

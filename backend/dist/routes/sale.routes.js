@@ -9,6 +9,7 @@ const router = (0, express_1.Router)();
 const saleRepository = new sale_repository_1.SaleRepository();
 const saleService = new sale_service_1.SaleService(saleRepository);
 const saleController = new sale_controller_1.SaleController(saleService);
-router.post('/', (req, res) => saleController.createSale(req, res));
-router.get('/:id/status', (req, res) => saleController.getSaleStatus(req, res));
+// Corrigido: Adicionado NextFunction para que o Express possa tratar erros
+router.post('/', (req, res, next) => saleController.createSale(req, res, next));
+router.get('/:id/status', (req, res, next) => saleController.getSaleStatus(req, res, next));
 exports.saleRoutes = router;

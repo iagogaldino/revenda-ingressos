@@ -6,7 +6,7 @@ class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    async login(req, res) {
+    async login(req, res, next) {
         try {
             const { email, password } = req.body;
             const result = await this.authService.login({ email, password });
@@ -16,7 +16,7 @@ class AuthController {
             res.status(401).json({ message: error.message });
         }
     }
-    async validateToken(req, res) {
+    async validateToken(req, res, next) {
         try {
             const token = req.headers.authorization?.split(' ')[1];
             if (!token) {

@@ -2,14 +2,14 @@ import { TokenService } from './../services/token.service';
 import { TicketService } from './../services/ticket.service';
 import { TicketRepository } from './../repositories/ticket.repository';
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { SaleService } from '../services/sale.service';
 import { TicketController } from '../controllers/ticket.controller';
 
 export class SaleController {
   constructor(private saleService: SaleService) {}
 
-  async createSale(req: Request, res: Response) {
+  async createSale(req: Request, res: Response, next: NextFunction) {
     try {
       const sale = await this.saleService.createSale(req.body);
       res.status(201).json({
@@ -25,7 +25,7 @@ export class SaleController {
     }
   }
 
-  async getSaleStatus(req: Request, res: Response) {
+  async getSaleStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const saleId = parseInt(req.params.id);
       
