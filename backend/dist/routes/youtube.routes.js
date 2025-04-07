@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.youtubeRoutes = void 0;
+const express_1 = require("express");
+const youtube_controller_1 = require("../controllers/youtube.controller");
+const youtube_service_1 = require("../services/youtube.service");
+const router = (0, express_1.Router)();
+const youtubeService = new youtube_service_1.YoutubeService();
+const youtubeController = new youtube_controller_1.YoutubeController(youtubeService);
+router.get('/youtube/search', (req, res) => youtubeController.searchVideo(req, res));
+router.get('/youtube/search/multiple', (req, res) => youtubeController.searchVideos(req, res));
+exports.youtubeRoutes = router;

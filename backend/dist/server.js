@@ -6,34 +6,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const mockData_1 = require("./data/mockData");
+const ticket_routes_1 = require("./routes/ticket.routes");
+const user_routes_1 = __importDefault(require("./routes/user.routes"));
+const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
+const payment_routes_1 = require("./routes/payment.routes");
+const sale_routes_1 = require("./routes/sale.routes");
+const category_routes_1 = require("./routes/category.routes");
+const youtube_routes_1 = require("./routes/youtube.routes"); // Added import for YouTube routes
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
-app.use((0, cors_1.default)());
+// Middleware
+app.use((0, cors_1.default)({
+    origin: true,
+    credentials: true
+}));
 app.use(express_1.default.json());
+app.use('/uploads', express_1.default.static('uploads'));
+// Routes
+app.use('/api', ticket_routes_1.ticketRoutes);
+app.use('/api', user_routes_1.default);
+app.use('/api', auth_routes_1.default);
+app.use('/api', category_routes_1.categoryRoutes);
+app.use('/api/payments', payment_routes_1.paymentRoutes);
+app.use('/api/sales', sale_routes_1.saleRoutes);
+app.use('/api', youtube_routes_1.youtubeRoutes); // Registered YouTube routes
 // Health check route
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Backend is running' });
-});
-// Get tickets with filters
-app.get('/api/tickets', (req, res) => {
-    const { category, minPrice, maxPrice } = req.query;
-    let filteredTickets = [...mockData_1.mockTickets];
-    if (category) {
-        filteredTickets = filteredTickets.filter(ticket => ticket.category.toLowerCase() === category.toLowerCase());
-    }
-    if (minPrice) {
-        filteredTickets = filteredTickets.filter(ticket => ticket.price >= Number(minPrice));
-    }
-    if (maxPrice) {
-        filteredTickets = filteredTickets.filter(ticket => ticket.price <= Number(maxPrice));
-    }
-    res.json(filteredTickets);
-});
-// Get categories
-app.get('/api/categories', (req, res) => {
-    res.json(mockData_1.categories);
 });
 app.listen(Number(port), '0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);

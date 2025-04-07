@@ -26,6 +26,6 @@ export class PaymentService implements IPaymentService {
     }
 
     const paymentStatus = webhookData.status;
-    await this.ticketService.updateTicket(webhookData.ticketId, { paymentStatus });
+    await this.ticketService.updateTicket(webhookData.ticketId, { ...(paymentStatus as any) });
   }
 }
