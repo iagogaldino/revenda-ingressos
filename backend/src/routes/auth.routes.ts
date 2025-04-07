@@ -13,7 +13,7 @@ const tokenService = new TokenService();
 const authService = new AuthService(userRepository, tokenService);
 const authController = new AuthController(authService);
 
-authRouter.post('/auth/login', (req, res) => authController.login(req, res));
-authRouter.post('/auth/validate-token', (req, res) => authController.validateToken(req, res));
+authRouter.post('/auth/login', (req: Request, res: Response) => authController.login(req, res));
+authRouter.post('/auth/validate-token', (req: Request, res: Response) => authController.validateToken(req, res));
 
 export default authRouter;
