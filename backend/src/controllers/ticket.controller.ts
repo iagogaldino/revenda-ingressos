@@ -4,6 +4,7 @@ import { AuthRequest } from "../middlewares/auth.middleware";
 import path from "path";
 import { SaleService } from "../services/sale.service";
 import { SaleRepository } from "../repositories/sale.repository";
+import { randomUUID } from "crypto";
 
 export class TicketController {
   private ticketService: TicketService;
@@ -14,10 +15,17 @@ export class TicketController {
 
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
       const userID = (req as AuthRequest).userId as number;
       const ticketData = req.body;
+      
+      ticketData.sellerId = userID;
+      ticketData.image = `${randomUUID()}.${files['image']?.[0].originalname.split(".")[1]}`;
+      ticketData.file = `${randomUUID()}.${files['file']?.[0].originalname.split(".")[1]}`;
+      
+      
       const result = await this.ticketService.createTicket(ticketData);
-      res.status(201).json(result);
+      res.status(201).json({ success: true, data: result });
     } catch (error) {
       next(error);
     }
@@ -58,7 +66,7 @@ export class TicketController {
   ): Promise<void> {
     try {
       const tickets = await this.ticketService.getAllTickets();
-      res.status(200).json(tickets);
+      res.status(200).json({ success: true, data: tickets });
     } catch (error) {
       next(error);
     }
