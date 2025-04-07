@@ -39,12 +39,12 @@ class PaymentController {
             if (provider === providers_enum_1.Providers.OpenPIX) {
                 const { correlationID, status } = req.body;
                 if (!correlationID || typeof correlationID !== "string") {
-                    return res
+                    res
                         .status(400)
                         .json({ error: "Invalid or missing correlationID" });
                 }
                 if (!["COMPLETED", "CANCELLED"].includes(status)) {
-                    return res.status(400).json({ error: "Invalid status received" });
+                    res.status(400).json({ error: "Invalid status received" });
                 }
                 const saleId = Number(correlationID.replace("sale_", ""));
                 console.log(provider, correlationID, status);
@@ -53,11 +53,11 @@ class PaymentController {
                     const { id, buyer_phone, buyer_email, ticket_id } = sale;
                     switch (sale.status) {
                         case "approved":
-                            return res
+                            res
                                 .status(400)
                                 .json({ error: `A venda ${saleId} já está aprovada` });
                         case "cancelled":
-                            return res
+                            res
                                 .status(400)
                                 .json({ error: `A venda ${saleId} já foi cancelada` });
                         case "pending":
@@ -69,13 +69,13 @@ class PaymentController {
                             }
                             break;
                         default:
-                            return res
+                            res
                                 .status(400)
                                 .json({ error: "Status de venda desconhecido" });
                     }
                 }
                 else {
-                    return res
+                    res
                         .status(404)
                         .json({ error: `Venda não encontrada: ${saleId}` });
                 }
