@@ -15,9 +15,6 @@ dotenv.config();
 // };
 const configDB = {
   connectionString: process.env.INTERNAL_DATABASE_URL,
-  // ssl: {
-  //   rejectUnauthorized: false  // Necessário para conexões externas no Render
-  // }
 };
 
 // console.log(configDB);
