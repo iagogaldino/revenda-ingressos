@@ -189,11 +189,24 @@
   cursor: not-allowed;
 }
 
-.qr-code-container {
+.qr-code-container, .loading-container {
   text-align: center;
   padding: 20px;
   background: white;
   transition: all 0.3s ease;
+}
+
+.loading-container {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-container .spinner-border {
+  width: 3rem;
+  height: 3rem;
 }
 
 .qr-code-wrapper {
