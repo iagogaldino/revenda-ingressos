@@ -12,6 +12,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .step {
@@ -19,6 +21,9 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  flex: 1;
+  min-width: 120px;
+  margin-bottom: 10px;
 }
 
 .step-number {
@@ -32,6 +37,24 @@
   justify-content: center;
   font-weight: bold;
   margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .stepper {
+    padding: 0 10px;
+  }
+  
+  .step {
+    min-width: 80px;
+  }
+
+  .step-title {
+    font-size: 12px;
+  }
+
+  .step-connector {
+    display: none;
+  }
 }
 
 .step.active .step-number {
@@ -147,6 +170,33 @@
   padding: 1.5rem;
   max-width: 500px;
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .contact-form {
+    padding: 1rem;
+  }
+
+  .modal-body {
+    padding: 0;
+  }
+
+  .step-content {
+    padding: 15px;
+  }
+
+  .info-box {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .qr-code-image {
+    max-width: 180px;
+  }
+
+  .timer {
+    font-size: 16px;
+  }
 }
 
 .form-section-title {
