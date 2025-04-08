@@ -87,6 +87,8 @@
 .step-title {
   font-size: 14px;
   color: #6c757d;
+  text-align: center !important;
+
 }
 
 .step.active .step-title {
