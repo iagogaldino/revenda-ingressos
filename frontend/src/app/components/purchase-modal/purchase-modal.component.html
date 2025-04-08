@@ -103,13 +103,17 @@
     </div>
   </div>
 
-  <!-- Step 3: Download do Ingresso -->
-  <div class="step-content" *ngIf="currentStep === 3">
+  <!-- Step 4: Download do Ingresso -->
+  <div class="step-content" *ngIf="currentStep === 4">
     <div class="ticket-download text-center">
       <div *ngIf="paymentStatus === 'approved'" class="success-message">
         <i class="fas fa-check-circle success-icon"></i>
         <h5>Pagamento Aprovado!</h5>
-        <p>Seu ingresso está pronto para download</p>
+        <p>Seu ingresso será enviado para o WhatsApp cadastrado</p>
+        <div class="alert alert-info mt-3">
+          <i class="fas fa-info-circle"></i>
+          Em instantes você receberá o ingresso no WhatsApp informado
+        </div>
         <button class="btn btn-primary mt-3" (click)="downloadTicket()">
           <i class="fas fa-download"></i> Baixar Ingresso
         </button>
