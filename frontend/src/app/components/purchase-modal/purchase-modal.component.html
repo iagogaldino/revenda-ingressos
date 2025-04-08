@@ -7,21 +7,22 @@
   <div class="stepper-container">
     <div class="stepper">
       <div class="step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+        <div class="step-connector"></div>
         <div class="step-number">1</div>
         <div class="step-title">Dados do comprador</div>
       </div>
-      <div class="step-connector"></div>
       <div class="step" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
+        <div class="step-connector"></div>
         <div class="step-number">2</div>
         <div class="step-title">Revisão da compra</div>
       </div>
-      <div class="step-connector"></div>
       <div class="step" [class.active]="currentStep === 3" [class.completed]="currentStep > 3">
+        <div class="step-connector"></div>
         <div class="step-number">3</div>
         <div class="step-title">Pagamento</div>
       </div>
-      <div class="step-connector"></div>
       <div class="step" [class.active]="currentStep === 4">
+        <div class="step-connector"></div>
         <div class="step-number">4</div>
         <div class="step-title">Download Ingresso</div>
       </div>

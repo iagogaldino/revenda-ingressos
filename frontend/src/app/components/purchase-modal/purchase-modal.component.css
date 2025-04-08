@@ -9,26 +9,20 @@
 
 .stepper {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
   padding: 0 20px;
-  flex-wrap: wrap;
-  gap: 10px;
+  position: relative;
 }
 
 .step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
   flex: 1;
-  min-width: 120px;
-  margin-bottom: 10px;
+  position: relative;
+  padding: 0 10px;
 }
 
 .step-number {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background: #dee2e6;
   color: #fff;
@@ -36,7 +30,32 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin: 0 auto 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.step-connector {
+  position: absolute;
+  top: 17px;
+  height: 3px;
+  width: 100%;
+  left: 0;
+  background: #dee2e6;
+  z-index: 1;
+}
+
+.step:first-child .step-connector {
+  left: 50%;
+  width: 50%;
+}
+
+.step:last-child .step-connector {
+  width: 50%;
+}
+
+.step.completed .step-connector {
+  background: #28a745;
 }
 
 @media (max-width: 768px) {
