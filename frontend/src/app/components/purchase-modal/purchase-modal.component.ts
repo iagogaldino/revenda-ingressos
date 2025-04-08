@@ -144,7 +144,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
             this.ticketDownload = response.ticket || '';
             this.tokenDownload = response.token || '';
             this.stopPaymentStatusCheck();
-            this.currentStep = 3;
+            this.currentStep = 4;
           } else if (response.status === 'failed') {
             this.paymentStatus = 'failed';
             this.stopPaymentStatusCheck();
