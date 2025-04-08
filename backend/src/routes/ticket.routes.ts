@@ -12,9 +12,6 @@ const router = Router();
 const ticketService = new TicketService(new TicketRepository());
 const ticketController = new TicketController(ticketService);
 
-<<<<<<< HEAD
-const uploadMiddleware = multer().fields([{ name: 'image' }, { name: 'file' }]);
-=======
 // Verifica se a pasta 'uploads' existe, senão cria ela
 const uploadDir = './uploads';
 if (!fs.existsSync(uploadDir)) {
@@ -45,7 +42,6 @@ export const uploadMiddleware = multer({
   },
   limits: { fileSize: 5 * 1024 * 1024 } // Limite de 5MB por arquivo
 }).fields([{ name: 'image', maxCount: 1 }, { name: 'file', maxCount: 1 }]);
->>>>>>> 58c802298f65f3dda2d02152dd7c291ca6c8b9fd
 
 router.post('/seller/tickets', authenticateToken, uploadMiddleware, (req: Request, res: Response, next: NextFunction) => {
   ticketController.create(req, res, next);
