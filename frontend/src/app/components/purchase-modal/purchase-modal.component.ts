@@ -10,6 +10,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { TicketService } from "src/app/services/ticket.service";
 
 @Component({
+  standalone: false,
   selector: "app-purchase-modal",
   templateUrl: "./purchase-modal.component.html",
   styleUrls: ["./purchase-modal.component.css"],
