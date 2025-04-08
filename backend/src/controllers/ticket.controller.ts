@@ -4,6 +4,7 @@ import { AuthRequest } from "../middlewares/auth.middleware";
 import path from "path";
 import { SaleService } from "../services/sale.service";
 import { SaleRepository } from "../repositories/sale.repository";
+import { randomUUID } from "crypto";
 
 export class TicketController {
   private ticketService: TicketService;
@@ -14,10 +15,17 @@ export class TicketController {
 
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
       const userID = (req as AuthRequest).userId as number;
       const ticketData = req.body;
+      
+      ticketData.sellerId = userID;
+      ticketData.image = files['image'];
+      ticketData.file = files['file'];
+      
+      
       const result = await this.ticketService.createTicket(ticketData);
-      res.status(201).json(result);
+      res.status(201).json({ success: true, data: result });
     } catch (error) {
       next(error);
     }
@@ -27,6 +35,11 @@ export class TicketController {
     try {
       const ticketId = Number(req.params.id);
       const ticketData = req.body;
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+       
+      ticketData.image = files['image'][0].filename;
+      ticketData.file = files['file'][0].filename;
+
       const result = await this.ticketService.updateTicket(
         ticketId,
         ticketData
@@ -58,7 +71,7 @@ export class TicketController {
   ): Promise<void> {
     try {
       const tickets = await this.ticketService.getAllTickets();
-      res.status(200).json(tickets);
+      res.status(200).json({ success: true, data: tickets });
     } catch (error) {
       next(error);
     }
@@ -132,7 +145,7 @@ export class TicketController {
     try {
       const userID = (req as AuthRequest).userId as number;
       const tickets = await this.ticketService.getTicketsBySellerId(userID);
-      res.status(200).json(tickets);
+      res.status(200).json({ success: true, data: tickets });
     } catch (error) {
       next(error);
     }
@@ -146,7 +159,7 @@ export class TicketController {
     try {
       const sellerId = Number(req.params.sellerId);
       const tickets = await this.ticketService.getTicketsBySellerId(sellerId);
-      res.status(200).json(tickets);
+      res.status(200).json({ success: true, data: tickets });
     } catch (error) {
       next(error);
     }

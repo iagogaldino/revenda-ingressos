@@ -11,7 +11,7 @@ import { Category } from "../models/category.interface";
   providedIn: "root",
 })
 export class TicketService {
-  private apiUrl = "http://localhost:5000/api";
+  private apiUrl = `${environment.apiUrl}`;
   private categoriesUrl = `${this.apiUrl}/categories`;
 
   constructor(private http: HttpClient) {}

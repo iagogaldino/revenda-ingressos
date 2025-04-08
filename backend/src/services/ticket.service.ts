@@ -5,6 +5,13 @@ export class TicketService implements ITicketService {
   constructor(private readonly ticketRepository: ITicketRepository) {}
 
   async createTicket(ticket: ITicket): Promise<ITicket> {
+
+    if (ticket.file) {
+      ticket.status = 'active';
+    } else {
+      ticket.status = 'pending';
+    }
+
     return this.ticketRepository.create(ticket);
   }
 
