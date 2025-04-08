@@ -13,11 +13,16 @@
       <div class="step-connector"></div>
       <div class="step" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
         <div class="step-number">2</div>
+        <div class="step-title">Revisão</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step" [class.active]="currentStep === 3" [class.completed]="currentStep > 3">
+        <div class="step-number">3</div>
         <div class="step-title">Pagamento</div>
       </div>
       <div class="step-connector"></div>
-      <div class="step" [class.active]="currentStep === 3">
-        <div class="step-number">3</div>
+      <div class="step" [class.active]="currentStep === 4">
+        <div class="step-number">4</div>
         <div class="step-title">Download Ingresso</div>
       </div>
     </div>
@@ -42,8 +47,35 @@
     </div>
   </div>
 
-  <!-- Step 2: QR Code e Pagamento -->
+  <!-- Step 2: Revisão dos Dados -->
   <div class="step-content" *ngIf="currentStep === 2">
+    <div class="review-container">
+      <h5 class="mb-4">Revise seus Dados</h5>
+      
+      <div class="ticket-details mb-4">
+        <h6>Detalhes do Ingresso</h6>
+        <div class="info-box">
+          <p><strong>Evento:</strong> {{ticket.eventName}}</p>
+          <p><strong>Local:</strong> {{ticket.venue}}</p>
+          <p><strong>Data:</strong> {{ticket.eventDate}}</p>
+          <p><strong>Tipo:</strong> {{ticket.ticketType}}</p>
+          <p><strong>Valor:</strong> R$ {{ticket.price}},00</p>
+        </div>
+      </div>
+
+      <div class="buyer-details">
+        <h6>Dados do Comprador</h6>
+        <div class="info-box">
+          <p><strong>Nome:</strong> {{contactInfo.name}}</p>
+          <p><strong>Email:</strong> {{contactInfo.email}}</p>
+          <p><strong>Telefone:</strong> {{contactInfo.phone}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: QR Code e Pagamento -->
+  <div class="step-content" *ngIf="currentStep === 3">
     <div class="payment-container text-center">
       <div *ngIf="!showQrCode" class="loading-container">
         <div class="spinner-border text-primary" role="status">

@@ -63,6 +63,8 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   nextStep() {
     if (this.currentStep === 1 && this.isFormValid()) {
       this.currentStep = 2;
+    } else if (this.currentStep === 2) {
+      this.currentStep = 3;
       this.generateQrCode();
     }
   }
