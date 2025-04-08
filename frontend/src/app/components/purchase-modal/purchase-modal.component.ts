@@ -24,6 +24,7 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   qrCodeUrl: string = "";
   showQrCode: boolean = false;
   copySuccess: boolean = false;
+  qrCodeError: boolean = false;
 
   contactInfo = {
     name: "",
@@ -70,6 +71,8 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
   }
 
   async generateQrCode() {
+    this.qrCodeError = false;
+    this.showQrCode = false;
     const saleData = {
       ticketId: this.ticket.id,
       buyerName: this.contactInfo.name,
@@ -80,18 +83,30 @@ export class PurchaseModalComponent implements OnInit, OnDestroy {
 
     this.saleService.createSale(saleData).subscribe({
       next: async (response) => {
-        this.currentSaleId = response.sale.id;
-        this.qrCode = response.sale.qrCode;
-        this.qrCodeUrl = await QRCode.toDataURL(this.qrCode);
-        this.showQrCode = true;
-        this.startTimer();
-        this.startPaymentStatusCheck();
+        try {
+          this.currentSaleId = response.sale.id;
+          this.qrCode = response.sale.qrCode;
+          this.qrCodeUrl = await QRCode.toDataURL(this.qrCode);
+          this.showQrCode = true;
+          this.startTimer();
+          this.startPaymentStatusCheck();
+        } catch (error) {
+          console.error('Error generating QR code:', error);
+          this.qrCodeError = true;
+          this.stopTimer();
+        }
       },
       error: (error) => {
         console.error('Error creating sale:', error);
         this.paymentStatus = 'failed';
+        this.qrCodeError = true;
+        this.stopTimer();
       }
     });
+  }
+
+  retryQrCodeGeneration() {
+    this.generateQrCode();
   }
 
   startTimer() {
