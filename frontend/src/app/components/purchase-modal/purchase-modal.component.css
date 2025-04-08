@@ -1,6 +1,67 @@
-
 .modal-body {
   padding: 0;
+}
+
+.stepper-container {
+  padding: 20px;
+  background: #f8f9fa;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #dee2e6;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.step.active .step-number {
+  background: #0097FB;
+}
+
+.step.completed .step-number {
+  background: #28a745;
+}
+
+.step-title {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.step.active .step-title {
+  color: #0097FB;
+  font-weight: 500;
+}
+
+.step-connector {
+  flex-grow: 1;
+  height: 2px;
+  background: #dee2e6;
+  margin: 0 15px;
+  margin-bottom: 25px;
+}
+
+.step-content {
+  padding: 20px;
 }
 
 .purchase-container {
@@ -20,7 +81,7 @@
   height: 200px;
   object-fit: cover;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .ticket-info {
@@ -64,6 +125,8 @@
 
 .contact-form {
   padding: 1.5rem;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .form-section-title {
@@ -128,7 +191,7 @@
 
 .qr-code-container {
   text-align: center;
-  padding: 2rem;
+  padding: 20px;
   background: white;
   transition: all 0.3s ease;
 }
@@ -140,7 +203,8 @@
 }
 
 .qr-code-image {
-  max-width: 250px;
+  max-width: 200px;
+  margin: 0 auto;
 }
 
 .btn-copy-qr {
@@ -204,8 +268,14 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInUp {
@@ -247,4 +317,27 @@
 .modal-footer {
   border-top: none;
   padding: 1rem 1.5rem 1.5rem;
+}
+
+.success-message, .pending-message, .error-message {
+  padding: 30px;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 48px;
+  color: #28a745;
+  margin-bottom: 20px;
+}
+
+.error-icon {
+  font-size: 48px;
+  color: #dc3545;
+  margin-bottom: 20px;
+}
+
+.timer {
+  font-size: 18px;
+  font-weight: 500;
+  color: #dc3545;
 }

@@ -1,141 +1,94 @@
 <div class="modal-header">
-  <h4 class="modal-title">Finalizar Compra</h4>
-  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('close')"></button>
+  <h4 class="modal-title">Comprar Ingresso</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('closed')"></button>
 </div>
 
 <div class="modal-body">
-  <div *ngIf="!showQrCode" class="purchase-container">
-    <div class="ticket-preview">
-      <img 
-        [src]="ticket.image || 'assets/placeholder-event.jpg'" 
-        class="ticket-image" 
-        [alt]="ticket.eventName">
-
-      <div class="ticket-info">
-        <h5 class="event-name">{{ ticket.eventName }}</h5>
-        <div class="event-details">
-          <div class="detail-item">
-            <i class="bi bi-calendar-event"></i>
-            <span>{{ ticket.eventDate | date:'dd/MM/yyyy HH:mm' }}</span>
-          </div>
-          <div class="detail-item">
-            <i class="bi bi-geo-alt"></i>
-            <span>{{ ticket.location }} - {{ ticket.venue }}</span>
-          </div>
-          <div class="detail-item mt-3">
-            <p class="ticket-description">{{ ticket.description }}</p>
-          </div>
-          <strong class="text-muted">{{ ticket.quantity }} ingressos</strong>
-
-        </div>
+  <div class="stepper-container">
+    <div class="stepper">
+      <div class="step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+        <div class="step-number">1</div>
+        <div class="step-title">Dados</div>
       </div>
-    </div>
-
-    <div class="contact-form">
-      <h6 class="form-section-title">Informações de Contato</h6>
-      <div class="form-group">
-        <label for="name">Nome Completo</label>
-        <input
-          type="text"
-          class="form-control"
-          id="name"
-          [(ngModel)]="contactInfo.name"
-          placeholder="Digite seu nome completo"
-          required
-        />
+      <div class="step-connector"></div>
+      <div class="step" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
+        <div class="step-number">2</div>
+        <div class="step-title">Pagamento</div>
       </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input 
-          type="email" 
-          class="form-control" 
-          id="email" 
-          [(ngModel)]="contactInfo.email"
-          placeholder="seu@email.com">
+      <div class="step-connector"></div>
+      <div class="step" [class.active]="currentStep === 3">
+        <div class="step-number">3</div>
+        <div class="step-title">Ingresso</div>
       </div>
-
-      <div class="form-group">
-        <label for="phone">WhatsApp</label>
-        <div class="input-group">
-          <span class="input-group-text">
-            <i class="bi bi-whatsapp"></i>
-          </span>
-          <input 
-            type="tel" 
-            class="form-control" 
-            id="phone" 
-            [ngModel]="contactInfo.phone"
-            (input)="formatPhone($event)"
-            maxlength="15"
-            placeholder="(11) 99999-9999">
-        </div>
-        <small class="whatsapp-info">
-          <i class="bi bi-info-circle me-1"></i>
-          O ticket será enviado para este número no WhatsApp
-        </small>
-      </div>
-
-      <button 
-        class="btn-purchase w-100" 
-        (click)="generateQrCode()"
-        [disabled]="!isFormValid()">
-        <i class="bi bi-qr-code me-2"></i>
-        Gerar QR Code para Pagamento
-      </button>
     </div>
   </div>
 
-  <div *ngIf="showQrCode" class="qr-code-container" [ngClass]="{'success-state': paymentStatus === 'approved'}">
-    <ng-container *ngIf="paymentStatus !== 'approved'">
-      <div class="qr-code-wrapper">
-        <img [src]="qrCodeUrl" alt="QR Code do Ingresso" class="qr-code-image fade-element">
-        <button class="btn-copy-qr col-12" (click)="copyQRCode()" aria-label="Copiar QR Code">
-          <i class="bi bi-clipboard me-2"></i>
-          <span>Copiar QR Code</span>
+  <!-- Step 1: Formulário de Dados -->
+  <div class="step-content" *ngIf="currentStep === 1">
+    <div class="contact-form">
+      <h5 class="form-section-title">Informações do Comprador</h5>
+      <div class="form-group">
+        <label for="name">Nome Completo</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="contactInfo.name" placeholder="Digite seu nome">
+      </div>
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" class="form-control" id="email" [(ngModel)]="contactInfo.email" placeholder="Digite seu e-mail">
+      </div>
+      <div class="form-group">
+        <label for="phone">Telefone</label>
+        <input type="tel" class="form-control" id="phone" [(ngModel)]="contactInfo.phone" (input)="formatPhone($event)" placeholder="(00) 00000-0000">
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: QR Code e Pagamento -->
+  <div class="step-content" *ngIf="currentStep === 2">
+    <div class="payment-container text-center">
+      <div *ngIf="showQrCode" class="qr-code-container">
+        <img [src]="qrCodeUrl" alt="QR Code para pagamento" class="qr-code-image">
+        <div class="timer mt-3">Tempo restante: {{ formatTime(remainingTime) }}</div>
+        <button class="btn btn-outline-primary mt-3" (click)="copyQRCode()">
+          {{ copySuccess ? 'Copiado!' : 'Copiar código Pix' }}
         </button>
-        <div *ngIf="copySuccess" class="copy-success-message">
-          <i class="bi bi-check-circle-fill me-1"></i>
-          QR Code copiado com sucesso!
-        </div>
       </div>
-      <div class="timer-section fade-element">
-        <div class="timer">{{ formatTime(remainingTime) }}</div>
-        <div class="timer-label">Tempo restante para conclusão</div>
+    </div>
+  </div>
+
+  <!-- Step 3: Download do Ingresso -->
+  <div class="step-content" *ngIf="currentStep === 3">
+    <div class="ticket-download text-center">
+      <div *ngIf="paymentStatus === 'approved'" class="success-message">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h5>Pagamento Aprovado!</h5>
+        <p>Seu ingresso está pronto para download</p>
+        <button class="btn btn-primary mt-3" (click)="downloadTicket()">
+          <i class="fas fa-download"></i> Baixar Ingresso
+        </button>
       </div>
-    </ng-container>
-
-    <ng-container *ngIf="paymentStatus === 'approved'">
-      <div class="success-animation fade-element">
-        <i class="bi bi-check-circle-fill success-icon"></i>
+      <div *ngIf="paymentStatus === 'pending'" class="pending-message">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Aguardando confirmação do pagamento...</p>
       </div>
-    </ng-container>
-
-    <div [ngClass]="{'alert': true, 
-          'alert-info': paymentStatus === 'pending',
-          'alert-success': paymentStatus === 'approved',
-          'alert-danger': paymentStatus === 'failed'}" 
-          class="mt-3 status-alert">
-      <span *ngIf="paymentStatus === 'pending'">Aguardando pagamento...</span>
-      <span *ngIf="paymentStatus === 'approved'">Pagamento recebido com sucesso!</span>
-      <span *ngIf="paymentStatus === 'failed'">Falha no pagamento. Por favor, tente novamente.</span>
+      <div *ngIf="paymentStatus === 'failed'" class="error-message">
+        <i class="fas fa-times-circle error-icon"></i>
+        <p>Houve um problema com o pagamento</p>
+        <button class="btn btn-outline-primary mt-3" (click)="retryPayment()">
+          Tentar Novamente
+        </button>
+      </div>
     </div>
-
-    <div *ngIf="paymentStatus === 'approved'" class="alert alert-success mt-4">
-      <i class="bi bi-whatsapp me-2"></i>
-      Seu ticket será enviado em instantes para o WhatsApp <br><strong>{{ contactInfo.phone }}</strong>
-    </div>
-    <div class="alert alert-info mt-4" *ngIf="paymentStatus !== 'approved'">
-      <i class="bi bi-whatsapp me-2"></i>
-      Após a confirmação do pagamento, seu ticket será enviado para o WhatsApp <br><strong>{{ contactInfo.phone }}</strong>
-    </div>
-
   </div>
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="downloadTicket()" [disabled]="paymentStatus !== 'approved'">
-    <i class="bi bi-download me-2"></i>
-    Baixar Ingresso
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('cancel')" *ngIf="currentStep === 1">
+    Cancelar
   </button>
-  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close('close')">Fechar</button>
+  <button type="button" class="btn btn-primary" (click)="nextStep()" *ngIf="currentStep === 1" [disabled]="!isFormValid()">
+    Próximo
+  </button>
+  <button type="button" class="btn btn-primary" (click)="finishPurchase()" *ngIf="currentStep === 3 && paymentStatus === 'approved'">
+    Finalizar
+  </button>
 </div>
